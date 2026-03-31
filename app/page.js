@@ -223,8 +223,8 @@ export default function Home() {
         {/* ── Marquee ── */}
         <section className="marquee-shell" aria-label="Core skills">
           <div className="marquee-track">
-            {['Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'Database Optimization', 'System Integration', 'Full-Stack Engineering',
-              'Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'Database Optimization', 'System Integration', 'Full-Stack Engineering'].map((s, i) => (
+            {['Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering',
+              'Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering'].map((s, i) => (
                 <span key={i}>{s}</span>
               ))}
           </div>
@@ -272,7 +272,7 @@ export default function Home() {
               <h3 className="skill-group-title">Backend</h3>
               <div className="skill-tags">
                 <span>Node.js</span><span>Express</span><span>REST APIs</span>
-                <span>MongoDB</span><span>SQL</span><span>Optimization Algorithms</span>
+                <span>Python</span><span>MongoDB</span><span>SQL</span><span>Optimization Algorithms</span>
               </div>
             </div>
             <div className="skill-group">
@@ -280,6 +280,13 @@ export default function Home() {
               <div className="skill-tags">
                 <span>Manual Testing</span><span>Test Automation</span><span>Selenium / Cypress</span>
                 <span>Postman</span><span>Git / GitHub</span><span>Vercel</span>
+              </div>
+            </div>
+            <div className="skill-group">
+              <h3 className="skill-group-title">AI &amp; Python</h3>
+              <div className="skill-tags">
+                <span>LangChain</span><span>LangGraph</span><span>RAG Systems</span>
+                <span>AI Agents</span><span>Pandas</span><span>OpenAI API</span>
               </div>
             </div>
           </div>
@@ -294,7 +301,7 @@ export default function Home() {
           <div className="experience-list">
             <article className="experience-card glass reveal">
               <div className="exp-header">
-                <h3>Full Stack IT Engineer Intern</h3>
+                <h3>Full Stack IT Engineer</h3>
                 <span className="exp-company">Buniyadbyte</span>
               </div>
               <p>
