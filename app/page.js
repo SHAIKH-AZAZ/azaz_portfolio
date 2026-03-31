@@ -1,8 +1,120 @@
 import InteractiveCanvas from './components/InteractiveCanvas';
 
+// Page-level metadata (supplements layout.js root metadata)
+export const metadata = {
+  title: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+  description:
+    "Azaz Shaikh is a full-stack software engineer specialising in scalable web systems, business automation workflows, logistics algorithms, and data-driven platforms. Available for freelance and remote roles.",
+  alternates: { canonical: "/" },
+};
+
+// Projects ItemList schema for rich Google results
+const projectsSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Projects by Azaz Shaikh",
+  description: "Deployed applications and software solutions by Azaz Shaikh",
+  numberOfItems: 8,
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      item: {
+        "@type": "SoftwareApplication",
+        name: "POC Waste Optimizer",
+        url: "https://poc-waste-proper.vercel.app/",
+        applicationCategory: "BusinessApplication",
+        description:
+          "Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.",
+        author: { "@type": "Person", name: "Azaz Shaikh" },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      item: {
+        "@type": "SoftwareApplication",
+        name: "Excel Cleaner Tool",
+        url: "https://excel-cleaner.azazshaikh.info/",
+        applicationCategory: "UtilitiesApplication",
+        description:
+          "Web application that processes XLSX files, stripping hidden macros, objects, and messy formatting to output clean structured data.",
+        author: { "@type": "Person", name: "Azaz Shaikh" },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      item: {
+        "@type": "SoftwareApplication",
+        name: "FastShipment",
+        applicationCategory: "BusinessApplication",
+        description:
+          "Comprehensive logistics platform with ordering, secure checkout, real-time shipment tracking, and partner management tools.",
+        author: { "@type": "Person", name: "Azaz Shaikh" },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 4,
+      item: {
+        "@type": "SoftwareApplication",
+        name: "Gym Flow Platform",
+        applicationCategory: "HealthApplication",
+        description:
+          "Comprehensive fitness tracking and gym management platform with customized workout routines and analytics.",
+        author: { "@type": "Person", name: "Azaz Shaikh" },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 5,
+      item: {
+        "@type": "SoftwareApplication",
+        name: "Python Data Pipeline",
+        applicationCategory: "DeveloperApplication",
+        description:
+          "High-performance Python data pipeline for ETL workflows, automated reporting, and batch processing of large-scale structured datasets.",
+        author: { "@type": "Person", name: "Azaz Shaikh" },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 6,
+      item: {
+        "@type": "SoftwareApplication",
+        name: "LangChain RAG System",
+        applicationCategory: "DeveloperApplication",
+        description:
+          "Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge bases.",
+        author: { "@type": "Person", name: "Azaz Shaikh" },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 7,
+      item: {
+        "@type": "SoftwareApplication",
+        name: "LangGraph AI Agent",
+        applicationCategory: "DeveloperApplication",
+        description:
+          "Stateful multi-step AI agent orchestration built on LangGraph, capable of tool use, conditional branching, and autonomous task completion.",
+        author: { "@type": "Person", name: "Azaz Shaikh" },
+      },
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <>
+      {/* Projects JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(projectsSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <InteractiveCanvas />
       <div className="noise" aria-hidden="true" />
       <div className="page-blur blur-a" aria-hidden="true" />
@@ -327,6 +439,100 @@ export default function Home() {
                 <span>Python</span><span>Checkout</span><span>Tracking</span>
               </div>
             </article>
+
+            <article className="project-card reveal project-emerald">
+              <div className="project-header">
+                <div>
+                  <span className="project-number">05</span>
+                  <h3>Gym Flow Platform</h3>
+                </div>
+                <span className="project-type">Web<br />App</span>
+              </div>
+              <div className="project-visual">
+                <div className="visual-frame">
+                  <div className="dashboard-grid">
+                    <div className="dash-panel dash-panel-wide" />
+                    <div className="dash-panel" />
+                  </div>
+                </div>
+              </div>
+              <p>A comprehensive fitness tracking and gym management platform with customized workout routines and analytics.</p>
+              <div className="tag-list">
+                <span>Next.js</span><span>Fitness</span><span>Analytics</span>
+              </div>
+            </article>
+
+            <article className="project-card reveal project-amber">
+              <div className="project-header">
+                <div>
+                  <span className="project-number">06</span>
+                  <h3>Python Data Pipeline</h3>
+                </div>
+                <span className="project-type">Python<br />Backend</span>
+              </div>
+              <div className="project-visual">
+                <div className="visual-frame">
+                  <div className="visual-pillars">
+                    <div className="pillar" />
+                    <div className="pillar pillar-tall" />
+                    <div className="pillar" style={{ height: '8rem' }} />
+                  </div>
+                  <div className="visual-chip-row">
+                    <span /><span /><span />
+                  </div>
+                </div>
+              </div>
+              <p>High-performance ETL pipeline for automated data ingestion, transformation, and batch reporting across large-scale structured datasets.</p>
+              <div className="tag-list">
+                <span>Python</span><span>ETL</span><span>Automation</span><span>Pandas</span>
+              </div>
+            </article>
+
+            <article className="project-card reveal project-violet">
+              <div className="project-header">
+                <div>
+                  <span className="project-number">07</span>
+                  <h3>LangChain RAG System</h3>
+                </div>
+                <span className="project-type">AI<br />LLM</span>
+              </div>
+              <div className="project-visual">
+                <div className="visual-frame">
+                  <div className="visual-card-wide" />
+                  <div className="visual-row">
+                    <div className="visual-card" />
+                    <div className="visual-card" />
+                  </div>
+                </div>
+              </div>
+              <p>Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge bases.</p>
+              <div className="tag-list">
+                <span>LangChain</span><span>RAG</span><span>OpenAI</span><span>VectorDB</span>
+              </div>
+            </article>
+
+            <article className="project-card reveal project-rose">
+              <div className="project-header">
+                <div>
+                  <span className="project-number">08</span>
+                  <h3>LangGraph AI Agent</h3>
+                </div>
+                <span className="project-type">AI<br />Agents</span>
+              </div>
+              <div className="project-visual">
+                <div className="visual-frame">
+                  <div className="dashboard-grid">
+                    <div className="dash-panel dash-panel-wide" />
+                    <div className="dash-panel" />
+                    <div className="dash-panel" />
+                  </div>
+                </div>
+              </div>
+              <p>Stateful multi-step AI agent built on LangGraph — capable of tool use, conditional branching, memory, and autonomous multi-stage task completion.</p>
+              <div className="tag-list">
+                <span>LangGraph</span><span>Agents</span><span>Python</span><span>LLM</span>
+              </div>
+            </article>
           </div>
         </section>
 
@@ -398,7 +604,7 @@ export default function Home() {
                 LinkedIn
               </a>
               <a className="button button-secondary" href="#top" style={{ flex: 'none', minWidth: 'auto', padding: '0.95rem 1.15rem' }}>
-                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M8 12V4m0 0l-3 3m3-3l3 3" />
                 </svg>
               </a>
@@ -445,8 +651,11 @@ export default function Home() {
             <ul>
               <li><a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">POC Waste Optimizer</a></li>
               <li><a href="https://excel-cleaner-one.vercel.app/" target="_blank" rel="noreferrer">Excel Cleaner Tool</a></li>
-              <li><a href="#work">Nova Control</a></li>
               <li><a href="#work">FastShipment</a></li>
+              <li><a href="#work">Gym Flow Platform</a></li>
+              <li><a href="#work">Python Data Pipeline</a></li>
+              <li><a href="#work">LangChain RAG System</a></li>
+              <li><a href="#work">LangGraph AI Agent</a></li>
             </ul>
           </div>
 

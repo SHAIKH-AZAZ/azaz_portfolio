@@ -278,6 +278,7 @@ main {
   margin: 0 auto;
   padding: 6rem 0;
   contain: layout;
+  scroll-margin-top: 6rem;
 }
 
 .hero {
@@ -996,6 +997,30 @@ main {
   --project-accent: #8b5cf6;
   --project-accent-soft: rgba(139, 92, 246, 0.3);
   --project-accent-rgb: 139, 92, 246;
+}
+
+.project-emerald {
+  --project-accent: #10b981;
+  --project-accent-soft: rgba(16, 185, 129, 0.3);
+  --project-accent-rgb: 16, 185, 129;
+}
+
+.project-amber {
+  --project-accent: #f59e0b;
+  --project-accent-soft: rgba(245, 158, 11, 0.3);
+  --project-accent-rgb: 245, 158, 11;
+}
+
+.project-violet {
+  --project-accent: #a855f7;
+  --project-accent-soft: rgba(168, 85, 247, 0.3);
+  --project-accent-rgb: 168, 85, 247;
+}
+
+.project-rose {
+  --project-accent: #f43f5e;
+  --project-accent-soft: rgba(244, 63, 94, 0.3);
+  --project-accent-rgb: 244, 63, 94;
 }
 
 .project-card .project-number {
