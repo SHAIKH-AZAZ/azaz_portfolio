@@ -196,15 +196,15 @@ export default function InteractiveCanvas() {
           p.x += p.vx; p.y += p.vy;
           if (p.x < -10 || p.x > width + 10) p.vx *= -1;
           if (p.y < -10 || p.y > height + 10) p.vy *= -1;
-          ctx.beginPath(); ctx.fillStyle = 'rgba(255,255,255,0.35)'; // Slightly softer
+          ctx.beginPath(); ctx.fillStyle = 'rgba(99,102,241,0.25)';
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill();
           for (let j = i + 1; j < particles.length; j++) {
             const o = particles[j];
             const dist = Math.hypot(o.x - p.x, o.y - p.y);
             if (dist > 110) continue;
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(o.x, o.y);
-            ctx.strokeStyle = `rgba(78,216,255,${(1 - dist / 110) * 0.08})`;
-            ctx.lineWidth = 0.8; ctx.stroke();
+            ctx.strokeStyle = `rgba(99,102,241,${(1 - dist / 110) * 0.07})`;
+            ctx.lineWidth = 0.7; ctx.stroke();
           }
         });
         animId = requestAnimationFrame(render);

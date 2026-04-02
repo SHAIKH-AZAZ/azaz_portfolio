@@ -1,4 +1,5 @@
 import InteractiveCanvas from './components/InteractiveCanvas';
+import SitePreview from './components/SitePreview';
 
 // Page-level metadata (supplements layout.js root metadata)
 export const metadata = {
@@ -356,12 +357,11 @@ export default function Home() {
                 </div>
               </div>
               <div className="project-visual">
-                <div className="visual-frame">
-                  <div className="visual-card-wide" />
-                  <div className="visual-row">
-                    <div className="visual-card" />
-                    <div className="visual-card" />
-                  </div>
+                <div className="visual-frame visual-image-wrapper">
+                  <SitePreview
+                    url="https://poc-waste-proper.vercel.app/"
+                    alt="POC Waste Optimizer live preview"
+                  />
                 </div>
               </div>
               <p>Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.</p>
@@ -393,8 +393,11 @@ export default function Home() {
               </div>
               <div className="project-visual">
                 <div className="visual-frame visual-image-wrapper">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/excel-cleaner.png" alt="Excel Cleaner Tool UI" className="project-snapshot" decoding="async" loading="lazy" />
+                  <SitePreview
+                    url="https://excel-cleaner.azazshaikh.info/"
+                    alt="Excel Cleaner Tool live preview"
+                    fallbackSrc="/excel-cleaner.png"
+                  />
                 </div>
               </div>
               <p>A specialized web application that processes raw XLSX files, automatically stripping out hidden macros, objects, and messy formatting to output clean, structured data arrays.</p>
