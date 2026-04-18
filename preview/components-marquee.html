@@ -1,0 +1,131 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Marquee — Train</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .stage{position:relative;border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);background:
+    repeating-linear-gradient(0deg,#d9c89a 0 6px,#c9b279 6px 12px);
+    padding:30px 0 10px;overflow:hidden}
+
+  /* Sky / station wall behind the train */
+  .stage::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(180deg,#f6e8c8 0%,#e7d6a9 100%);z-index:0}
+  /* Rail */
+  .rail{position:absolute;left:0;right:0;bottom:28px;height:2px;background:var(--ink);z-index:1}
+  .sleeper{position:absolute;bottom:20px;left:0;right:0;height:8px;background:repeating-linear-gradient(90deg,#2a2416 0 22px,transparent 22px 44px);opacity:.7;z-index:1}
+
+  /* Moving train */
+  .train{position:relative;z-index:3;display:flex;align-items:flex-end;gap:6px;width:max-content;padding:0 24px;animation:roll 18s linear infinite}
+  @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  .loco{
+    width:120px;height:72px;position:relative;
+    background:linear-gradient(180deg,#9c3420 0%,#6b2314 100%);
+    border:2px solid var(--ink);
+    box-shadow:inset 0 -4px 0 rgba(0,0,0,.35), 3px 3px 0 var(--ink);
+  }
+  .loco .cab{position:absolute;right:0;top:-14px;width:46px;height:26px;background:linear-gradient(180deg,#3a3320,#2a2416);border:2px solid var(--ink);border-bottom:none}
+  .loco .window{position:absolute;right:8px;top:-8px;width:14px;height:10px;background:#f6e8c8;border:1px solid var(--ink)}
+  .loco .stack{position:absolute;left:14px;top:-22px;width:14px;height:22px;background:var(--ink)}
+  .loco .stack::before{content:"";position:absolute;left:-4px;top:-2px;width:22px;height:4px;background:var(--ink)}
+  .smoke{position:absolute;left:6px;top:-40px;width:30px;height:20px;border-radius:50%;background:rgba(42,36,22,.35);animation:puff 1.4s ease-out infinite;filter:blur(2px)}
+  @keyframes puff{0%{transform:translate(0,0) scale(.6);opacity:.8}100%{transform:translate(-40px,-28px) scale(1.4);opacity:0}}
+  .headlight{position:absolute;left:-8px;top:26px;width:10px;height:10px;background:#f6e8c8;border:2px solid var(--ink);border-radius:50%}
+  .cowcatcher{position:absolute;left:-18px;bottom:-2px;width:0;height:0;border-left:18px solid transparent;border-bottom:28px solid var(--ink)}
+
+  .wheel{position:absolute;bottom:-10px;width:22px;height:22px;background:radial-gradient(circle at 50% 50%,#1a0b04 30%,#3a3320 32%,#2a2416 60%,#1a0b04 62%);border:2px solid var(--ink);border-radius:50%;animation:spin 1s linear infinite}
+  .wheel::after{content:"";position:absolute;inset:4px;border-radius:50%;border:1px dashed #f6e8c8}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .w1{left:8px}.w2{left:44px}.w3{left:80px}
+
+  .boxcar{
+    width:180px;height:72px;position:relative;
+    background:linear-gradient(180deg,#7a3b1f 0%,#4a1f0d 100%);
+    border:2px solid var(--ink);
+    box-shadow:inset 0 -4px 0 rgba(0,0,0,.35), 3px 3px 0 var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    /* wood grain */
+    background-image:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 1px,transparent 1px 4px,rgba(255,255,255,.05) 4px 5px,transparent 5px 9px),
+      linear-gradient(180deg,#7a3b1f 0%,#4a1f0d 100%);
+  }
+  .boxcar.red{background-image:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 1px,transparent 1px 4px,rgba(255,255,255,.05) 4px 5px,transparent 5px 9px),
+      linear-gradient(180deg,#c8452c 0%,#7e2a18 100%)}
+  .boxcar.black{background-image:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.3) 0 1px,transparent 1px 4px,rgba(255,255,255,.04) 4px 5px,transparent 5px 9px),
+      linear-gradient(180deg,#3a3320 0%,#1b1610 100%)}
+  .boxcar .plate{
+    background:#f6e8c8;color:var(--ink);border:2px solid var(--ink);
+    font-family:var(--disp);font-size:22px;letter-spacing:.08em;text-transform:uppercase;
+    padding:4px 10px;box-shadow:2px 2px 0 var(--ink);line-height:1;
+  }
+  .boxcar .bolts{position:absolute;inset:6px;border:1px dashed rgba(246,232,200,.4);pointer-events:none}
+  .boxcar .no{position:absolute;left:6px;top:4px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;color:#f6e8c8;opacity:.8}
+
+  .coupler{width:10px;height:8px;background:var(--ink);margin-bottom:10px}
+
+  .caption{margin-top:10px;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-top:1px dashed rgba(42,36,22,.35);padding-top:6px}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Components / marquee</div>
+      <div class="retro-title">Skills Train</div>
+    </div>
+    <div class="retro-stamp">REV · 05</div>
+  </div>
+
+  <div class="stage">
+    <div class="rail"></div>
+    <div class="sleeper"></div>
+
+    <div class="train">
+      <!-- set 1 -->
+      <div class="loco">
+        <div class="cab"><div class="window"></div></div>
+        <div class="stack"></div><div class="smoke"></div>
+        <div class="headlight"></div><div class="cowcatcher"></div>
+        <div class="wheel w1"></div><div class="wheel w2"></div><div class="wheel w3"></div>
+      </div>
+      <div class="coupler"></div>
+      <div class="boxcar"><span class="no">Nº 01</span><span class="plate">React</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar red"><span class="no">Nº 02</span><span class="plate">Next.js</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar"><span class="no">Nº 03</span><span class="plate">Python</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar black"><span class="no">Nº 04</span><span class="plate">LangChain</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar red"><span class="no">Nº 05</span><span class="plate">AI Agents</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar"><span class="no">Nº 06</span><span class="plate">Node.js</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar black"><span class="no">Nº 07</span><span class="plate">Logistics</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+
+      <!-- set 2 (seamless loop) -->
+      <div class="loco">
+        <div class="cab"><div class="window"></div></div>
+        <div class="stack"></div><div class="smoke"></div>
+        <div class="headlight"></div><div class="cowcatcher"></div>
+        <div class="wheel w1"></div><div class="wheel w2"></div><div class="wheel w3"></div>
+      </div>
+      <div class="coupler"></div>
+      <div class="boxcar"><span class="no">Nº 01</span><span class="plate">React</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar red"><span class="no">Nº 02</span><span class="plate">Next.js</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar"><span class="no">Nº 03</span><span class="plate">Python</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar black"><span class="no">Nº 04</span><span class="plate">LangChain</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar red"><span class="no">Nº 05</span><span class="plate">AI Agents</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar"><span class="no">Nº 06</span><span class="plate">Node.js</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+      <div class="coupler"></div>
+      <div class="boxcar black"><span class="no">Nº 07</span><span class="plate">Logistics</span><div class="bolts"></div><div class="wheel w1"></div><div class="wheel" style="right:8px;left:auto"></div></div>
+    </div>
+    <div class="caption" style="padding:0 20px"><span>Line · 01</span><span>Freight · Skills · Bound for Mumbai</span><span>Ed. Ⅰ</span></div>
+  </div>
+
+  <div class="retro-ticker"><span>System · marquee</span><span>Skills train · rolling · 18s loop</span><span>Azaz.dev</span></div>
+</div></body></html>

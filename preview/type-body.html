@@ -1,0 +1,59 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Type — Body</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;700&family=Manrope:wght@400;500;700&display=swap');
+  html,body{margin:0;font-family:'Manrope',sans-serif;background:#f3ead3;color:#2a2416}
+  .wrap{padding:22px 26px;background:
+    repeating-linear-gradient(0deg,rgba(42,36,22,.06) 0 1px,transparent 1px 4px),
+    #f3ead3}
+  .header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #2a2416;padding-bottom:8px;margin-bottom:14px}
+  .title{font-family:'VT323',monospace;font-size:28px;line-height:1;letter-spacing:.02em;text-transform:uppercase;color:#2a2416}
+  .key{font-family:'VT323',monospace;font-size:14px;color:#c8452c;letter-spacing:.2em;text-transform:uppercase}
+  .stamp{font-family:'VT323',monospace;font-size:14px;letter-spacing:.2em;text-transform:uppercase;padding:2px 8px;border:2px solid #c8452c;color:#c8452c;transform:rotate(-3deg);background:#f3ead3}
+
+  .stack{display:flex;flex-direction:column;gap:10px}
+  .card{background:#fffaee;border:2px solid #2a2416;box-shadow:5px 5px 0 #2a2416;padding:12px 14px;display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:start}
+  .tag{font-family:'VT323',monospace;font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:#c8452c;line-height:1;padding-top:4px;border-right:2px dashed rgba(42,36,22,.35);padding-right:10px}
+  .sample{margin:0;color:#2a2416;font-family:'Manrope',sans-serif}
+  .intro{font-size:18px;line-height:1.55;font-weight:500}
+  .lead{font-size:15.5px;line-height:1.65;font-weight:400;color:#3a3320}
+  .body{font-size:13.5px;line-height:1.7;font-weight:400;color:#3a3320}
+  .spec{margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.02em;color:#6b5a33;font-weight:700;border-top:1px dotted rgba(42,36,22,.35);padding-top:6px;text-transform:uppercase}
+
+  .ticker{margin-top:10px;border:2px solid #2a2416;background:#2a2416;color:#f3ead3;font-family:'VT323',monospace;font-size:14px;padding:4px 10px;letter-spacing:.2em;text-transform:uppercase;display:flex;justify-content:space-between}
+  .ticker span::before{content:"▸ "}
+</style></head>
+<body><div class="wrap">
+  <div class="header">
+    <div>
+      <div class="key">&gt;&gt; Tokens / typography · body</div>
+      <div class="title">Body Type</div>
+    </div>
+    <div class="stamp">REV · 01</div>
+  </div>
+  <div class="stack">
+    <div class="card">
+      <div class="tag">Intro</div>
+      <div>
+        <p class="sample intro">Identifying real-world operational bottlenecks and engineering scalable software systems that solve them.</p>
+        <div class="spec">Manrope · 500 · 18 / 28 · tracking 0</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="tag">Lead</div>
+      <div>
+        <p class="sample lead">I'm Azaz Shaikh, a full-stack engineer building business-focused web products with strong systems thinking.</p>
+        <div class="spec">Manrope · 400 · 15.5 / 26 · color fg-2</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="tag">Body</div>
+      <div>
+        <p class="sample body">Combining deep data logic with resilient full-stack architectures, I build platforms that don't just look polished — they improve how organizations run, collaborate, and make decisions.</p>
+        <div class="spec">Manrope · 400 · 13.5 / 23 · color fg-2</div>
+      </div>
+    </div>
+  </div>
+  <div class="ticker"><span>System · body</span><span>3 styles</span><span>Azaz.dev</span></div>
+</div></body></html>

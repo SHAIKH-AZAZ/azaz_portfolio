@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Colors — Primary</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg);font-family:var(--font-body)}
+  .wrap{padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .sw{border-radius:var(--radius-lg);border:1px solid var(--line);background:#fff;overflow:hidden;box-shadow:var(--shadow)}
+  .chip{height:82px}
+  .meta{padding:10px 12px;font-size:12px;line-height:1.35}
+  .name{font-family:var(--font-mono);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg1);font-size:10px}
+  .hex{color:var(--fg2);font-family:var(--font-mono);font-size:11px;margin-top:3px}
+  .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:700}
+</style></head>
+<body><div class="wrap">
+  <div class="label">Primary · brand accents</div>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:#6366f1"></div><div class="meta"><div class="name">Accent</div><div class="hex">#6366F1 · indigo-500</div></div></div>
+    <div class="sw"><div class="chip" style="background:#818cf8"></div><div class="meta"><div class="name">Accent strong</div><div class="hex">#818CF8 · hover glow</div></div></div>
+    <div class="sw"><div class="chip" style="background:#4f46e5"></div><div class="meta"><div class="name">Accent hover</div><div class="hex">#4F46E5 · pressed</div></div></div>
+    <div class="sw"><div class="chip" style="background:#0ea5e9"></div><div class="meta"><div class="name">Accent 2</div><div class="hex">#0EA5E9 · sky</div></div></div>
+  </div>
+</div></body></html>

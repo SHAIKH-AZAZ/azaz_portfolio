@@ -1,0 +1,99 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Chips & Tags</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .stack{display:flex;flex-direction:column;gap:12px}
+  .row{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center}
+  .tagcol{padding-right:10px;border-right:2px dashed rgba(42,36,22,.35)}
+  .chips{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+  /* Wood-block skill tag */
+  .wood{
+    position:relative;
+    font-family:var(--disp);
+    font-size:22px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#f6e8c8;
+    padding:6px 14px 8px;
+    background:
+      /* vertical grain streaks */
+      repeating-linear-gradient(90deg,
+        rgba(0,0,0,.12) 0 1px, transparent 1px 3px,
+        rgba(255,255,255,.05) 3px 4px, transparent 4px 7px),
+      /* knot-like noise */
+      radial-gradient(ellipse at 20% 40%, rgba(0,0,0,.25), transparent 45%),
+      radial-gradient(ellipse at 80% 70%, rgba(0,0,0,.2), transparent 50%),
+      linear-gradient(180deg,#7a3b1f 0%,#5a2a14 100%);
+    border:2px solid #2a1408;
+    box-shadow:4px 4px 0 var(--ink), inset 0 0 0 1px rgba(255,255,255,.08), inset 0 -3px 6px rgba(0,0,0,.35);
+    text-shadow:0 1px 0 rgba(0,0,0,.55), 0 -1px 0 rgba(255,255,255,.08);
+    line-height:1;
+  }
+  .wood.amber{background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.1) 0 1px, transparent 1px 3px, rgba(255,255,255,.06) 3px 4px, transparent 4px 7px),
+      radial-gradient(ellipse at 30% 60%, rgba(0,0,0,.22), transparent 50%),
+      linear-gradient(180deg,#b06a2c 0%,#8a4a18 100%);}
+  .wood.olive{background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.12) 0 1px, transparent 1px 3px, rgba(255,255,255,.05) 3px 4px, transparent 4px 7px),
+      radial-gradient(ellipse at 70% 30%, rgba(0,0,0,.25), transparent 50%),
+      linear-gradient(180deg,#5e5a2b 0%,#3e3a16 100%);}
+
+  /* Project tag — letterpress kraft */
+  .tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:#e7d6a9;border:2px solid var(--ink);padding:4px 10px;box-shadow:3px 3px 0 var(--ink);line-height:1}
+  .tag.on{background:var(--accent);color:var(--paper)}
+
+  /* Company — typewriter slug */
+  .company{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);background:var(--ink);border:2px solid var(--ink);padding:5px 12px;box-shadow:3px 3px 0 var(--accent);line-height:1}
+
+  /* Link pill — metal plate */
+  .plink{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:linear-gradient(180deg,#d9d0b8,#b7a97f);border:2px solid var(--ink);padding:4px 10px;box-shadow:3px 3px 0 var(--ink);line-height:1}
+  .plink svg{stroke:var(--ink)}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Components / chips &amp; tags</div>
+      <div class="retro-title">Chips &amp; Tags</div>
+    </div>
+    <div class="retro-stamp">REV · 02</div>
+  </div>
+
+  <div class="retro-card">
+    <div class="stack">
+      <div class="row">
+        <div class="retro-tag tagcol">Skill · Wood</div>
+        <div class="chips">
+          <span class="wood">React</span>
+          <span class="wood amber">Next.js</span>
+          <span class="wood olive">Tailwind</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="retro-tag tagcol">Project tag</div>
+        <div class="chips">
+          <span class="tag">Next.js</span>
+          <span class="tag">Postgres</span>
+          <span class="tag on">Optimization</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="retro-tag tagcol">Company</div>
+        <div class="chips">
+          <span class="company">Buniyadbyte</span>
+          <span class="company">Maxgen</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="retro-tag tagcol">Link pill</div>
+        <div class="chips">
+          <span class="plink">Live App
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11 11 5"/><path d="M6 5h5v5"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="retro-ticker"><span>System · chips</span><span>4 families · wood · kraft · slug · plate</span><span>Azaz.dev</span></div>
+</div></body></html>

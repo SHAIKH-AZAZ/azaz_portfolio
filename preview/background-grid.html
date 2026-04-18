@@ -1,0 +1,85 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Background — Wood & Paper</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .stage{position:relative;min-height:220px;border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);overflow:hidden;margin-bottom:14px}
+  .wood{position:absolute;inset:0;background:
+    repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px,rgba(255,255,255,.04) 3px 4px,transparent 4px 7px),
+    repeating-linear-gradient(0deg,transparent 0 68px,rgba(0,0,0,.35) 68px 70px,transparent 70px 72px),
+    radial-gradient(ellipse at 18% 30%,rgba(0,0,0,.35),transparent 8%),
+    radial-gradient(ellipse at 72% 62%,rgba(0,0,0,.3),transparent 7%),
+    radial-gradient(ellipse at 40% 85%,rgba(0,0,0,.25),transparent 6%),
+    linear-gradient(180deg,#7a3b1f 0%,#5a2a14 100%);
+  }
+  .paper{position:absolute;top:24px;left:24px;right:24px;bottom:24px;background:
+    repeating-linear-gradient(0deg,rgba(42,36,22,.08) 0 1px,transparent 1px 4px),
+    radial-gradient(ellipse at 50% 40%,#f6e8c8 0%,#e6d5a2 70%,#c9b279 100%);
+    border:2px solid var(--ink);box-shadow:0 0 0 1px rgba(0,0,0,.4),0 10px 0 rgba(0,0,0,.2);transform:rotate(-.4deg)}
+  .paper::after{content:"";position:absolute;inset:0;border:1px dashed rgba(42,36,22,.35);margin:6px;pointer-events:none}
+  .brad{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#d4b87a,#6b5028);border:1px solid #1a0b04;box-shadow:1px 1px 0 rgba(0,0,0,.4)}
+  .b1{top:8px;left:8px}.b2{top:8px;right:8px}.b3{bottom:8px;left:8px}.b4{bottom:8px;right:8px}
+  .content{position:absolute;inset:0;padding:36px 40px;display:flex;flex-direction:column;justify-content:center;gap:6px;z-index:2}
+  .kicker{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+  .head{font-family:var(--disp);font-size:30px;line-height:.95;letter-spacing:.02em;text-transform:uppercase;color:var(--ink)}
+  .cap{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--ink-2);max-width:54ch;line-height:1.6;text-transform:uppercase;letter-spacing:.06em}
+
+  /* Usage guide */
+  .guide{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
+  .use{background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:12px 14px}
+  .use h4{font-family:var(--disp);font-size:20px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:4px}
+  .use p{font-family:var(--sans);font-size:12px;line-height:1.55;margin:0;color:var(--ink-2)}
+  .use code{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent);background:#e7d6a9;padding:1px 4px;border:1px solid var(--ink);text-transform:uppercase;letter-spacing:.06em}
+
+  .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .layer{display:flex;align-items:center;gap:10px;background:var(--paper-card);border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);padding:8px 10px}
+  .layer .sw{width:36px;height:36px;border:2px solid var(--ink);flex:none}
+  .layer .sw.wood{background:repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px),linear-gradient(180deg,#7a3b1f,#4a1f0d)}
+  .layer .sw.paper{background:radial-gradient(ellipse at 50% 40%,#f6e8c8,#c9b279)}
+  .layer .sw.halftone{background:repeating-linear-gradient(0deg,rgba(42,36,22,.5) 0 1px,transparent 1px 4px),var(--paper)}
+  .layer .meta{display:flex;flex-direction:column;line-height:1.2}
+  .layer .n{font-family:var(--disp);font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+  .layer .v{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Surfaces / background · wood &amp; paper</div>
+      <div class="retro-title">Background</div>
+    </div>
+    <div class="retro-stamp">REV · 03</div>
+  </div>
+
+  <div class="stage">
+    <div class="wood"></div>
+    <div class="paper"></div>
+    <span class="brad b1"></span><span class="brad b2"></span><span class="brad b3"></span><span class="brad b4"></span>
+    <div class="content" style="align-items:center;text-align:center">
+      <div class="kicker">Vol. XII · No. 04 · Est. MMXIX</div>
+      <div style="font-family:var(--disp);font-size:64px;line-height:.85;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);margin:4px 0">Azaz <span style="color:var(--accent)">·</span> Shaikh</div>
+      <div class="cap">Full-Stack Engineer · Systems Builder — the nameplate sits on the paper, paper sits on wood.</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="layer"><div class="sw wood"></div><div class="meta"><div class="n">Wood</div><div class="v">Outer shell · sections</div></div></div>
+    <div class="layer"><div class="sw paper"></div><div class="meta"><div class="n">Paper</div><div class="v">Body · reading zones</div></div></div>
+    <div class="layer"><div class="sw halftone"></div><div class="meta"><div class="n">Halftone</div><div class="v">Texture overlay</div></div></div>
+  </div>
+
+  <div class="guide">
+    <div class="use">
+      <h4>On the site</h4>
+      <p>Wood is the <strong>outermost shell</strong> behind every section. Paper is the <strong>reading surface</strong> — cards, hero, articles — pinned on top with brads at the corners.</p>
+    </div>
+    <div class="use">
+      <h4>Where it appears</h4>
+      <p>Hero · Section dividers · About · Contact block. Body content uses <code>body { paper + halftone }</code>; full-bleed sections use <code>.stage { wood }</code>.</p>
+    </div>
+    <div class="use">
+      <h4>Don't</h4>
+      <p>Don't put paper on paper — use <code>.paper-card</code> (the flat cream) for nested cards. Don't show wood full-bleed without brads.</p>
+    </div>
+  </div>
+
+  <div class="retro-ticker"><span>System · background</span><span>3 layers · wood · paper · halftone</span><span>Azaz.dev</span></div>
+</div></body></html>

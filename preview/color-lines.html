@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Colors — Lines & Glass</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;700&display=swap');
+  html,body{margin:0;font-family:'IBM Plex Mono',ui-monospace,monospace;background:#f3ead3;color:#2a2416}
+  .wrap{padding:22px 26px;position:relative;background:
+    repeating-linear-gradient(0deg,rgba(42,36,22,.06) 0 1px,transparent 1px 4px),
+    #f3ead3}
+  .header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #2a2416;padding-bottom:8px;margin-bottom:14px}
+  .title{font-family:'VT323',monospace;font-size:28px;line-height:1;letter-spacing:.02em;text-transform:uppercase;color:#2a2416}
+  .stamp{font-family:'VT323',monospace;font-size:14px;letter-spacing:.2em;text-transform:uppercase;padding:2px 8px;border:2px solid #c8452c;color:#c8452c;transform:rotate(-3deg);background:#f3ead3}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .card{background:#fffaee;border:2px solid #2a2416;box-shadow:5px 5px 0 #2a2416;padding:12px 14px;display:flex;align-items:center;gap:14px}
+  .chip{width:46px;height:46px;flex:none;border:2px dashed #2a2416;background:#fff;position:relative}
+  .chip.lo{border-style:dotted;border-color:rgba(42,36,22,.55)}
+  .chip.glass{background:
+    repeating-linear-gradient(45deg,rgba(42,36,22,.1) 0 2px,transparent 2px 6px),
+    rgba(255,255,255,.85)}
+  .chip.glass2{background:
+    repeating-linear-gradient(45deg,rgba(42,36,22,.14) 0 2px,transparent 2px 6px),
+    rgba(255,255,255,.96);border-style:solid}
+  .meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .name{font-family:'VT323',monospace;font-size:20px;letter-spacing:.06em;text-transform:uppercase;color:#2a2416;line-height:1}
+  .val{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#6b5a33;letter-spacing:.02em;font-weight:700}
+  .key{font-family:'VT323',monospace;font-size:14px;color:#c8452c;letter-spacing:.2em;text-transform:uppercase}
+  .ticker{margin-top:10px;border:2px solid #2a2416;background:#2a2416;color:#f3ead3;font-family:'VT323',monospace;font-size:14px;padding:4px 10px;letter-spacing:.2em;text-transform:uppercase;display:flex;justify-content:space-between}
+  .ticker span::before{content:"▸ "}
+</style></head>
+<body><div class="wrap">
+  <div class="header">
+    <div>
+      <div class="key">&gt;&gt; Tokens / borders &amp; glass</div>
+      <div class="title">Edges &amp; Surfaces</div>
+    </div>
+    <div class="stamp">REV · 01</div>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="chip lo"></div><div class="meta"><div class="name">Line</div><div class="val">RGBA(0,0,0, 0.08)</div></div></div>
+    <div class="card"><div class="chip"></div><div class="meta"><div class="name">Line · Strong</div><div class="val">RGBA(0,0,0, 0.14)</div></div></div>
+    <div class="card"><div class="chip glass"></div><div class="meta"><div class="name">Glass</div><div class="val">FFF · 85% · Blur 20</div></div></div>
+    <div class="card"><div class="chip glass2"></div><div class="meta"><div class="name">Glass · Strong</div><div class="val">FFF · 96% · Blur 20</div></div></div>
+  </div>
+  <div class="ticker"><span>System · lines</span><span>4 tokens</span><span>Azaz.dev</span></div>
+</div></body></html>

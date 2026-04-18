@@ -1,0 +1,19 @@
+{
+  "name": "Azaz Shaikh — Full-Stack Engineer",
+  "short_name": "Azaz.dev",
+  "description": "Portfolio of Azaz Shaikh — full-stack software engineer building scalable web systems and business automation tools.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050816",
+  "theme_color": "#4ed8ff",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "en",
+  "categories": ["developer", "portfolio", "technology"]
+}

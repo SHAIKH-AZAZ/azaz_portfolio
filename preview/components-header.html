@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Header</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .masthead{
+    background:
+      repeating-linear-gradient(0deg,rgba(42,36,22,.08) 0 1px,transparent 1px 3px),
+      var(--paper-card);
+    border:2px solid var(--ink);
+    box-shadow:5px 5px 0 var(--ink);
+    padding:10px 16px 12px;
+  }
+  .toprule{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:8px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+  .rules{display:flex;flex-direction:column;gap:2px;margin:6px 0 8px}
+  .rules .rline{height:2px;background:var(--ink)}
+  .rules .rline.thin{height:1px}
+  .brand{font-family:var(--disp);font-size:56px;line-height:.85;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);text-align:center;margin:4px 0}
+  .brand .amp{color:var(--accent);font-style:italic;padding:0 6px}
+  .subline{display:flex;justify-content:center;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+  .subline i{width:24px;height:1px;background:var(--ink);display:inline-block}
+  .nav{display:flex;justify-content:center;gap:0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:4px 0;flex-wrap:wrap}
+  .nav a{font-family:var(--disp);font-size:22px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:0 14px;border-right:1px dotted rgba(42,36,22,.4)}
+  .nav a:last-child{border-right:none}
+  .nav a:hover{color:var(--accent)}
+  .stamps{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+  .cta{font-family:var(--disp);font-size:16px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border:2px solid var(--ink);background:var(--accent);color:var(--paper);box-shadow:2px 2px 0 var(--ink);text-decoration:none}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Components / header · masthead</div>
+      <div class="retro-title">Masthead</div>
+    </div>
+    <div class="retro-stamp">REV · 02</div>
+  </div>
+
+  <header class="masthead">
+    <div class="toprule"><span>Vol. XII · No. 04</span><span>The Engineer's Gazette</span><span>Est. MMXIX</span></div>
+    <div class="rules"><div class="rline"></div><div class="rline thin"></div></div>
+    <div class="brand">Azaz<span class="amp">·</span>Shaikh</div>
+    <div class="subline"><i></i>Full-Stack Engineer · Systems Builder<i></i></div>
+    <nav class="nav">
+      <a>About</a><a>Experience</a><a>Work</a><a>Services</a><a>Contact</a>
+    </nav>
+    <div class="stamps">
+      <span>Mumbai · IN</span>
+      <a class="cta">Let's Build →</a>
+      <span>Filed: TUE</span>
+    </div>
+  </header>
+
+  <div class="retro-ticker"><span>System · header</span><span>Newspaper masthead · VT323 · woodblock</span><span>Azaz.dev</span></div>
+</div></body></html>

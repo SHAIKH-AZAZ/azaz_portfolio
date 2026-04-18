@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Radii</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .swatch{width:100%;height:74px;background:var(--paper);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);position:relative;overflow:hidden}
+  .swatch::before{content:"";position:absolute;inset:0;background:
+    repeating-linear-gradient(45deg,rgba(42,36,22,.12) 0 2px,transparent 2px 6px)}
+  .name{font-family:var(--disp);font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);line-height:1}
+  .val{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ink-3);text-transform:uppercase}
+  .px{position:absolute;left:6px;bottom:4px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--ink);background:var(--paper-card);padding:1px 4px;border:1px solid var(--ink);z-index:1}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Tokens / shape · radii</div>
+      <div class="retro-title">Corner Radii</div>
+    </div>
+    <div class="retro-stamp">REV · 01</div>
+  </div>
+  <div class="grid">
+    <div class="cell"><div class="swatch" style="border-radius:6px"><span class="px">6</span></div><div class="name">sm · tag</div><div class="val">6px</div></div>
+    <div class="cell"><div class="swatch" style="border-radius:12px"><span class="px">12</span></div><div class="name">md</div><div class="val">12px</div></div>
+    <div class="cell"><div class="swatch" style="border-radius:16px"><span class="px">16</span></div><div class="name">lg · card</div><div class="val">16px</div></div>
+    <div class="cell"><div class="swatch" style="border-radius:24px"><span class="px">24</span></div><div class="name">xl · hero</div><div class="val">24px</div></div>
+    <div class="cell"><div class="swatch" style="border-radius:999px"><span class="px">∞</span></div><div class="name">pill</div><div class="val">999px</div></div>
+  </div>
+  <div class="retro-ticker"><span>System · radii</span><span>5 tokens</span><span>Azaz.dev</span></div>
+</div></body></html>

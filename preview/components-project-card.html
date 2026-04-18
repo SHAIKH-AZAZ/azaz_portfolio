@@ -1,0 +1,73 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Project card</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .wrap{padding:20px;background:
+    repeating-linear-gradient(0deg,rgba(42,36,22,.06) 0 1px,transparent 1px 4px),
+    var(--paper)}
+  .pc{
+    position:relative;
+    background:var(--paper-card);
+    border:2px solid var(--ink);
+    box-shadow:6px 6px 0 var(--ink);
+    padding:14px 16px 16px;
+    display:flex;flex-direction:column;gap:12px;
+    max-width:420px;
+  }
+  .pc::before{
+    content:"";position:absolute;inset:4px;border:1px dashed rgba(42,36,22,.35);pointer-events:none;
+  }
+  .meta{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--ink);padding-bottom:6px}
+  .meta .num{color:var(--accent)}
+  .head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  h3{font-family:var(--disp);font-size:32px;line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin:0;max-width:18ch}
+  .plink{
+    display:inline-flex;align-items:center;gap:4px;
+    font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink);background:var(--paper);
+    border:2px solid var(--ink);padding:4px 8px;
+    box-shadow:2px 2px 0 var(--ink);
+    white-space:nowrap;
+  }
+  .kicker{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  .kicker i{flex:1;height:2px;background:var(--accent);display:inline-block}
+  .frame{
+    height:110px;
+    border:2px solid var(--ink);
+    background:
+      repeating-linear-gradient(45deg,rgba(42,36,22,.12) 0 2px,transparent 2px 7px),
+      #e7d6a9;
+    padding:12px;display:flex;flex-direction:column;justify-content:center;gap:6px;
+    position:relative;
+  }
+  .frame::after{content:"FIG · 01";position:absolute;right:6px;bottom:4px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--ink);background:var(--paper-card);padding:1px 4px;border:1px solid var(--ink);letter-spacing:.1em}
+  .bar{height:10px;background:var(--ink)}
+  .bar.red{background:var(--accent)}
+  p{color:var(--ink-2);font-family:var(--sans);font-size:13px;line-height:1.55;margin:0}
+  p::first-letter{font-family:var(--disp);font-size:30px;float:left;line-height:.85;padding:3px 6px 0 0;color:var(--accent)}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--ink);padding-top:10px}
+  .tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:#e7d6a9;border:2px solid var(--ink);padding:3px 8px;box-shadow:2px 2px 0 var(--ink);line-height:1}
+  .foot{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+</style></head>
+<body><div class="wrap">
+  <article class="pc">
+    <div class="meta"><span class="num">Case № 02</span><span>Filed · 2024</span><span>Ed. Ⅰ</span></div>
+    <div class="head">
+      <h3>Excel Cleaner Tool</h3>
+      <a class="plink">Live ↗</a>
+    </div>
+    <div class="kicker"><i></i>Data · Utility<i></i></div>
+    <div class="frame">
+      <div class="bar" style="width:60%"></div>
+      <div class="bar red" style="width:85%"></div>
+      <div class="bar" style="width:40%"></div>
+    </div>
+    <p>Processes raw XLSX files — stripping hidden macros, objects, and messy formatting — to output clean structured data teams can actually trust.</p>
+    <div class="tags">
+      <span class="tag">Next.js</span>
+      <span class="tag">Regex</span>
+      <span class="tag">Data Processing</span>
+    </div>
+    <div class="foot"><span>Author · A. Shaikh</span><span>— End of Entry —</span></div>
+  </article>
+</div></body></html>

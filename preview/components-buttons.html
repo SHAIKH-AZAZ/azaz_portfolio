@@ -1,0 +1,66 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Buttons</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .stack{display:flex;flex-direction:column;gap:10px}
+  .row{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center}
+  .tag{padding-right:10px;border-right:2px dashed rgba(42,36,22,.35)}
+  .btns{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-size:20px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border:2px solid var(--ink);background:var(--paper-card);color:var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;transition:transform .08s ease, box-shadow .08s ease;line-height:1}
+  .btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn.primary{background:var(--accent);color:var(--paper)}
+  .btn.ghost{background:transparent}
+  .btn.ink{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--accent)}
+  .btn.ink:hover{box-shadow:2px 2px 0 var(--accent)}
+  .btn .dot{width:8px;height:8px;background:var(--paper);border:1px solid var(--ink);display:inline-block}
+  .btn.primary .dot{background:var(--paper);border-color:var(--paper)}
+
+  .sm{font-size:14px;padding:4px 10px;box-shadow:2px 2px 0 var(--ink)}
+  .sm:hover{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+
+  .note{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Components / buttons</div>
+      <div class="retro-title">Buttons</div>
+    </div>
+    <div class="retro-stamp">REV · 01</div>
+  </div>
+
+  <div class="retro-card">
+    <div class="stack">
+      <div class="row">
+        <div class="retro-tag tag">Primary</div>
+        <div class="btns">
+          <button class="btn primary">View Projects</button>
+          <span class="note">hover → translate 2,2 · shadow collapses</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="retro-tag tag">Secondary</div>
+        <div class="btns">
+          <button class="btn"><span class="dot"></span>Start a Project</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="retro-tag tag">Inverse</div>
+        <div class="btns">
+          <button class="btn ink">Let's Build →</button>
+          <span class="note">accent drop-shadow</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="retro-tag tag">Header CTA</div>
+        <div class="btns">
+          <button class="btn primary sm">Let's Build</button>
+          <button class="btn sm">Read CV</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="retro-ticker"><span>System · buttons</span><span>4 variants · 2 sizes</span><span>Azaz.dev</span></div>
+</div></body></html>

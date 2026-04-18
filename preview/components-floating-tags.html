@@ -1,0 +1,58 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Floating tags</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .ft{
+    position:relative;
+    background:var(--paper-card);
+    border:2px solid var(--ink);
+    box-shadow:5px 5px 0 var(--ink);
+    padding:10px 12px 12px;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .ft::before{content:"";position:absolute;inset:3px;border:1px dashed rgba(42,36,22,.3);pointer-events:none}
+  .ft.a{transform:rotate(-1.2deg)}
+  .ft.b{transform:rotate(1.3deg);box-shadow:5px 5px 0 var(--accent)}
+  .ft.c{transform:rotate(-.6deg)}
+  .ft.d{transform:rotate(.9deg);box-shadow:5px 5px 0 var(--accent)}
+  .top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--ink);padding-bottom:4px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+  .top .no{color:var(--accent)}
+  .name{font-family:var(--disp);font-size:22px;line-height:1;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+  .pin{position:absolute;top:-6px;left:12px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--ink);box-shadow:1px 1px 0 rgba(0,0,0,.35)}
+  .bot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Components / floating · index cards</div>
+      <div class="retro-title">Floating Tags</div>
+    </div>
+    <div class="retro-stamp">REV · 02</div>
+  </div>
+
+  <div class="grid">
+    <div class="ft a"><span class="pin"></span>
+      <div class="top"><span class="no">Nº 01</span><span>Pinned</span></div>
+      <div class="name">Business Solutions</div>
+      <div class="bot"><span>Tag · Float</span><span>8–10s</span></div>
+    </div>
+    <div class="ft b"><span class="pin"></span>
+      <div class="top"><span class="no">Nº 02</span><span>Pinned</span></div>
+      <div class="name">Optimization Logic</div>
+      <div class="bot"><span>Tag · Float</span><span>8–10s</span></div>
+    </div>
+    <div class="ft c"><span class="pin"></span>
+      <div class="top"><span class="no">Nº 03</span><span>Pinned</span></div>
+      <div class="name">Scalable Systems</div>
+      <div class="bot"><span>Tag · Float</span><span>8–10s</span></div>
+    </div>
+    <div class="ft d"><span class="pin"></span>
+      <div class="top"><span class="no">Nº 04</span><span>Pinned</span></div>
+      <div class="name">Automated Workflows</div>
+      <div class="bot"><span>Tag · Float</span><span>8–10s</span></div>
+    </div>
+  </div>
+
+  <div class="retro-ticker"><span>System · floating</span><span>Index cards · tilted · pinned</span><span>Azaz.dev</span></div>
+</div></body></html>

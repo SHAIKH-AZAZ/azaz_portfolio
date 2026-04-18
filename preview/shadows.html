@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Shadows</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .cell{display:flex;flex-direction:column;gap:10px}
+  .box{height:72px;background:var(--paper-card);border:2px solid var(--ink);border-radius:4px;position:relative}
+  .box.s1{box-shadow:3px 3px 0 var(--ink)}
+  .box.s2{box-shadow:5px 5px 0 var(--ink)}
+  .box.s3{box-shadow:8px 8px 0 var(--ink)}
+  .box.s4{box-shadow:5px 5px 0 var(--accent)}
+  .name{font-family:var(--disp);font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);line-height:1}
+  .val{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ink-3);text-transform:uppercase}
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Tokens / elevation · shadows</div>
+      <div class="retro-title">Block Shadows</div>
+    </div>
+    <div class="retro-stamp">REV · 01</div>
+  </div>
+  <div class="grid">
+    <div class="cell"><div class="box s1"></div><div class="name">sm · chip</div><div class="val">3·3·0 ink</div></div>
+    <div class="cell"><div class="box s2"></div><div class="name">md · card</div><div class="val">5·5·0 ink</div></div>
+    <div class="cell"><div class="box s3"></div><div class="name">lg · hero</div><div class="val">8·8·0 ink</div></div>
+    <div class="cell"><div class="box s4"></div><div class="name">accent</div><div class="val">5·5·0 red</div></div>
+  </div>
+  <div class="retro-ticker"><span>System · shadows</span><span>4 tokens · hard offset</span><span>Azaz.dev</span></div>
+</div></body></html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Brand mark</title>
+<link rel="stylesheet" href="retro.css">
+<style>
+  .row{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+  .cell{background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:180px}
+  .label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px dashed rgba(42,36,22,.4);padding-bottom:4px}
+
+  /* Monogram — wood block */
+  .mono{
+    width:120px;height:120px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--disp);font-size:84px;line-height:1;letter-spacing:.02em;
+    color:#f6e8c8;
+    background:
+      repeating-linear-gradient(90deg,
+        rgba(0,0,0,.14) 0 1px, transparent 1px 3px,
+        rgba(255,255,255,.05) 3px 4px, transparent 4px 7px),
+      radial-gradient(ellipse at 25% 35%, rgba(0,0,0,.28), transparent 50%),
+      radial-gradient(ellipse at 75% 75%, rgba(0,0,0,.22), transparent 50%),
+      linear-gradient(180deg,#7a3b1f 0%,#4a1f0d 100%);
+    border:2px solid #1a0b04;
+    box-shadow:5px 5px 0 var(--ink), inset 0 0 0 1px rgba(255,255,255,.08), inset 0 -4px 8px rgba(0,0,0,.45);
+    text-shadow:0 1px 0 rgba(0,0,0,.6), 0 -1px 0 rgba(255,255,255,.1);
+  }
+
+  /* Wordmark — masthead */
+  .wordmark{
+    font-family:var(--disp);font-size:42px;line-height:.9;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:4px 0;
+  }
+  .wordmark .dot{color:var(--accent)}
+  .tagline{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-top:4px}
+
+  /* Footer lockup */
+  .lockup{display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+  .chip{
+    width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;
+    font-family:var(--disp);font-size:20px;color:#f6e8c8;
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.12) 0 1px, transparent 1px 3px, rgba(255,255,255,.05) 3px 4px, transparent 4px 7px),
+      linear-gradient(180deg,#7a3b1f 0%,#4a1f0d 100%);
+    border:2px solid var(--ink);
+    box-shadow:2px 2px 0 var(--ink);
+    text-shadow:0 1px 0 rgba(0,0,0,.55);
+  }
+  .lockup .ext{color:var(--accent)}
+
+  /* Stamp variant */
+  .stamp{
+    display:inline-flex;align-items:center;justify-content:center;
+    font-family:var(--disp);font-size:28px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);padding:6px 14px;border:3px double var(--accent);
+    transform:rotate(-3deg);background:var(--paper-card);
+  }
+</style></head>
+<body><div class="retro-wrap">
+  <div class="retro-header">
+    <div>
+      <div class="retro-key">&gt;&gt; Brand / identity · marks</div>
+      <div class="retro-title">Brand Mark</div>
+    </div>
+    <div class="retro-stamp">REV · 02</div>
+  </div>
+
+  <div class="row">
+    <div class="cell">
+      <div class="label">Monogram · woodblock</div>
+      <div class="mono">AS</div>
+    </div>
+    <div class="cell" style="flex:1;min-width:260px">
+      <div class="label">Wordmark · masthead</div>
+      <div class="wordmark">Azaz<span class="dot"> · </span>Shaikh</div>
+      <div class="tagline">Full-Stack Engineer · Systems Builder</div>
+    </div>
+    <div class="cell">
+      <div class="label">Footer lockup</div>
+      <div class="lockup"><span class="chip">AS</span><span>Azaz<span class="ext">.dev</span></span></div>
+    </div>
+    <div class="cell">
+      <div class="label">Rubber stamp</div>
+      <div class="stamp">Azaz Shaikh · EST. 2019</div>
+    </div>
+  </div>
+
+  <div class="retro-ticker"><span>System · brand</span><span>Mono · wordmark · lockup · stamp</span><span>Azaz.dev</span></div>
+</div></body></html>

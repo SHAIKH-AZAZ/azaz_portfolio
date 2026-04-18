@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Azaz Shaikh — Portfolio UI Kit (Retro)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../preview/retro.css">
+<style>
+  body{background:
+    repeating-linear-gradient(0deg,rgba(42,36,22,.06) 0 1px,transparent 1px 4px),
+    var(--paper);
+    font-family:var(--sans);color:var(--ink);
+  }
+  .container{max-width:1120px;margin:0 auto;padding:24px 28px 60px}
+
+  /* === Masthead === */
+  .masthead{border:2px solid var(--ink);background:var(--paper-card);box-shadow:6px 6px 0 var(--ink);padding:12px 18px 14px;margin-bottom:22px}
+  .toprule{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--ink);padding-bottom:6px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+  .rules{display:flex;flex-direction:column;gap:2px;margin:8px 0}
+  .rules .rline{height:2px;background:var(--ink)}
+  .rules .rline.thin{height:1px}
+  .brand{font-family:var(--disp);font-size:82px;line-height:.85;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);text-align:center;margin:6px 0 4px}
+  .brand .dot{color:var(--accent);padding:0 10px}
+  .subline{display:flex;justify-content:center;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+  .subline i{width:32px;height:1px;background:var(--ink);display:inline-block}
+  nav.nav{display:flex;justify-content:center;gap:0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:6px 0;flex-wrap:wrap}
+  nav.nav a{font-family:var(--disp);font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:0 18px;border-right:1px dotted rgba(42,36,22,.4);cursor:pointer}
+  nav.nav a:last-child{border-right:none}
+  nav.nav a:hover{color:var(--accent)}
+  .stamps{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+  .cta{font-family:var(--disp);font-size:18px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border:2px solid var(--ink);background:var(--accent);color:var(--paper);box-shadow:2px 2px 0 var(--ink);text-decoration:none;cursor:pointer;transition:transform .08s,box-shadow .08s}
+  .cta:hover{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+
+  /* === Section header === */
+  .section{margin-top:32px}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:16px;gap:16px}
+  .section-head .kicker{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+  .section-head h2{font-family:var(--disp);font-size:44px;line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin:2px 0 0}
+  .section-head .no{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3)}
+
+  /* === Hero === */
+  .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+  .lede{background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:20px 22px 22px;position:relative}
+  .lede::before{content:"";position:absolute;inset:4px;border:1px dashed rgba(42,36,22,.3);pointer-events:none}
+  .lede .eyebrow{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .lede h1{font-family:var(--disp);font-size:58px;line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin:0 0 12px;max-width:14ch}
+  .lede h1 .redline{color:var(--accent)}
+  .lede p{font-family:var(--sans);font-size:15px;line-height:1.6;color:var(--ink-2);margin:0 0 14px;max-width:52ch}
+  .lede p::first-letter{font-family:var(--disp);font-size:48px;float:left;line-height:.85;padding:4px 8px 0 0;color:var(--accent)}
+  .lede .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+  .btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--disp);font-size:20px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border:2px solid var(--ink);background:var(--paper-card);color:var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;transition:transform .08s,box-shadow .08s;text-decoration:none;line-height:1}
+  .btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn.primary{background:var(--accent);color:var(--paper)}
+  .btn.ink{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--accent)}
+  .btn.ink:hover{box-shadow:2px 2px 0 var(--accent)}
+
+  /* Hero metrics board */
+  .metrics{background:var(--ink);color:var(--paper);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--accent);padding:16px;display:flex;flex-direction:column;gap:10px}
+  .metrics .mhead{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#c9bfa5;border-bottom:1px dashed rgba(243,234,211,.35);padding-bottom:6px}
+  .metric{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;border-bottom:1px dotted rgba(243,234,211,.3);padding-bottom:8px}
+  .metric:last-child{border:none;padding:0}
+  .metric .v{font-family:var(--disp);font-size:48px;line-height:.85;color:var(--paper);letter-spacing:.02em;min-width:70px;text-align:right;color:#f6e8c8}
+  .metric .l{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#e3d9bc;line-height:1.5}
+
+  /* === Split-flap marquee === */
+  .board{border:2px solid var(--ink);background:var(--ink);box-shadow:5px 5px 0 var(--accent);padding:10px;position:relative;overflow:hidden;margin-top:28px}
+  .board::before{content:"";position:absolute;inset:4px;border:1px dashed rgba(243,234,211,.35);pointer-events:none}
+  .rail{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-size:22px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);line-height:1;justify-content:center;flex-wrap:wrap}
+  .flap{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:12ch;padding:8px 12px 10px;background:linear-gradient(180deg,#3a3320 0%,#2a2416 49%,#1b1610 50%,#2a2416 100%);border:2px solid #000;color:var(--paper);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+  .flap::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.8)}
+  .flap.on{background:linear-gradient(180deg,#c8452c 0%,#9c3420 49%,#6b2314 50%,#9c3420 100%);color:#f6e8c8}
+  .tick{width:10px;height:10px;background:var(--accent);border:1px solid var(--paper);animation:blink .9s steps(2,end) infinite}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.25}}
+  .flap .word{display:inline-block;animation:flip 2.4s steps(1,end) infinite}
+  @keyframes flip{0%,92%{transform:translateY(0);opacity:1}93%,97%{transform:translateY(-100%);opacity:0}98%,100%{transform:translateY(0);opacity:1}}
+  .s2 .word{animation-delay:.2s}.s3 .word{animation-delay:.4s}.s4 .word{animation-delay:.6s}.s5 .word{animation-delay:.8s}.s6 .word{animation-delay:1s}
+
+  /* === About / Insights === */
+  .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .insight{background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:14px 16px;display:flex;flex-direction:column;gap:8px;position:relative}
+  .insight::before{content:"";position:absolute;inset:3px;border:1px dashed rgba(42,36,22,.3);pointer-events:none}
+  .insight .n{font-family:var(--disp);font-size:48px;line-height:.8;color:var(--accent);letter-spacing:.02em}
+  .insight h3{font-family:var(--disp);font-size:26px;letter-spacing:.04em;text-transform:uppercase;line-height:.95;margin:0;color:var(--ink)}
+  .insight p{font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink-2);margin:0}
+  .insight .rule{height:1px;background:var(--ink);margin:4px 0}
+
+  /* Skills grid */
+  .skills{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
+  .skill-col{background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:14px 16px}
+  .skill-col h4{font-family:var(--disp);font-size:24px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:6px}
+  .skill-col ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px}
+  .skill-col li{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:#e7d6a9;border:2px solid var(--ink);padding:3px 8px;box-shadow:2px 2px 0 var(--ink);line-height:1}
+
+  /* Wood skill chip */
+  .skill-col li.wood{color:#f6e8c8;background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.12) 0 1px, transparent 1px 3px, rgba(255,255,255,.05) 3px 4px, transparent 4px 7px),
+    linear-gradient(180deg,#7a3b1f 0%,#4a1f0d 100%);border-color:#1a0b04;text-shadow:0 1px 0 rgba(0,0,0,.55)}
+
+  /* === Experience timeline === */
+  .xp{display:flex;flex-direction:column;gap:14px}
+  .xp-item{display:grid;grid-template-columns:160px 1fr;gap:18px;background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:14px 16px}
+  .xp-item .co{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:6px 10px;box-shadow:3px 3px 0 var(--accent);align-self:flex-start;border:2px solid var(--ink);line-height:1}
+  .xp-item h3{font-family:var(--disp);font-size:26px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 6px;line-height:1;color:var(--ink)}
+  .xp-item p{font-family:var(--sans);font-size:13px;line-height:1.55;margin:0;color:var(--ink-2)}
+
+  /* === Work / Projects === */
+  .work{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .pc{position:relative;background:var(--paper-card);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
+  .pc::before{content:"";position:absolute;inset:4px;border:1px dashed rgba(42,36,22,.3);pointer-events:none}
+  .pc .meta{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--ink);padding-bottom:6px}
+  .pc .meta .num{color:var(--accent)}
+  .pc h3{font-family:var(--disp);font-size:30px;line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin:0;max-width:20ch}
+  .plink{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:4px 8px;box-shadow:2px 2px 0 var(--ink);white-space:nowrap;text-decoration:none;cursor:pointer}
+  .pc .head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .pc .kick{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  .pc .kick i{flex:1;height:2px;background:var(--accent)}
+  .frame{height:92px;border:2px solid var(--ink);background:repeating-linear-gradient(45deg,rgba(42,36,22,.12) 0 2px,transparent 2px 7px),#e7d6a9;padding:10px;display:flex;flex-direction:column;justify-content:center;gap:5px;position:relative}
+  .frame::after{content:"FIG";position:absolute;right:6px;bottom:4px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--ink);background:var(--paper-card);padding:1px 4px;border:1px solid var(--ink);letter-spacing:.1em}
+  .bar{height:8px;background:var(--ink)}
+  .bar.red{background:var(--accent)}
+  .pc p{font-family:var(--sans);font-size:13px;line-height:1.55;margin:0;color:var(--ink-2)}
+  .pc .tags{display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--ink);padding-top:8px}
+  .pc .tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:#e7d6a9;border:2px solid var(--ink);padding:3px 8px;box-shadow:2px 2px 0 var(--ink);line-height:1}
+
+  /* === Services === */
+  .svc{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .svc-item{background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+  .svc-item .dot{width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);flex:none;margin-top:5px}
+  .svc-item h4{font-family:var(--disp);font-size:22px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 4px;line-height:1;color:var(--ink)}
+  .svc-item p{font-family:var(--sans);font-size:13px;line-height:1.55;margin:0;color:var(--ink-2)}
+
+  /* === Process strip === */
+  .process{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .step{background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:14px 16px;position:relative}
+  .step::before{content:"";position:absolute;inset:3px;border:1px dashed rgba(42,36,22,.3);pointer-events:none}
+  .step .num{font-family:var(--disp);font-size:64px;line-height:.8;color:var(--accent);letter-spacing:.02em}
+  .step h4{font-family:var(--disp);font-size:24px;letter-spacing:.04em;text-transform:uppercase;margin:2px 0 6px;line-height:1;color:var(--ink)}
+  .step p{font-family:var(--sans);font-size:13px;line-height:1.55;margin:0;color:var(--ink-2)}
+
+  /* === Contact / Footer === */
+  .contact{background:var(--ink);color:var(--paper);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--accent);padding:22px 24px;margin-top:32px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+  .contact h2{font-family:var(--disp);font-size:52px;line-height:.88;letter-spacing:.02em;text-transform:uppercase;margin:0 0 10px;color:#f6e8c8}
+  .contact h2 .red{color:var(--accent)}
+  .contact p{font-family:var(--sans);font-size:14px;line-height:1.55;margin:0 0 14px;color:#e3d9bc;max-width:44ch}
+  .contact .cbtns{display:flex;gap:10px;flex-wrap:wrap}
+  .contact ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#e3d9bc}
+  .contact ul li{border-bottom:1px dashed rgba(243,234,211,.3);padding-bottom:6px;display:flex;justify-content:space-between;gap:12px}
+  .contact ul li span:first-child{color:var(--accent)}
+
+  .footer{margin-top:22px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:20px;background:var(--paper-card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:18px 20px}
+  .footer .col h5{font-family:var(--disp);font-size:18px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:4px}
+  .footer .col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px;font-family:var(--sans);font-size:13px;color:var(--ink-2)}
+  .footer .col ul li{padding:2px 0;border-bottom:1px dotted rgba(42,36,22,.3)}
+  .footer .brand-col p{font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink-2);margin:8px 0 0;max-width:40ch}
+  .footer .brand-col .lockup{display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+  .footer .chip{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:20px;color:#f6e8c8;background:repeating-linear-gradient(90deg, rgba(0,0,0,.12) 0 1px, transparent 1px 3px, rgba(255,255,255,.05) 3px 4px, transparent 4px 7px),linear-gradient(180deg,#7a3b1f 0%,#4a1f0d 100%);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.55)}
+
+  .colophon{margin-top:14px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);border-top:2px solid var(--ink);padding-top:8px}
+
+  @media (max-width:860px){
+    .hero,.cols3,.skills,.work,.svc,.process,.contact,.footer{grid-template-columns:1fr}
+    .xp-item{grid-template-columns:1fr}
+    .brand{font-size:54px}
+    .lede h1{font-size:42px}
+    .section-head h2{font-size:32px}
+    nav.nav a{font-size:18px;padding:0 10px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="toprule"><span>Vol. XII · No. 04</span><span>The Engineer's Gazette</span><span>Est. MMXIX</span></div>
+    <div class="rules"><div class="rline"></div><div class="rline thin"></div></div>
+    <div class="brand">Azaz<span class="dot">·</span>Shaikh</div>
+    <div class="subline"><i></i>Full-Stack Engineer · Systems Builder<i></i></div>
+    <nav class="nav">
+      <a>About</a><a>Experience</a><a>Work</a><a>Services</a><a>Process</a><a>Contact</a>
+    </nav>
+    <div class="stamps">
+      <span>Mumbai · IN</span>
+      <a class="cta">Let's Build →</a>
+      <span>Filed: SUN</span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="lede">
+      <div class="eyebrow">&gt;&gt; The Lede · Vol. XII</div>
+      <h1>Systems That <span class="redline">Run The Business.</span></h1>
+      <p>Identifying real-world operational bottlenecks and engineering scalable software systems that solve them. I'm Azaz Shaikh — a full-stack engineer building business-focused web products with strong systems thinking, deep data logic, and resilient full-stack architectures.</p>
+      <div class="btns">
+        <a class="btn primary">View Projects</a>
+        <a class="btn">Start a Project</a>
+        <a class="btn ink">Read CV →</a>
+      </div>
+    </div>
+    <aside class="metrics">
+      <div class="mhead"><span>Dispatch · Stats</span><span>YTD</span></div>
+      <div class="metric"><div class="v">1+</div><div class="l">Year of full-stack engineering experience</div></div>
+      <div class="metric"><div class="v">15+</div><div class="l">Business operations optimized through code</div></div>
+      <div class="metric"><div class="v">98%</div><div class="l">Performance &amp; efficiency increase on core systems</div></div>
+    </aside>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="board">
+    <div class="rail">
+      <span class="tick"></span>
+      <span class="flap s1"><span class="word">Workflow</span></span>
+      <span class="flap on s2"><span class="word">Scalable Arch</span></span>
+      <span class="flap s3"><span class="word">Logistics</span></span>
+      <span class="flap s4"><span class="word">LangChain</span></span>
+      <span class="flap on s5"><span class="word">AI Agents</span></span>
+      <span class="flap s6"><span class="word">Python</span></span>
+      <span class="tick"></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="kicker">&gt;&gt; Section · I</div>
+        <h2>About · The Method</h2>
+      </div>
+      <div class="no">Pg. 02</div>
+    </div>
+    <div class="cols3">
+      <div class="insight"><div class="n">01</div><div class="rule"></div><h3>Operational Efficiency</h3><p>Building automated platforms that replace manual tasks and save hundreds of hours.</p></div>
+      <div class="insight"><div class="n">02</div><div class="rule"></div><h3>Algorithmic Precision</h3><p>Designing custom optimization algorithms for logistics, resource allocation, and cutting.</p></div>
+      <div class="insight"><div class="n">03</div><div class="rule"></div><h3>Scalable Architecture</h3><p>Developing robust backend systems and resilient frontends that grow seamlessly.</p></div>
+    </div>
+
+    <div class="skills">
+      <div class="skill-col"><h4>Frontend</h4><ul><li class="wood">React</li><li class="wood">Next.js</li><li>JavaScript</li><li>HTML / CSS</li><li>Tailwind</li><li>Motion UI</li></ul></div>
+      <div class="skill-col"><h4>Backend</h4><ul><li class="wood">Node.js</li><li>Express</li><li>REST APIs</li><li class="wood">Python</li><li>MongoDB</li><li>SQL</li><li>Opt. Algorithms</li></ul></div>
+      <div class="skill-col"><h4>QA &amp; Tools</h4><ul><li>Manual Testing</li><li>Test Automation</li><li>Selenium</li><li>Cypress</li><li>Postman</li><li>Git</li><li>Vercel</li></ul></div>
+      <div class="skill-col"><h4>AI &amp; Python</h4><ul><li class="wood">LangChain</li><li class="wood">LangGraph</li><li>RAG Systems</li><li>AI Agents</li><li>Pandas</li><li>OpenAI API</li></ul></div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker">&gt;&gt; Section · II</div><h2>Experience · The Record</h2></div>
+      <div class="no">Pg. 04</div>
+    </div>
+    <div class="xp">
+      <div class="xp-item">
+        <div class="co">Buniyadbyte</div>
+        <div>
+          <h3>Full-Stack IT Engineer</h3>
+          <p>Developed and shipped POC Waste, a high-performance Bar Cutting Optimization web application. Engineered custom cutting-stock algorithms to minimize raw material waste and built a complete project management interface.</p>
+        </div>
+      </div>
+      <div class="xp-item">
+        <div class="co">Maxgen</div>
+        <div>
+          <h3>QA Manual &amp; Automation Engineer Intern</h3>
+          <p>Secured the quality and reliability of software products by executing comprehensive manual test cases and implementing automated testing scripts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker">&gt;&gt; Section · III</div><h2>Work · Selected Cases</h2></div>
+      <div class="no">Pg. 06</div>
+    </div>
+    <div class="work">
+      <article class="pc">
+        <div class="meta"><span class="num">Case № 01</span><span>Filed · 2024</span><span>Ed. Ⅰ</span></div>
+        <div class="head"><h3>POC Waste Optimizer</h3><a class="plink">Live ↗</a></div>
+        <div class="kick"><i></i>Industrial · Optimization<i></i></div>
+        <div class="frame"><div class="bar" style="width:70%"></div><div class="bar red" style="width:55%"></div><div class="bar" style="width:85%"></div></div>
+        <p>Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">Optimization</span><span class="tag">Postgres</span></div>
+      </article>
+      <article class="pc">
+        <div class="meta"><span class="num">Case № 02</span><span>Filed · 2024</span><span>Ed. Ⅰ</span></div>
+        <div class="head"><h3>Excel Cleaner Tool</h3><a class="plink">Live ↗</a></div>
+        <div class="kick"><i></i>Data · Utility<i></i></div>
+        <div class="frame"><div class="bar" style="width:60%"></div><div class="bar red" style="width:85%"></div><div class="bar" style="width:40%"></div></div>
+        <p>Processes raw XLSX files — stripping hidden macros, objects, and messy formatting — to output clean structured data teams can trust.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">Regex</span><span class="tag">Data</span></div>
+      </article>
+      <article class="pc">
+        <div class="meta"><span class="num">Case № 03</span><span>Filed · 2023</span><span>Ed. Ⅰ</span></div>
+        <div class="head"><h3>ShamGym</h3><a class="plink">Live ↗</a></div>
+        <div class="kick"><i></i>Brand · Website<i></i></div>
+        <div class="frame"><div class="bar red" style="width:80%"></div><div class="bar" style="width:30%"></div><div class="bar" style="width:55%"></div></div>
+        <p>Fitness-focused website for a gym brand with strong landing-page structure, modern presentation, and conversion-oriented user flows.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">Brand</span><span class="tag">Fitness</span></div>
+      </article>
+      <article class="pc">
+        <div class="meta"><span class="num">Case № 04</span><span>Filed · 2024</span><span>Ed. Ⅰ</span></div>
+        <div class="head"><h3>FastShipment</h3><a class="plink">Backend</a></div>
+        <div class="kick"><i></i>Logistics · Platform<i></i></div>
+        <div class="frame"><div class="bar" style="width:45%"></div><div class="bar red" style="width:70%"></div><div class="bar" style="width:90%"></div></div>
+        <p>Comprehensive logistics platform with ordering, secure checkout, real-time shipment tracking with dynamic editing, and partner management.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Checkout</span><span class="tag">Tracking</span></div>
+      </article>
+      <article class="pc">
+        <div class="meta"><span class="num">Case № 05</span><span>Filed · 2025</span><span>Ed. Ⅰ</span></div>
+        <div class="head"><h3>LangChain RAG System</h3><a class="plink">LLM</a></div>
+        <div class="kick"><i></i>AI · Retrieval<i></i></div>
+        <div class="frame"><div class="bar" style="width:65%"></div><div class="bar red" style="width:50%"></div><div class="bar" style="width:75%"></div></div>
+        <p>Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge.</p>
+        <div class="tags"><span class="tag">LangChain</span><span class="tag">RAG</span><span class="tag">VectorDB</span></div>
+      </article>
+      <article class="pc">
+        <div class="meta"><span class="num">Case № 06</span><span>Filed · 2025</span><span>Ed. Ⅰ</span></div>
+        <div class="head"><h3>LangGraph AI Agent</h3><a class="plink">Agents</a></div>
+        <div class="kick"><i></i>AI · Autonomy<i></i></div>
+        <div class="frame"><div class="bar red" style="width:90%"></div><div class="bar" style="width:40%"></div><div class="bar" style="width:65%"></div></div>
+        <p>Stateful multi-step AI agent built on LangGraph — capable of tool use, conditional branching, memory, and autonomous multi-stage completion.</p>
+        <div class="tags"><span class="tag">LangGraph</span><span class="tag">Agents</span><span class="tag">LLM</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker">&gt;&gt; Section · IV</div><h2>Services · On Offer</h2></div>
+      <div class="no">Pg. 10</div>
+    </div>
+    <div class="svc">
+      <div class="svc-item"><span class="dot"></span><div><h4>Enterprise Applications</h4><p>Internal tools, dashboards, and CRM extensions built to unify operations and data management.</p></div></div>
+      <div class="svc-item"><span class="dot"></span><div><h4>Algorithm Development</h4><p>Custom logic engineering for complex challenges, routing, scheduling, and resource optimization.</p></div></div>
+      <div class="svc-item"><span class="dot"></span><div><h4>E-Commerce &amp; Logistics</h4><p>End-to-end checkout paths, shipping engines, and partner management portal integrations.</p></div></div>
+      <div class="svc-item"><span class="dot"></span><div><h4>SaaS Architectures</h4><p>Scalable foundations with robust authentication, role-based access, and fast response times.</p></div></div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker">&gt;&gt; Section · V</div><h2>Process · The Line</h2></div>
+      <div class="no">Pg. 12</div>
+    </div>
+    <div class="process">
+      <div class="step"><div class="num">01</div><h4>Discovery &amp; Scope</h4><p>Analyze business bottlenecks, map user journeys, and define a clear systems requirement document.</p></div>
+      <div class="step"><div class="num">02</div><h4>Architect &amp; Build</h4><p>Construct scalable databases, wireframe the UI, and write the core algorithms efficiently.</p></div>
+      <div class="step"><div class="num">03</div><h4>Test &amp; Deploy</h4><p>Rigorous QA automation, security validations, and seamless deployment to live production servers.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <div>
+      <h2>Wire The <span class="red">Editor.</span></h2>
+      <p>Got an operational bottleneck, a messy workflow, or a new product idea? File a dispatch and I'll respond within two working days.</p>
+      <div class="cbtns">
+        <a class="btn primary">Start a Project</a>
+        <a class="btn">Email Me</a>
+      </div>
+    </div>
+    <ul>
+      <li><span>Mail</span><span>hello@azaz.dev</span></li>
+      <li><span>Phone</span><span>+91 · — · —</span></li>
+      <li><span>City</span><span>Mumbai, IN</span></li>
+      <li><span>GitHub</span><span>/azaz-shaikh</span></li>
+      <li><span>LinkedIn</span><span>/in/azaz-shaikh</span></li>
+    </ul>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="col brand-col">
+      <div class="lockup"><span class="chip">AS</span><span>Azaz<span style="color:var(--accent)">.dev</span></span></div>
+      <p>Business-focused full-stack engineering. Systems, not just screens — shipped and maintained from Mumbai.</p>
+    </div>
+    <div class="col">
+      <h5>Services</h5>
+      <ul><li>Business Automation</li><li>Web Applications</li><li>Logistics Platforms</li><li>AI-Enhanced Workflows</li></ul>
+    </div>
+    <div class="col">
+      <h5>Portfolio</h5>
+      <ul><li>POC Waste Optimizer</li><li>Excel Cleaner Tool</li><li>ShamGym</li><li>FastShipment</li><li>LangChain RAG</li><li>LangGraph Agent</li></ul>
+    </div>
+  </footer>
+
+  <div class="colophon">
+    <span>© MMXXVI · Azaz Shaikh</span>
+    <span>Set in VT323 · Plex Mono · Manrope</span>
+    <span>Printed on the web</span>
+  </div>
+
+</div>
+</body>
+</html>
