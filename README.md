@@ -8,6 +8,27 @@ This design system captures the visual language of **Azaz Shaikh's personal port
 - **Design tokens:** extracted from `codebase_src/app/globals.css` + `codebase_src/app/layout.js` (font declarations via `next/font`).
 - **Live product:** `azazshaikh.info` (a single-page portfolio).
 
+## Running locally
+
+This repository does not include the full Next.js app scaffold at the root. The runnable artifact in this repo is the static demo at `ui_kits/portfolio/index.html`, while `codebase_src/` is a source mirror for reference.
+
+To preview the portfolio locally, serve the repository root with any simple static server and open the demo page:
+
+```bash
+cd /path/to/azazport
+python3 -m http.server 3000
+```
+
+Then visit:
+
+- `http://127.0.0.1:3000/ui_kits/portfolio/index.html`
+
+Notes:
+
+- Serve from the repo root so relative paths like `preview/retro.css` resolve correctly.
+- No `package.json` is included here, so `npm run dev` will not work in this repository snapshot.
+- If you need the full Next.js application, use the upstream GitHub repository referenced above.
+
 ## Product context
 
 One product, one surface: a **marketing / portfolio single page** for a solo engineer. It has:
