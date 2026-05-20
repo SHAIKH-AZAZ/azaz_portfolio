@@ -1882,6 +1882,18 @@ main {
 .ctd-token-accent  { color: var(--accent); }
 .ctd-token-string  { color: #6ee7b7; }
 
+.ctd-typing-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  margin-left: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(250, 93, 25, 0.65);
+  vertical-align: -0.1em;
+  animation: cursorBlink 0.8s infinite;
+}
+
 /* Right: Output panel */
 .ctd-output-panel {
   display: flex;
@@ -3235,12 +3247,12 @@ main {
 
 /* Typewriter animation in hero H1 */
 .typewriter-container {
-  display: inline-flex;
-  align-items: center;
+  display: inline;
   position: relative;
 }
 
-.typewriter-caret {
+.typewriter-text::after {
+  content: "";
   display: inline-block;
   width: 4px;
   height: 0.9em;
@@ -3249,7 +3261,7 @@ main {
   border-radius: 2px;
   animation: typewriterCursorBlink 0.8s infinite;
   box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-  vertical-align: baseline;
+  vertical-align: -0.08em;
 }
 
 @keyframes typewriterCursorBlink {

@@ -1,67 +1,61 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+const TYPE_START_DELAY = 120;
+const TYPE_CHAR_SPEED = 12;
+const OUTPUT_AFTER_CODE_DELAY = 260;
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789{}[]<>/_+-=#$%';
-const SCRAMBLE_START_DELAY = 260;
-const SCRAMBLE_LINE_STAGGER = 70;
-const SCRAMBLE_TOKEN_STAGGER = 18;
-const SCRAMBLE_OUTPUT_DELAY = 460;
+const SCRAMBLE_TRAIL = 4;
 
-function ScrambleToken({ text, className, playKey, delay = 0, duration = 520 }) {
-  const [displayText, setDisplayText] = useState(text);
-  const frameRef = useRef(null);
+const getLineLength = (line) => line.reduce((sum, token) => sum + token.t.length, 0);
+const getCodeLength = (lines) => lines.reduce((sum, line) => sum + getLineLength(line), 0);
+const getOutputLength = (lines) => lines.reduce((sum, line) => sum + line.t.length, 0);
 
-  useEffect(() => {
-    const randomChar = () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+function getScrambleChar(index, tick) {
+  return SCRAMBLE_CHARS[(index * 17 + tick * 7) % SCRAMBLE_CHARS.length];
+}
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion || !text.trim()) {
-      setDisplayText(text);
-      return undefined;
-    }
+function shouldScrambleChar(index, visibleChars, totalChars) {
+  return visibleChars < totalChars && index >= visibleChars - SCRAMBLE_TRAIL && index < visibleChars;
+}
 
-    setDisplayText(
-      text
-        .split('')
-        .map((char) => (char === ' ' ? char : randomChar()))
-        .join('')
+function renderTokenLine(line, visibleChars, lineStart, totalChars, scrambleTick) {
+  let remaining = visibleChars;
+  let tokenStart = 0;
+
+  return line.map((token, ti) => {
+    const tokenText = token.t.slice(0, Math.max(0, Math.min(token.t.length, remaining)));
+    remaining -= token.t.length;
+    const renderedText = tokenText
+      .split('')
+      .map((char, charIdx) => {
+        const absoluteIndex = lineStart + tokenStart + charIdx;
+        if (char === ' ' || !shouldScrambleChar(absoluteIndex, lineStart + visibleChars, totalChars)) return char;
+        return getScrambleChar(absoluteIndex, scrambleTick);
+      })
+      .join('');
+
+    tokenStart += token.t.length;
+
+    return (
+      <span key={`${ti}-${token.t}`} className={`ctd-token ctd-token-${token.c}`}>
+        {renderedText}
+      </span>
     );
+  });
+}
 
-    const start = performance.now() + delay;
-
-    const tick = (now) => {
-      if (now < start) {
-        frameRef.current = window.requestAnimationFrame(tick);
-        return;
-      }
-
-      const progress = Math.min((now - start) / duration, 1);
-      const revealed = Math.floor(progress * text.length);
-
-      setDisplayText(
-        text
-          .split('')
-          .map((char, index) => {
-            if (char === ' ') return char;
-            return index < revealed || progress === 1 ? char : randomChar();
-          })
-          .join('')
-      );
-
-      if (progress < 1) {
-        frameRef.current = window.requestAnimationFrame(tick);
-      }
-    };
-
-    frameRef.current = window.requestAnimationFrame(tick);
-
-    return () => {
-      window.cancelAnimationFrame(frameRef.current);
-    };
-  }, [delay, duration, playKey, text]);
-
-  return <span className={className}>{displayText}</span>;
+function renderOutputText(text, visibleChars, lineStart, totalChars, scrambleTick) {
+  return text
+    .slice(0, visibleChars)
+    .split('')
+    .map((char, charIdx) => {
+      const absoluteIndex = lineStart + charIdx;
+      if (char === ' ' || !shouldScrambleChar(absoluteIndex, lineStart + visibleChars, totalChars)) return char;
+      return getScrambleChar(absoluteIndex, scrambleTick);
+    })
+    .join('');
 }
 
 /* ── Tab Content ─────────────────────────────────────────────────── */
@@ -171,14 +165,84 @@ const TAB_ICONS = [PythonIcon, NodeIcon, null, CLIIcon];
 export default function CodeTerminalDemo() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [animKey, setAnimKey] = useState(0);
+  const [codeVisibleChars, setCodeVisibleChars] = useState(0);
+  const [outputVisibleChars, setOutputVisibleChars] = useState(0);
+  const [scrambleTick, setScrambleTick] = useState(0);
 
   const handleTabClick = (idx) => {
-    if (idx === activeIdx) return;
+    if (idx === activeIdx) {
+      setAnimKey((k) => k + 1);
+      return;
+    }
+
     setActiveIdx(idx);
     setAnimKey((k) => k + 1);
   };
 
   const activeTab = TABS[activeIdx];
+  const codeCharCount = getCodeLength(activeTab.lines);
+  const outputCharCount = getOutputLength(OUTPUT_LINES);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      setCodeVisibleChars(codeCharCount);
+      setOutputVisibleChars(outputCharCount);
+      return undefined;
+    }
+
+    let codeIntervalId = null;
+    let outputIntervalId = null;
+    let outputTimeoutId = null;
+
+    setCodeVisibleChars(0);
+    setOutputVisibleChars(0);
+
+    const startTimeoutId = window.setTimeout(() => {
+      let nextCodeCount = 0;
+
+      codeIntervalId = window.setInterval(() => {
+        nextCodeCount += 1;
+        setCodeVisibleChars(nextCodeCount);
+
+        if (nextCodeCount >= codeCharCount) {
+          window.clearInterval(codeIntervalId);
+
+          outputTimeoutId = window.setTimeout(() => {
+            let nextOutputCount = 0;
+
+            outputIntervalId = window.setInterval(() => {
+              nextOutputCount += 1;
+              setOutputVisibleChars(nextOutputCount);
+
+              if (nextOutputCount >= outputCharCount) {
+                window.clearInterval(outputIntervalId);
+              }
+            }, TYPE_CHAR_SPEED);
+          }, OUTPUT_AFTER_CODE_DELAY);
+        }
+      }, TYPE_CHAR_SPEED);
+    }, TYPE_START_DELAY);
+
+    return () => {
+      window.clearTimeout(startTimeoutId);
+      if (outputTimeoutId) window.clearTimeout(outputTimeoutId);
+      if (codeIntervalId) window.clearInterval(codeIntervalId);
+      if (outputIntervalId) window.clearInterval(outputIntervalId);
+    };
+  }, [activeIdx, animKey, codeCharCount, outputCharCount]);
+
+  useEffect(() => {
+    if (codeVisibleChars >= codeCharCount && outputVisibleChars >= outputCharCount) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setScrambleTick((tick) => tick + 1);
+    }, 45);
+
+    return () => window.clearInterval(intervalId);
+  }, [codeCharCount, codeVisibleChars, outputCharCount, outputVisibleChars]);
 
   return (
     <div className="ctd-shell">
@@ -214,30 +278,30 @@ export default function CodeTerminalDemo() {
 
         {/* LEFT — Code panel */}
         <div className="ctd-code-panel">
-          {activeTab.lines.map((line, lineIdx) => (
-            <div
-              key={`${animKey}-${lineIdx}`}
-              className="ctd-line"
-            >
-              <span className="ctd-linenum">{lineIdx + 1}</span>
-              <span className="ctd-code">
-                {line.length === 0 ? (
-                  <span>&nbsp;</span>
-                ) : (
-                  line.map((token, ti) => (
-                    <ScrambleToken
-                      key={`${animKey}-${lineIdx}-${ti}-${token.t}`}
-                      className={`ctd-token ctd-token-${token.c}`}
-                      text={token.t}
-                      playKey={animKey}
-                      delay={SCRAMBLE_START_DELAY + lineIdx * SCRAMBLE_LINE_STAGGER + ti * SCRAMBLE_TOKEN_STAGGER}
-                      duration={680}
-                    />
-                  ))
-                )}
-              </span>
-            </div>
-          ))}
+          {(() => {
+            let consumedChars = 0;
+            let caretPlaced = false;
+
+            return activeTab.lines.map((line, lineIdx) => {
+              const lineStart = consumedChars;
+              const lineLength = getLineLength(line);
+              const visibleInLine = Math.max(0, Math.min(lineLength, codeVisibleChars - lineStart));
+              const showCaret = !caretPlaced && lineLength > 0 && codeVisibleChars >= lineStart && codeVisibleChars < lineStart + lineLength;
+
+              if (showCaret) caretPlaced = true;
+              consumedChars += lineLength;
+
+              return (
+                <div key={`${animKey}-${lineIdx}`} className="ctd-line">
+                  <span className="ctd-linenum">{lineIdx + 1}</span>
+                  <span className="ctd-code">
+                    {line.length === 0 ? <span>&nbsp;</span> : renderTokenLine(line, visibleInLine, lineStart, codeCharCount, scrambleTick)}
+                    {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
+                  </span>
+                </div>
+              );
+            });
+          })()}
         </div>
 
         {/* RIGHT — Markdown output panel */}
@@ -249,23 +313,27 @@ export default function CodeTerminalDemo() {
             <span className="ctd-output-label">Output</span>
           </div>
           <div className="ctd-output-body">
-            {OUTPUT_LINES.map((line, idx) => (
-              <div
-                key={`${animKey}-out-${idx}`}
-                className={`ctd-output-line ctd-out-${line.c}`}
-              >
-                {line.t ? (
-                  <ScrambleToken
-                    text={line.t}
-                    playKey={animKey}
-                    delay={SCRAMBLE_OUTPUT_DELAY + idx * 52}
-                    duration={720}
-                  />
-                ) : (
-                  <span>&nbsp;</span>
-                )}
-              </div>
-            ))}
+            {(() => {
+              let consumedChars = 0;
+              let caretPlaced = false;
+
+              return OUTPUT_LINES.map((line, idx) => {
+                const lineStart = consumedChars;
+                const lineLength = line.t.length;
+                const visibleInLine = Math.max(0, Math.min(lineLength, outputVisibleChars - lineStart));
+                const showCaret = !caretPlaced && outputVisibleChars > 0 && lineLength > 0 && outputVisibleChars >= lineStart && outputVisibleChars < lineStart + lineLength;
+
+                if (showCaret) caretPlaced = true;
+                consumedChars += lineLength;
+
+                return (
+                  <div key={`${animKey}-out-${idx}`} className={`ctd-output-line ctd-out-${line.c}`}>
+                    {line.t ? renderOutputText(line.t, visibleInLine, lineStart, outputCharCount, scrambleTick) : <span>&nbsp;</span>}
+                    {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
+                  </div>
+                );
+              });
+            })()}
           </div>
         </div>
 

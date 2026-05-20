@@ -53,8 +53,7 @@ export default function TypewriterText({ phrases }) {
 
   return (
     <span className="typewriter-container">
-      <span className="highlight-gradient">{displayedText}</span>
-      <span className="typewriter-caret" aria-hidden="true" />
+      <span className="highlight-gradient typewriter-text">{displayedText}</span>
     </span>
   );
 }
