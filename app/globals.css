@@ -1736,7 +1736,213 @@ main {
   }
 }
 
+/* ── Code Terminal Demo ── */
+.ctd-shell {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xl);
+  background: var(--panel-strong);
+  overflow: hidden;
+  box-shadow:
+    0 24px 72px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Window chrome bar */
+.ctd-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* macOS traffic lights */
+.ctd-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.ctd-dot-red    { background: #ff5f57; }
+.ctd-dot-yellow { background: #febc2e; }
+.ctd-dot-green  { background: #28c840; }
+
+/* Tabs */
+.ctd-tabs {
+  display: flex;
+  gap: 0.15rem;
+  margin-left: 0.6rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ctd-tabs::-webkit-scrollbar { display: none; }
+
+.ctd-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-manrope);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.28rem 0.7rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.ctd-tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ctd-tab.is-active {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--line-strong);
+}
+
+/* Two-panel layout */
+.ctd-panels {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 260px;
+}
+
+@media (min-width: 700px) {
+  .ctd-panels {
+    grid-template-columns: 55% 45%;
+  }
+}
+
+/* Left: Code panel */
+.ctd-code-panel {
+  padding: 1.1rem 0;
+  border-right: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* Single code line */
+.ctd-line {
+  display: flex;
+  align-items: baseline;
+  opacity: 0;
+  animation: ctdLineIn 0.38s ease forwards;
+  animation-fill-mode: backwards;
+}
+
+@keyframes ctdLineIn {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ctd-linenum {
+  font-family: var(--font-space-mono);
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.16);
+  width: 2.8rem;
+  text-align: right;
+  padding-right: 1.2rem;
+  flex-shrink: 0;
+  user-select: none;
+  line-height: 1.75;
+}
+
+.ctd-code {
+  font-family: var(--font-space-mono);
+  font-size: 0.73rem;
+  line-height: 1.75;
+  padding-right: 1rem;
+  white-space: pre;
+  overflow: hidden;
+}
+
+/* Token types */
+.ctd-token-normal  { color: var(--text); }
+.ctd-token-comment { color: rgba(255, 255, 255, 0.28); font-style: italic; }
+.ctd-token-accent  { color: var(--accent); }
+.ctd-token-string  { color: #6ee7b7; }
+
+/* Right: Output panel */
+.ctd-output-panel {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.012);
+  border-left: 1px solid var(--line);
+}
+
+.ctd-output-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.ctd-output-label {
+  font-family: var(--font-space-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-left: auto;
+}
+
+.ctd-output-body {
+  padding: 1.1rem 1.25rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.ctd-output-line {
+  opacity: 0;
+  animation: ctdLineIn 0.38s ease forwards;
+  animation-fill-mode: backwards;
+  font-family: var(--font-manrope);
+  font-size: 0.76rem;
+  line-height: 1.7;
+}
+
+/* Output token types */
+.ctd-out-h1 {
+  font-family: var(--font-bricolage);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ctd-out-h2 {
+  font-family: var(--font-bricolage);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 0.15rem;
+}
+
+.ctd-out-body { color: var(--muted); }
+
+.ctd-out-li {
+  color: var(--muted);
+  padding-left: 0.25rem;
+}
+
+.ctd-out-blank { min-height: 0.5rem; }
+
 /* ── Firecrawl Feature Cards (Integrations & Open Source) ── */
+
 .fc-features-section {
   padding-bottom: 0;
 }

@@ -2,6 +2,7 @@ import InteractiveCanvas from './components/InteractiveCanvas';
 import SitePreview from './components/SitePreview';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
+import CodeTerminalDemo from './components/CodeTerminalDemo';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -678,6 +679,17 @@ export default function Home() {
               </div>
             </article>
 
+          </div>
+        </section>
+
+        {/* ── Code Terminal Demo ── */}
+        <section className="section" id="integration">
+          <div className="section-heading reveal">
+            <p className="eyebrow">Quick Integration</p>
+            <h2>Ship with tools you already know.</h2>
+          </div>
+          <div className="reveal">
+            <CodeTerminalDemo />
           </div>
         </section>
 
