@@ -2,47 +2,59 @@
 
 import { useState, useEffect } from 'react';
 
+/**
+ * TypewriterText — phase-based state machine
+ * Phase cycle: 'pause' → 'erasing' → 'typing' → 'pause' → ...
+ */
 export default function TypewriterText({ phrases }) {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [displayedText, setDisplayedText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  // Start with first phrase already visible so SSR matches client
+  const [displayedText, setDisplayedText] = useState(phrases?.[0] ?? '');
+  // 'pause' | 'erasing' | 'typing'
+  const [phase, setPhase] = useState('pause');
 
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;
-    
-    const activeWord = phrases[currentIdx];
-    let timer;
 
-    if (isDeleting) {
-      // Erasing characters smoothly
-      timer = setTimeout(() => {
-        setDisplayedText(activeWord.slice(0, displayedText.length - 1));
-      }, 45);
-    } else {
-      // Typing characters letter by letter
-      timer = setTimeout(() => {
-        setDisplayedText(activeWord.slice(0, displayedText.length + 1));
-      }, 75);
+    const currentPhrase = phrases[phraseIdx];
+    let timeout;
+
+    if (phase === 'pause') {
+      // Hold the fully-typed phrase for 2.5 seconds, then start erasing
+      timeout = setTimeout(() => setPhase('erasing'), 2500);
+
+    } else if (phase === 'erasing') {
+      if (displayedText.length === 0) {
+        // Fully erased — advance to the next phrase and begin typing
+        const nextIdx = (phraseIdx + 1) % phrases.length;
+        setPhraseIdx(nextIdx);
+        setPhase('typing');
+      } else {
+        // Erase one character every 40 ms
+        timeout = setTimeout(() => {
+          setDisplayedText((prev) => prev.slice(0, -1));
+        }, 40);
+      }
+
+    } else if (phase === 'typing') {
+      if (displayedText.length >= currentPhrase.length) {
+        // Fully typed — go back to pause
+        setPhase('pause');
+      } else {
+        // Type one character every 70 ms
+        timeout = setTimeout(() => {
+          setDisplayedText(currentPhrase.slice(0, displayedText.length + 1));
+        }, 70);
+      }
     }
 
-    // When typing reaches the end of the phrase, pause
-    if (!isDeleting && displayedText === activeWord) {
-      timer = setTimeout(() => setIsDeleting(true), 2500);
-    }
-
-    // When erasing is complete, advance to next word
-    if (isDeleting && displayedText === '') {
-      setIsDeleting(false);
-      setCurrentIdx((prev) => (prev + 1) % phrases.length);
-    }
-
-    return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, currentIdx, phrases]);
+    return () => clearTimeout(timeout);
+  }, [displayedText, phase, phraseIdx, phrases]);
 
   return (
     <span className="typewriter-container">
       <span className="highlight-gradient">{displayedText}</span>
-      <span className="typewriter-caret" />
+      <span className="typewriter-caret" aria-hidden="true" />
     </span>
   );
 }

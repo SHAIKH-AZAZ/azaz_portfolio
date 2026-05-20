@@ -49,6 +49,7 @@ export default function InteractiveCanvas() {
         const heroStage = document.querySelector('.hero-stage');
         const regularReveal = revealElements.filter((el) => el !== heroCopy && el !== heroStage);
 
+        // Delay initial hide slightly to let React hydrate client components first
         gsap.set(revealElements, { autoAlpha: 0, y: 32 });
         gsap.set(titleWords, {
           autoAlpha: 0,
@@ -58,7 +59,8 @@ export default function InteractiveCanvas() {
           transformOrigin: 'left bottom',
         });
 
-        const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        // Small delay before hero reveal to ensure TypewriterText is hydrated
+        const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.15 });
         heroTimeline
           .to(heroCopy, {
             autoAlpha: 1,
