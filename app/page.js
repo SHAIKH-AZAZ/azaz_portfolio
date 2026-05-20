@@ -697,7 +697,7 @@ export default function Home() {
         {/* ── Services ── */}
 
         <section className="section" id="services">
-          <div className="section-heading section-heading-stable reveal">
+          <div className="section-heading section-heading-stable section-heading-services-stable reveal">
             <p className="eyebrow">Services</p>
             <h2>
               From core infrastructure to user-facing flows, I build technical solutions mapped to{' '}

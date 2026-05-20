@@ -770,6 +770,10 @@ main {
   min-height: calc(1.06em * 3);
 }
 
+.section-heading-services-stable h2 {
+  min-height: calc(1.06em * 5);
+}
+
 .contact-panel h2 {
   max-width: 14ch;
   font-family: var(--font-bricolage);
@@ -1683,6 +1687,10 @@ main {
 
   .section-heading-stable h2 {
     min-height: calc(1.06em * 4);
+  }
+
+  .section-heading-services-stable h2 {
+    min-height: calc(1.06em * 6);
   }
 
   .footer-top {
