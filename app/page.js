@@ -3,6 +3,7 @@ import SitePreview from './components/SitePreview';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
+import ScrambleText from './components/ScrambleText';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -169,15 +170,15 @@ export default function Home() {
             </div>
             <div className="hero-metrics">
               <article className="metric-card glass reveal">
-                <span className="metric-value" data-counter="1" data-suffix="+">0</span>
+                <ScrambleText className="metric-value" text="1+" />
                 <span className="metric-label">Year of full-stack engineering experience</span>
               </article>
               <article className="metric-card glass reveal">
-                <span className="metric-value" data-counter="15" data-suffix="+">0</span>
+                <ScrambleText className="metric-value" text="15+" delay={120} />
                 <span className="metric-label">Business operations optimized through code</span>
               </article>
               <article className="metric-card glass reveal">
-                <span className="metric-value" data-counter="98" data-suffix="%">0</span>
+                <ScrambleText className="metric-value" text="98%" delay={240} />
                 <span className="metric-label">Performance &amp; efficiency increase on core systems</span>
               </article>
             </div>
@@ -209,7 +210,7 @@ export default function Home() {
 
         {/* ── About ── */}
         <section className="section" id="about">
-          <div className="section-heading reveal">
+          <div className="section-heading section-heading-stable reveal">
             <p className="eyebrow">About</p>
             <h2>
               I engineer software solutions that{' '}
@@ -685,8 +686,8 @@ export default function Home() {
         {/* ── Code Terminal Demo ── */}
         <section className="section" id="integration">
           <div className="section-heading reveal">
-            <p className="eyebrow">Quick Integration</p>
-            <h2>Ship with tools you already know.</h2>
+            <p className="eyebrow">Portfolio Console</p>
+            <h2>Explore the systems I build.</h2>
           </div>
           <div className="reveal">
             <CodeTerminalDemo />
@@ -696,7 +697,7 @@ export default function Home() {
         {/* ── Services ── */}
 
         <section className="section" id="services">
-          <div className="section-heading reveal">
+          <div className="section-heading section-heading-stable reveal">
             <p className="eyebrow">Services</p>
             <h2>
               From core infrastructure to user-facing flows, I build technical solutions mapped to{' '}

@@ -1,104 +1,126 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789{}[]<>/_+-=#$%';
+const SCRAMBLE_START_DELAY = 260;
+const SCRAMBLE_LINE_STAGGER = 70;
+const SCRAMBLE_TOKEN_STAGGER = 18;
+const SCRAMBLE_OUTPUT_DELAY = 460;
+
+function ScrambleToken({ text, className, playKey, delay = 0, duration = 520 }) {
+  const [displayText, setDisplayText] = useState(text);
+  const frameRef = useRef(null);
+
+  useEffect(() => {
+    const randomChar = () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || !text.trim()) {
+      setDisplayText(text);
+      return undefined;
+    }
+
+    setDisplayText(
+      text
+        .split('')
+        .map((char) => (char === ' ' ? char : randomChar()))
+        .join('')
+    );
+
+    const start = performance.now() + delay;
+
+    const tick = (now) => {
+      if (now < start) {
+        frameRef.current = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      const progress = Math.min((now - start) / duration, 1);
+      const revealed = Math.floor(progress * text.length);
+
+      setDisplayText(
+        text
+          .split('')
+          .map((char, index) => {
+            if (char === ' ') return char;
+            return index < revealed || progress === 1 ? char : randomChar();
+          })
+          .join('')
+      );
+
+      if (progress < 1) {
+        frameRef.current = window.requestAnimationFrame(tick);
+      }
+    };
+
+    frameRef.current = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frameRef.current);
+    };
+  }, [delay, duration, playKey, text]);
+
+  return <span className={className}>{displayText}</span>;
+}
 
 /* ── Tab Content ─────────────────────────────────────────────────── */
 // Each line = array of tokens: { t: text, c: token class }
 // Empty array = blank line
 const TABS = [
   {
-    id: 'python',
-    label: 'Python',
+    id: 'profile',
+    label: 'Profile',
     lines: [
-      [{ t: '# Install (one-time)', c: 'comment' }],
-      [{ t: 'pip install ', c: 'normal' }, { t: 'firecrawl-py', c: 'accent' }],
-      [],
-      [{ t: '# Scrape with Python', c: 'comment' }],
-      [{ t: 'from firecrawl import ', c: 'normal' }, { t: 'FirecrawlApp', c: 'accent' }],
-      [
-        { t: 'app = ', c: 'normal' },
-        { t: 'FirecrawlApp', c: 'accent' },
-        { t: "(api_key='", c: 'normal' },
-        { t: 'fc-YOUR_API_KEY', c: 'accent' },
-        { t: "')", c: 'normal' },
-      ],
-      [],
-      [
-        { t: 'result = app.scrape_url("https://', c: 'normal' },
-        { t: 'azazshaikh.dev', c: 'accent' },
-        { t: '")', c: 'normal' },
-      ],
+      [{ t: '# Portfolio profile', c: 'comment' }],
+      [{ t: 'const developer = ', c: 'normal' }, { t: '{', c: 'normal' }],
+      [{ t: '  name: ', c: 'normal' }, { t: '"Azaz Shaikh"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  role: ', c: 'normal' }, { t: '"Full-Stack Engineer"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  focus: ', c: 'normal' }, { t: '"automation + scalable web apps"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  availableFor: ', c: 'normal' }, { t: '"freelance and remote work"', c: 'string' }],
+      [{ t: '}', c: 'normal' }],
     ],
   },
   {
-    id: 'node',
-    label: 'Node.js',
+    id: 'projects',
+    label: 'Projects',
     lines: [
-      [{ t: '# Install (one-time)', c: 'comment' }],
-      [{ t: 'npm install ', c: 'normal' }, { t: '@firecrawl/firecrawl-js', c: 'accent' }],
+      [{ t: '# Selected builds', c: 'comment' }],
+      [{ t: 'projects.map((project) => ', c: 'normal' }, { t: 'ship', c: 'accent' }, { t: '(project))', c: 'normal' }],
       [],
-      [{ t: '// Initialize client', c: 'comment' }],
-      [
-        { t: 'import ', c: 'normal' },
-        { t: 'FirecrawlApp', c: 'accent' },
-        { t: " from '@firecrawl/firecrawl-js'", c: 'normal' },
-      ],
-      [
-        { t: 'const app = new ', c: 'normal' },
-        { t: 'FirecrawlApp', c: 'accent' },
-        { t: "({ apiKey: '", c: 'normal' },
-        { t: 'fc-YOUR_API_KEY', c: 'accent' },
-        { t: "' })", c: 'normal' },
-      ],
-      [],
-      [
-        { t: "const data = await app.scrapeUrl('https://", c: 'normal' },
-        { t: 'azazshaikh.dev', c: 'accent' },
-        { t: "')", c: 'normal' },
-      ],
+      [{ t: '[', c: 'normal' }],
+      [{ t: '  ', c: 'normal' }, { t: '"POC Waste Optimizer"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  ', c: 'normal' }, { t: '"Excel Cleaner"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  ', c: 'normal' }, { t: '"FastShipment"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  ', c: 'normal' }, { t: '"LangChain RAG System"', c: 'string' }],
+      [{ t: ']', c: 'normal' }],
     ],
   },
   {
-    id: 'curl',
-    label: '{ } cURL',
+    id: 'stack',
+    label: '{ } Stack',
     lines: [
-      [{ t: '# Scrape via REST API', c: 'comment' }],
-      [{ t: 'curl -X POST https://api.firecrawl.dev/v1/scrape \\', c: 'normal' }],
-      [{ t: "  -H 'Content-Type: application/json' \\", c: 'normal' }],
-      [
-        { t: "  -H 'Authorization: Bearer ", c: 'normal' },
-        { t: 'fc-YOUR_API_KEY', c: 'accent' },
-        { t: "' \\", c: 'normal' },
-      ],
-      [
-        { t: '  -d \'{ "url": "https://', c: 'normal' },
-        { t: 'azazshaikh.dev', c: 'accent' },
-        { t: "\" }'", c: 'normal' },
-      ],
+      [{ t: '# Production toolkit', c: 'comment' }],
+      [{ t: 'frontend: ', c: 'normal' }, { t: 'React, Next.js, GSAP', c: 'accent' }],
+      [{ t: 'backend:  ', c: 'normal' }, { t: 'Node.js, Python, REST APIs', c: 'accent' }],
+      [{ t: 'data:     ', c: 'normal' }, { t: 'SQL, MongoDB, Pandas', c: 'accent' }],
+      [{ t: 'ai:       ', c: 'normal' }, { t: 'LangChain, LangGraph, RAG', c: 'accent' }],
+      [],
+      [{ t: 'optimize(', c: 'normal' }, { t: '"workflow"', c: 'string' }, { t: ') -> measurable impact', c: 'normal' }],
     ],
   },
   {
-    id: 'cli',
-    label: 'CLI',
+    id: 'contact',
+    label: 'Contact',
     lines: [
-      [{ t: '# Install and authenticate (one-time)', c: 'comment' }],
-      [{ t: 'npm install -g ', c: 'normal' }, { t: 'firecrawl-cli', c: 'accent' }],
-      [
-        { t: 'firecrawl login --api-key ', c: 'normal' },
-        { t: 'fc-YOUR_API_KEY', c: 'accent' },
-      ],
+      [{ t: '# Start a project', c: 'comment' }],
+      [{ t: 'const inquiry = ', c: 'normal' }, { t: 'await', c: 'accent' }, { t: ' contactAzaz({', c: 'normal' }],
+      [{ t: '  need: ', c: 'normal' }, { t: '"web app, automation, or AI system"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  priority: ', c: 'normal' }, { t: '"reliable, clean, scalable"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  timeline: ', c: 'normal' }, { t: '"ready to discuss"', c: 'string' }],
+      [{ t: '})', c: 'normal' }],
       [],
-      [{ t: '# Scrape a URL (markdown, use --only-main-content for clean output)', c: 'comment' }],
-      [
-        { t: 'firecrawl scrape https://', c: 'normal' },
-        { t: 'azazshaikh.dev', c: 'accent' },
-      ],
-      [
-        { t: 'firecrawl https://', c: 'normal' },
-        { t: 'azazshaikh.dev', c: 'accent' },
-        { t: ' --only-main-content', c: 'normal' },
-      ],
-      [],
+      [{ t: 'return ', c: 'normal' }, { t: '"project discovery call"', c: 'string' }],
     ],
   },
 ];
@@ -106,14 +128,14 @@ const TABS = [
 const OUTPUT_LINES = [
   { t: '# Azaz Shaikh', c: 'h1' },
   { t: '', c: 'blank' },
-  { t: 'Azaz builds scalable web systems,', c: 'body' },
-  { t: 'automates workflows, and deploys AI agents.', c: 'body' },
+  { t: 'Full-stack engineer for scalable web apps,', c: 'body' },
+  { t: 'business automation, and AI-enabled workflows.', c: 'body' },
   { t: '', c: 'blank' },
-  { t: '## Technical Stack', c: 'h2' },
+  { t: '## Portfolio Signals', c: 'h2' },
   { t: '', c: 'blank' },
-  { t: '- Python: LangChain, RAG, Pandas', c: 'li' },
-  { t: '- Backend: Node.js, Express, SQL', c: 'li' },
-  { t: '- Frontend: React, Next.js, GSAP', c: 'li' },
+  { t: '- Business systems built for real workflows', c: 'li' },
+  { t: '- Clean frontend motion and interaction design', c: 'li' },
+  { t: '- Backend logic, data pipelines, and AI agents', c: 'li' },
 ];
 
 /* ── Tab Icon SVGs ───────────────────────────────────────────────── */
@@ -147,7 +169,7 @@ const TAB_ICONS = [PythonIcon, NodeIcon, null, CLIIcon];
 
 /* ── Component ───────────────────────────────────────────────────── */
 export default function CodeTerminalDemo() {
-  const [activeIdx, setActiveIdx] = useState(3); // CLI by default
+  const [activeIdx, setActiveIdx] = useState(0);
   const [animKey, setAnimKey] = useState(0);
 
   const handleTabClick = (idx) => {
@@ -157,7 +179,6 @@ export default function CodeTerminalDemo() {
   };
 
   const activeTab = TABS[activeIdx];
-  const outputDelay = activeTab.lines.length * 0.16 + 0.1;
 
   return (
     <div className="ctd-shell">
@@ -197,7 +218,6 @@ export default function CodeTerminalDemo() {
             <div
               key={`${animKey}-${lineIdx}`}
               className="ctd-line"
-              style={{ animationDelay: `${lineIdx * 0.16}s` }}
             >
               <span className="ctd-linenum">{lineIdx + 1}</span>
               <span className="ctd-code">
@@ -205,9 +225,14 @@ export default function CodeTerminalDemo() {
                   <span>&nbsp;</span>
                 ) : (
                   line.map((token, ti) => (
-                    <span key={ti} className={`ctd-token ctd-token-${token.c}`}>
-                      {token.t}
-                    </span>
+                    <ScrambleToken
+                      key={`${animKey}-${lineIdx}-${ti}-${token.t}`}
+                      className={`ctd-token ctd-token-${token.c}`}
+                      text={token.t}
+                      playKey={animKey}
+                      delay={SCRAMBLE_START_DELAY + lineIdx * SCRAMBLE_LINE_STAGGER + ti * SCRAMBLE_TOKEN_STAGGER}
+                      duration={680}
+                    />
                   ))
                 )}
               </span>
@@ -228,9 +253,17 @@ export default function CodeTerminalDemo() {
               <div
                 key={`${animKey}-out-${idx}`}
                 className={`ctd-output-line ctd-out-${line.c}`}
-                style={{ animationDelay: `${outputDelay + idx * 0.1}s` }}
               >
-                {line.t || <span>&nbsp;</span>}
+                {line.t ? (
+                  <ScrambleToken
+                    text={line.t}
+                    playKey={animKey}
+                    delay={SCRAMBLE_OUTPUT_DELAY + idx * 52}
+                    duration={720}
+                  />
+                ) : (
+                  <span>&nbsp;</span>
+                )}
               </div>
             ))}
           </div>

@@ -3,85 +3,107 @@
 import { useState, useEffect, useRef } from 'react';
 
 const MODES = {
-  SCRAPE: {
-    id: 'SCRAPE',
+  PROFILE: {
+    id: 'PROFILE',
     url: 'https://azazshaikh.dev/about',
-    label: 'Scrape',
-    json: `{
-  "status": "success",
-  "url": "https://azazshaikh.dev/about",
-  "data": {
+    label: 'Profile',
+    json: `[
+  {
     "name": "Azaz Shaikh",
-    "role": "Full-Stack Engineer",
-    "focus": "Workflow Automation",
-    "systems": "High-Performance",
-    "experience": "5+ Years",
-    "speed_optimization": "98%"
+    "role": "Full-Stack Software Developer",
+    "focus": "fast, scalable web applications",
+    "location": "Remote / India",
+    "portfolio": "azazshaikh.dev"
   }
-}`,
-    visualLayout: 'scrape'
+]`,
+    visualLayout: 'profile'
   },
-  SEARCH: {
-    id: 'SEARCH',
-    url: 'https://google.com/search?q=best+automation+developer',
-    label: 'Search',
-    json: `{
-  "query": "best automation developer",
-  "results": [
-    {
-      "title": "Azaz Shaikh",
-      "url": "https://azazshaikh.dev",
-      "rank": 1,
-      "relevance": 0.99
-    },
-    {
-      "title": "Systems Integrations Specialist",
-      "url": "https://azazshaikh.dev/services",
-      "rank": 2
-    }
-  ]
-}`,
-    visualLayout: 'search'
+  STACK: {
+    id: 'STACK',
+    url: 'https://azazshaikh.dev/stack',
+    label: 'Stack',
+    json: `[
+  {
+    "frontend": ["React", "Next.js", "Tailwind CSS"],
+    "backend": ["Node.js", "Python", "REST APIs"],
+    "database": ["MongoDB", "SQL"],
+    "automation": ["AI agents", "data pipelines", "workflows"]
+  }
+]`,
+    visualLayout: 'stack'
   },
-  MAP: {
-    id: 'MAP',
-    url: 'https://azazshaikh.dev/sitemap.xml',
-    label: 'Map',
-    json: `{
-  "sitemap": "https://azazshaikh.dev",
-  "url_count": 6,
-  "urls": [
-    "/",
-    "/about",
-    "/experience",
-    "/work",
-    "/services",
-    "/contact"
-  ]
-}`,
-    visualLayout: 'map'
+  PROJECTS: {
+    id: 'PROJECTS',
+    url: 'https://azazshaikh.dev/work',
+    label: 'Work',
+    json: `[
+  {
+    "featured": "POC Waste Optimizer",
+    "type": "business automation platform",
+    "impact": "reduced manual planning and material waste",
+    "alsoBuilt": ["Excel Cleaner", "FastShipment", "AI RAG systems"]
+  }
+]`,
+    visualLayout: 'projects'
   },
-  CRAWL: {
-    id: 'CRAWL',
-    url: 'https://azazshaikh.dev/projects',
-    label: 'Crawl',
-    json: `{
-  "job_id": "crawl_77a9d",
-  "pages_crawled": 14,
-  "status": "completed",
-  "output_format": "markdown",
-  "time_elapsed_ms": 320,
-  "concurrency_limit": 10
-}`,
-    visualLayout: 'crawl'
+  CONTACT: {
+    id: 'CONTACT',
+    url: 'https://azazshaikh.dev/contact',
+    label: 'Hire',
+    json: `[
+  {
+    "availability": "open to freelance and remote roles",
+    "services": ["web apps", "automation tools", "AI integrations"],
+    "response": "project discovery call",
+    "cta": "Let's build a reliable software system"
+  }
+]`,
+    visualLayout: 'contact'
   }
 };
 
+const STATUS_WORDS = ['Thinking', 'Designing', 'Programming', 'Deploying'];
+
+function renderScrapeOutput(text) {
+  const tokenPattern = /("(?:\\.|[^"\\])*"(?=\s*:))|("(?:\\.|[^"\\])*")|(\b\d+(?:\.\d+)?\b)|([{}\[\],:])/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = tokenPattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    const className = match[1]
+      ? 'json-token-key'
+      : match[2]
+        ? 'json-token-string'
+        : match[3]
+          ? 'json-token-number'
+          : 'json-token-punctuation';
+
+    parts.push(
+      <span className={className} key={`${match.index}-${match[0]}`}>
+        {match[0]}
+      </span>
+    );
+    lastIndex = tokenPattern.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+}
+
 export default function HeroScraperAnimation() {
-  const [activeMode, setActiveMode] = useState('SCRAPE');
+  const [activeMode, setActiveMode] = useState('PROFILE');
   const [isScraping, setIsScraping] = useState(false);
   const [typedUrl, setTypedUrl] = useState('');
   const [typedJson, setTypedJson] = useState('');
+  const [typedStatus, setTypedStatus] = useState('');
   const [charColumns, setCharColumns] = useState([]);
   const timerRef = useRef(null);
 
@@ -89,7 +111,7 @@ export default function HeroScraperAnimation() {
 
   // Initialize and animate character matrix behind URL bar
   useEffect(() => {
-    const chars = '- -++-XXXX+ +XX++:XXX+ +++XXXXXX++ [ .JSON ] [ .MD ] [ SCRAPE ] 200_OK';
+    const chars = '- -++-XXXX+ +XX++:API+ +++REACT++ [ .JSON ] [ .UI ] [ PORTFOLIO ] 200_OK';
     const generateColumns = () => {
       return Array.from({ length: 6 }, (_, colIdx) => {
         const length = 12 + Math.floor(Math.random() * 8);
@@ -183,6 +205,50 @@ export default function HeroScraperAnimation() {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let timeoutId = null;
+
+    const tick = () => {
+      if (!active) return;
+
+      const word = STATUS_WORDS[wordIndex];
+      setTypedStatus(word.slice(0, charIndex));
+
+      if (!deleting && charIndex < word.length) {
+        charIndex++;
+        timeoutId = setTimeout(tick, 85);
+        return;
+      }
+
+      if (!deleting && charIndex === word.length) {
+        deleting = true;
+        timeoutId = setTimeout(tick, 900);
+        return;
+      }
+
+      if (deleting && charIndex > 0) {
+        charIndex--;
+        timeoutId = setTimeout(tick, 45);
+        return;
+      }
+
+      deleting = false;
+      wordIndex = (wordIndex + 1) % STATUS_WORDS.length;
+      timeoutId = setTimeout(tick, 220);
+    };
+
+    tick();
+
+    return () => {
+      active = false;
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
   const handleTabClick = (modeId) => {
     if (timerRef.current) clearInterval(timerRef.current);
     setActiveMode(modeId);
@@ -204,9 +270,9 @@ export default function HeroScraperAnimation() {
 
       {/* Floating Badges */}
       <div className="floating-badge badge-ok" aria-hidden="true">[ 200 OK ]</div>
-      <div className="floating-badge badge-scrape" aria-hidden="true">[ SCRAPE ]</div>
+      <div className="floating-badge badge-scrape" aria-hidden="true">[ PORTFOLIO ]</div>
       <div className="floating-badge badge-json" aria-hidden="true">[ .JSON ]</div>
-      <div className="floating-badge badge-md" aria-hidden="true">[ .MD ]</div>
+      <div className="floating-badge badge-md" aria-hidden="true">[ .JSX ]</div>
 
       {/* Background Matrix/Character columns */}
       <div className="character-matrix-bg" aria-hidden="true">
@@ -275,146 +341,20 @@ export default function HeroScraperAnimation() {
           </div>
         </div>
 
-        {/* Bottom panels: Visual Site layout vs JSON Structured Output */}
-        <div className="panels-grid">
-          
-          {/* LEFT: Website visual representation */}
-          <div className="panel-visual-site">
-            <div className="visual-header">
-              <span className="window-dot red" />
-              <span className="window-dot yellow" />
-              <span className="window-dot green" />
-              <span className="visual-title">Site Layout</span>
-            </div>
-            
-            <div className="visual-body">
-              {/* Scan Sweep overlay */}
-              <div className={`scan-sweep ${isScraping ? 'is-scanning' : ''}`} />
-
-              {/* Scrape Layout */}
-              {currentMode.visualLayout === 'scrape' && (
-                <div className="mock-site-elements">
-                  <div className="mock-block mock-navbar">
-                    <div className="circle-node" />
-                    <div className="nav-links-nodes">
-                      <div className="line-node w-12" />
-                      <div className="line-node w-8" />
-                    </div>
-                    <div className="btn-node" />
-                  </div>
-                  <div className="mock-block mock-hero">
-                    <div className="h1-node w-24" />
-                    <div className="h1-node w-36" />
-                    <div className="paragraph-node" />
-                    <div className="paragraph-node w-40" />
-                  </div>
-                  <div className="mock-grid">
-                    <div className="mock-card">
-                      <div className="card-image-node" />
-                      <div className="card-title-node" />
-                    </div>
-                    <div className="mock-card">
-                      <div className="card-image-node" />
-                      <div className="card-title-node" />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Search Layout */}
-              {currentMode.visualLayout === 'search' && (
-                <div className="mock-search-elements">
-                  <div className="search-bar-node">
-                    <div className="circle-node" />
-                    <div className="line-node w-28" />
-                  </div>
-                  <div className="search-result-node">
-                    <div className="result-header" />
-                    <div className="result-line w-40" />
-                    <div className="result-line w-24" />
-                  </div>
-                  <div className="search-result-node active">
-                    <div className="result-header accent" />
-                    <div className="result-line w-36" />
-                    <div className="result-line w-20" />
-                  </div>
-                  <div className="search-result-node">
-                    <div className="result-header" />
-                    <div className="result-line w-44" />
-                    <div className="result-line w-28" />
-                  </div>
-                </div>
-              )}
-
-              {/* Map Layout */}
-              {currentMode.visualLayout === 'map' && (
-                <div className="mock-map-elements">
-                  <div className="tree-root-node">
-                    <div className="node-box">/</div>
-                    <div className="tree-branches">
-                      <div className="branch-item">
-                        <div className="branch-line" />
-                        <div className="node-box accent">about</div>
-                      </div>
-                      <div className="branch-item">
-                        <div className="branch-line" />
-                        <div className="node-box">experience</div>
-                      </div>
-                      <div className="branch-item">
-                        <div className="branch-line" />
-                        <div className="node-box">work</div>
-                      </div>
-                      <div className="branch-item">
-                        <div className="branch-line" />
-                        <div className="node-box">services</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Crawl Layout */}
-              {currentMode.visualLayout === 'crawl' && (
-                <div className="mock-crawl-elements">
-                  <div className="crawl-cascade">
-                    <div className="crawl-row status-success">
-                      <span className="row-code">GET 200</span>
-                      <span className="row-url">/projects</span>
-                    </div>
-                    <div className="crawl-row status-success delay-1">
-                      <span className="row-code">GET 200</span>
-                      <span className="row-url">/projects/waste-optimizer</span>
-                    </div>
-                    <div className="crawl-row status-success delay-2">
-                      <span className="row-code">GET 200</span>
-                      <span className="row-url">/projects/excel-cleaner</span>
-                    </div>
-                    <div className="crawl-row status-running delay-3">
-                      <span className="row-code pulse-code">GET ...</span>
-                      <span className="row-url">/projects/gym-flow</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+        <div className="scrape-output-frame">
+          <div className={`scrape-output-sweep ${isScraping ? 'is-scanning' : ''}`} />
+          <pre className="scrape-output-code">
+            <code>{renderScrapeOutput(typedJson)}<span className="json-caret" /></code>
+          </pre>
+          <div className={`scraping-status-pill ${isScraping ? 'is-active' : ''}`}>
+            <span className="status-grid" aria-hidden="true">
+              <span /><span /><span /><span />
+            </span>
+            <span className="status-typewriter">
+              {typedStatus}
+              <span className="status-typewriter-caret" />
+            </span>
           </div>
-
-          {/* RIGHT: JSON Terminal Output */}
-          <div className="panel-visual-json">
-            <div className="json-header">
-              <span className="badge-json">[ Output .json ]</span>
-            </div>
-            
-            <div className="json-body">
-              <pre className="json-content">
-                <code>
-                  {typedJson}
-                  <span className="json-caret" />
-                </code>
-              </pre>
-            </div>
-          </div>
-
         </div>
 
       </div>
