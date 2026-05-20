@@ -1,5 +1,8 @@
 import InteractiveCanvas from './components/InteractiveCanvas';
 import SitePreview from './components/SitePreview';
+import HeroScraperAnimation from './components/HeroScraperAnimation';
+import TypewriterText from './components/TypewriterText';
+
 
 // Page-level metadata (supplements layout.js root metadata)
 export const metadata = {
@@ -147,7 +150,11 @@ export default function Home() {
             <p className="eyebrow">Web Developer / Frontend Motion / Interactive UI</p>
             <h1>
               <span className="title-line"><span className="title-word">Websites that</span></span>
-              <span className="title-line"><span className="title-word">feel alive</span></span>
+              <span className="title-line">
+                <span className="title-word">
+                  <TypewriterText phrases={['feel alive', 'are built to scale', 'automate operations', 'convert visitors']} />
+                </span>
+              </span>
               <span className="title-line"><span className="title-word">from the</span></span>
               <span className="title-line"><span className="title-word">first scroll.</span></span>
             </h1>
@@ -181,39 +188,7 @@ export default function Home() {
             <div className="orb orb-b" data-parallax="-0.1" />
             <div className="orb orb-c" data-parallax="0.08" />
 
-            <div className="device-shell" data-tilt>
-              <div className="window-chrome">
-                <span /><span /><span />
-              </div>
-              <div className="device-content">
-                <div className="preview-intro">
-                  <p className="mini-label">Live System</p>
-                  <h2>Enterprise Tools</h2>
-                </div>
-                <div className="analytics-strip">
-                  <div><span>Workflows</span><strong>Automated</strong></div>
-                  <div><span>Backend</span><strong>Scalable</strong></div>
-                  <div><span>Data</span><strong>Optimized</strong></div>
-                </div>
-                <div className="preview-columns">
-                  <article className="preview-panel preview-panel-large">
-                    <span>Workflow Automation</span>
-                    <strong>Replacing manual operations with intelligent logic</strong>
-                    <div className="panel-chart" />
-                  </article>
-                  <div className="preview-stack">
-                    <article className="preview-panel">
-                      <span>System Architecture</span>
-                      <strong>Tools designed to handle scale seamlessly</strong>
-                    </article>
-                    <article className="preview-panel preview-accent">
-                      <span>Business Focused</span>
-                      <strong>Performance-minded and revenue-driven</strong>
-                    </article>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <HeroScraperAnimation />
 
             <div className="floating-tag tag-a">Business Solutions</div>
             <div className="floating-tag tag-b">Optimization Logic</div>

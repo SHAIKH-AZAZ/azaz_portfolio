@@ -237,7 +237,7 @@ export default function InteractiveCanvas() {
       }, 100);
     }
 
-    // ── Particle canvas ──
+    // ── Glowing grid canvas ──
     const canvas = canvasRef.current;
     let animId = 0;
     let canvasObs = null;
@@ -246,24 +246,39 @@ export default function InteractiveCanvas() {
 
     if (canvas && !prefersReducedMotion) {
       const ctx = canvas.getContext('2d');
-      let width = 0, height = 0, particles = [], isCanvasVisible = true;
+      let width = 0, height = 0, isCanvasVisible = true;
+      let targetMouseX = -1000;
+      let targetMouseY = -1000;
+      let mouseX = -1000;
+      let mouseY = -1000;
+      let pulseAlpha = 0;
 
-      const createParticles = () => {
-        const count = Math.max(16, Math.min(48, Math.floor((width * height) / 32000)));
-        particles = Array.from({ length: count }, () => ({
-          x: Math.random() * width, y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28,
-          radius: 0.8 + Math.random() * 1.8,
-        }));
+      const onPointerMove = (e) => {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
       };
 
+      const onPointerLeave = () => {
+        targetMouseX = -1000;
+        targetMouseY = -1000;
+      };
+
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+      window.addEventListener('pointerleave', onPointerLeave, { passive: true });
+      cleanupFns.push(() => {
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerleave', onPointerLeave);
+      });
+
       resizeCanvas = () => {
-        width = window.innerWidth; height = window.innerHeight;
-        const dpr = Math.min(window.devicePixelRatio || 1, 1.4);
-        canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
-        canvas.style.width = `${width}px`; canvas.style.height = `${height}px`;
+        width = window.innerWidth;
+        height = window.innerHeight;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        createParticles();
       };
 
       const render = () => {
@@ -271,22 +286,114 @@ export default function InteractiveCanvas() {
           animId = requestAnimationFrame(render);
           return;
         }
+
         ctx.clearRect(0, 0, width, height);
-        particles.forEach((p, i) => {
-          p.x += p.vx; p.y += p.vy;
-          if (p.x < -10 || p.x > width + 10) p.vx *= -1;
-          if (p.y < -10 || p.y > height + 10) p.vy *= -1;
-          ctx.beginPath(); ctx.fillStyle = 'rgba(99,102,241,0.25)';
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill();
-          for (let j = i + 1; j < particles.length; j++) {
-            const o = particles[j];
-            const dist = Math.hypot(o.x - p.x, o.y - p.y);
-            if (dist > 110) continue;
-            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(o.x, o.y);
-            ctx.strokeStyle = `rgba(99,102,241,${(1 - dist / 110) * 0.07})`;
-            ctx.lineWidth = 0.7; ctx.stroke();
+
+        // Smoothly interpolate mouse coordinates for elegant inertia
+        if (targetMouseX > -1000) {
+          if (mouseX === -1000) {
+            mouseX = targetMouseX;
+            mouseY = targetMouseY;
+          } else {
+            mouseX += (targetMouseX - mouseX) * 0.08;
+            mouseY += (targetMouseY - mouseY) * 0.08;
           }
-        });
+        } else {
+          if (mouseX > -1000) {
+            mouseX += (-1000 - mouseX) * 0.08;
+            mouseY += (-1000 - mouseY) * 0.08;
+            if (mouseX < -950) {
+              mouseX = -1000;
+              mouseY = -1000;
+            }
+          }
+        }
+
+        pulseAlpha += 0.012;
+        const gridSpacing = 72;
+        const plusSize = 4;
+
+        // 1. Draw static background grid with subtle breathing effect
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.012 + Math.sin(pulseAlpha) * 0.003})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x < width; x += gridSpacing) {
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+        }
+        for (let y = 0; y < height; y += gridSpacing) {
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+        }
+        ctx.stroke();
+
+        // 2. Draw static plus intersection markers
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.04 + Math.sin(pulseAlpha) * 0.01})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x < width; x += gridSpacing) {
+          for (let y = 0; y < height; y += gridSpacing) {
+            ctx.moveTo(x - plusSize, y);
+            ctx.lineTo(x + plusSize, y);
+            ctx.moveTo(x, y - plusSize);
+            ctx.lineTo(x, y + plusSize);
+          }
+        }
+        ctx.stroke();
+
+        // 3. Render dynamic, glowing coordinate grid centered on mouse pointer position
+        if (mouseX > -1000) {
+          const glowRadius = 260;
+          const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, glowRadius);
+          // Firecrawl colors: Neon Heat Orange at center, Amethyst Purple transition, fading out
+          grad.addColorStop(0, 'rgba(250, 93, 25, 0.32)');
+          grad.addColorStop(0.35, 'rgba(160, 122, 255, 0.18)');
+          grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.25;
+          ctx.beginPath();
+
+          // Optimize performance by only stroking lines in bounding box around the cursor
+          const startX = Math.floor((mouseX - glowRadius) / gridSpacing) * gridSpacing;
+          const endX = Math.ceil((mouseX + glowRadius) / gridSpacing) * gridSpacing;
+          const startY = Math.floor((mouseY - glowRadius) / gridSpacing) * gridSpacing;
+          const endY = Math.ceil((mouseY + glowRadius) / gridSpacing) * gridSpacing;
+
+          for (let x = startX; x <= endX; x += gridSpacing) {
+            if (x >= 0 && x <= width) {
+              ctx.moveTo(x, Math.max(0, mouseY - glowRadius));
+              ctx.lineTo(x, Math.min(height, mouseY + glowRadius));
+            }
+          }
+          for (let y = startY; y <= endY; y += gridSpacing) {
+            if (y >= 0 && y <= height) {
+              ctx.moveTo(Math.max(0, mouseX - glowRadius), y);
+              ctx.lineTo(Math.min(width, mouseX + glowRadius), y);
+            }
+          }
+          ctx.stroke();
+
+          // Stroke glowing plus intersection markers near the mouse
+          ctx.beginPath();
+          for (let x = startX; x <= endX; x += gridSpacing) {
+            for (let y = startY; y <= endY; y += gridSpacing) {
+              if (x >= 0 && x <= width && y >= 0 && y <= height) {
+                const dx = x - mouseX;
+                const dy = y - mouseY;
+                const dist = Math.hypot(dx, dy);
+                if (dist < glowRadius) {
+                  ctx.moveTo(x - plusSize - 1, y);
+                  ctx.lineTo(x + plusSize + 1, y);
+                  ctx.moveTo(x, y - plusSize - 1);
+                  ctx.lineTo(x, y + plusSize + 1);
+                }
+              }
+            }
+          }
+          ctx.stroke();
+        }
+
         animId = requestAnimationFrame(render);
       };
 
@@ -295,7 +402,8 @@ export default function InteractiveCanvas() {
       }, { threshold: 0.01 });
       canvasObs.observe(canvas);
 
-      resizeCanvas(); render();
+      resizeCanvas();
+      render();
       window.addEventListener('resize', resizeCanvas, { passive: true });
       beforeUnload = () => {
         cancelAnimationFrame(animId);
