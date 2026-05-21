@@ -1,24 +1,15 @@
-import { Bricolage_Grotesque, Manrope, Space_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-bricolage",
+  variable: "--font-inter",
   display: "swap",
 });
 
-const manrope = Manrope({
+const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-manrope",
-  display: "swap",
-});
-
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -29,7 +20,8 @@ export const metadata = {
 
   // ── Primary ──────────────────────────────────────────────────────────────
   title: {
-    default: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+    default:
+      "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
     template: "%s | Azaz Shaikh",
   },
   description:
@@ -167,17 +159,29 @@ export default function RootLayout({ children }) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
-      { "@type": "ListItem", position: 2, name: "About", item: `${BASE_URL}/#about` },
-      { "@type": "ListItem", position: 3, name: "Work", item: `${BASE_URL}/#work` },
-      { "@type": "ListItem", position: 4, name: "Contact", item: `${BASE_URL}/#contact` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "About",
+        item: `${BASE_URL}/#about`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Work",
+        item: `${BASE_URL}/#work`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: "Contact",
+        item: `${BASE_URL}/#contact`,
+      },
     ],
   };
 
   return (
-    <html
-      lang="en"
-      className={`${bricolage.variable} ${manrope.variable} ${spaceMono.variable}`}
-    >
+    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`}>
       <head>
         {/* JSON-LD Structured Data */}
         <script
@@ -200,7 +204,11 @@ export default function RootLayout({ children }) {
         />
         {/* Preconnect hints for external resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
       <body>{children}</body>
     </html>

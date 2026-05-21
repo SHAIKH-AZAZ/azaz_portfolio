@@ -4,6 +4,8 @@ import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
+import ProjectShowcaseReveal from './components/ProjectShowcaseReveal';
+import ProjectCardPixelCanvas from './components/ProjectCardPixelCanvas';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -314,8 +316,10 @@ export default function Home() {
             <p className="eyebrow">Featured Work</p>
             <h2>Deployed applications and software solutions engineered to eliminate friction and drive business efficiency.</h2>
           </div>
+          <ProjectShowcaseReveal>
           <div className="project-grid">
             <article className="project-card reveal project-coral">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">01</span>
@@ -351,6 +355,7 @@ export default function Home() {
             </article>
 
             <article className="project-card reveal project-cyan">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">02</span>
@@ -387,6 +392,7 @@ export default function Home() {
             </article>
 
             <article className="project-card reveal project-lime">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">03</span>
@@ -418,6 +424,7 @@ export default function Home() {
             </article>
 
             <article className="project-card reveal project-indigo">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">04</span>
@@ -438,6 +445,7 @@ export default function Home() {
             </article>
 
             <article className="project-card reveal project-emerald">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">05</span>
@@ -460,6 +468,7 @@ export default function Home() {
             </article>
 
             <article className="project-card reveal project-amber">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">06</span>
@@ -486,6 +495,7 @@ export default function Home() {
             </article>
 
             <article className="project-card reveal project-violet">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">07</span>
@@ -514,6 +524,7 @@ export default function Home() {
             </article>
 
             <article className="project-card reveal project-rose">
+              <ProjectCardPixelCanvas />
               <div className="project-header">
                 <div>
                   <span className="project-number">08</span>
@@ -546,6 +557,7 @@ export default function Home() {
               </div>
             </article>
           </div>
+          </ProjectShowcaseReveal>
         </section>
 
         {/* ── Features: Integrations & Open Source ── */}

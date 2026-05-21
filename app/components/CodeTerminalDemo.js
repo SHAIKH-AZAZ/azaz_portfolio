@@ -20,7 +20,7 @@ function shouldScrambleChar(index, visibleChars, totalChars) {
   return visibleChars < totalChars && index >= visibleChars - SCRAMBLE_TRAIL && index < visibleChars;
 }
 
-function renderTokenLine(line, visibleChars, lineStart, totalChars, scrambleTick) {
+function renderTokenLine(line, visibleChars, lineStart, globalVisibleChars, totalChars, scrambleTick) {
   let remaining = visibleChars;
   let tokenStart = 0;
 
@@ -31,7 +31,7 @@ function renderTokenLine(line, visibleChars, lineStart, totalChars, scrambleTick
       .split('')
       .map((char, charIdx) => {
         const absoluteIndex = lineStart + tokenStart + charIdx;
-        if (char === ' ' || !shouldScrambleChar(absoluteIndex, lineStart + visibleChars, totalChars)) return char;
+        if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
         return getScrambleChar(absoluteIndex, scrambleTick);
       })
       .join('');
@@ -46,13 +46,13 @@ function renderTokenLine(line, visibleChars, lineStart, totalChars, scrambleTick
   });
 }
 
-function renderOutputText(text, visibleChars, lineStart, totalChars, scrambleTick) {
+function renderOutputText(text, visibleChars, lineStart, globalVisibleChars, totalChars, scrambleTick) {
   return text
     .slice(0, visibleChars)
     .split('')
     .map((char, charIdx) => {
       const absoluteIndex = lineStart + charIdx;
-      if (char === ' ' || !shouldScrambleChar(absoluteIndex, lineStart + visibleChars, totalChars)) return char;
+      if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
       return getScrambleChar(absoluteIndex, scrambleTick);
     })
     .join('');
@@ -295,7 +295,7 @@ export default function CodeTerminalDemo() {
                 <div key={`${animKey}-${lineIdx}`} className="ctd-line">
                   <span className="ctd-linenum">{lineIdx + 1}</span>
                   <span className="ctd-code">
-                    {line.length === 0 ? <span>&nbsp;</span> : renderTokenLine(line, visibleInLine, lineStart, codeCharCount, scrambleTick)}
+                    {line.length === 0 ? <span>&nbsp;</span> : renderTokenLine(line, visibleInLine, lineStart, codeVisibleChars, codeCharCount, scrambleTick)}
                     {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
                   </span>
                 </div>
@@ -328,7 +328,7 @@ export default function CodeTerminalDemo() {
 
                 return (
                   <div key={`${animKey}-out-${idx}`} className={`ctd-output-line ctd-out-${line.c}`}>
-                    {line.t ? renderOutputText(line.t, visibleInLine, lineStart, outputCharCount, scrambleTick) : <span>&nbsp;</span>}
+                    {line.t ? renderOutputText(line.t, visibleInLine, lineStart, outputVisibleChars, outputCharCount, scrambleTick) : <span>&nbsp;</span>}
                     {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
                   </div>
                 );
