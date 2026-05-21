@@ -1031,6 +1031,12 @@ main {
   background-repeat: no-repeat;
   pointer-events: none;
   z-index: 2;
+  opacity: 0.35;
+  transition: opacity 260ms ease;
+}
+
+.project-card:hover::after {
+  opacity: 1;
 }
 
 .project-pixel-canvas {
