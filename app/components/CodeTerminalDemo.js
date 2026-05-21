@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import TerminalPixelCanvas from './TerminalPixelCanvas';
 
 const TYPE_START_DELAY = 120;
 const TYPE_CHAR_SPEED = 12;
@@ -168,8 +169,16 @@ export default function CodeTerminalDemo() {
   const [codeVisibleChars, setCodeVisibleChars] = useState(0);
   const [outputVisibleChars, setOutputVisibleChars] = useState(0);
   const [scrambleTick, setScrambleTick] = useState(0);
+  const [showTabSwitchEffect, setShowTabSwitchEffect] = useState(false);
+  const [tabSwitchEffectKey, setTabSwitchEffectKey] = useState(0);
 
   const handleTabClick = (idx) => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+      setShowTabSwitchEffect(true);
+      setTabSwitchEffectKey((key) => key + 1);
+    }
+
     if (idx === activeIdx) {
       setAnimKey((k) => k + 1);
       return;
@@ -244,8 +253,32 @@ export default function CodeTerminalDemo() {
     return () => window.clearInterval(intervalId);
   }, [codeCharCount, codeVisibleChars, outputCharCount, outputVisibleChars]);
 
+  useEffect(() => {
+    if (!showTabSwitchEffect || tabSwitchEffectKey === 0) {
+      return undefined;
+    }
+
+    if (codeVisibleChars < codeCharCount || outputVisibleChars < outputCharCount) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setShowTabSwitchEffect(false);
+    }, 260);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [
+    codeCharCount,
+    codeVisibleChars,
+    outputCharCount,
+    outputVisibleChars,
+    showTabSwitchEffect,
+    tabSwitchEffectKey,
+  ]);
+
   return (
     <div className="ctd-shell">
+      <TerminalPixelCanvas active={showTabSwitchEffect} playKey={tabSwitchEffectKey} />
 
       {/* Window chrome + Tab bar */}
       <div className="ctd-chrome">
@@ -275,7 +308,6 @@ export default function CodeTerminalDemo() {
 
       {/* Two-panel layout */}
       <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel">
-
         {/* LEFT — Code panel */}
         <div className="ctd-code-panel">
           {(() => {
