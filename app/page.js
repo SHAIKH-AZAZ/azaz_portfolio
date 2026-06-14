@@ -16,6 +16,9 @@ export const metadata = {
   alternates: { canonical: "/" },
 };
 
+const BASE_URL = "https://azazshaikh.info";
+const authorRef = { "@type": "Person", "@id": `${BASE_URL}/#person`, name: "Azaz Shaikh" };
+
 // Projects ItemList schema for rich Google results
 const projectsSchema = {
   "@context": "https://schema.org",
@@ -32,9 +35,17 @@ const projectsSchema = {
         name: "POC Waste Optimizer",
         url: "https://poc-waste-proper.vercel.app/",
         applicationCategory: "BusinessApplication",
+        applicationSubCategory: "Industrial Optimization",
+        operatingSystem: "Web",
         description:
           "Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.",
-        author: { "@type": "Person", name: "Azaz Shaikh" },
+        featureList: [
+          "Bar-cutting stock algorithm",
+          "Material waste minimization",
+          "Project management interface",
+          "Real-time optimization reports",
+        ],
+        author: authorRef,
       },
     },
     {
@@ -45,9 +56,17 @@ const projectsSchema = {
         name: "Excel Cleaner Tool",
         url: "https://excel-cleaner.azazshaikh.info/",
         applicationCategory: "UtilitiesApplication",
+        applicationSubCategory: "Data Cleaning",
+        operatingSystem: "Web",
         description:
           "Web application that processes XLSX files, stripping hidden macros, objects, and messy formatting to output clean structured data.",
-        author: { "@type": "Person", name: "Azaz Shaikh" },
+        featureList: [
+          "XLSX file processing",
+          "Macro and object removal",
+          "Structured data output",
+          "Batch file support",
+        ],
+        author: authorRef,
       },
     },
     {
@@ -57,9 +76,17 @@ const projectsSchema = {
         "@type": "SoftwareApplication",
         name: "FastShipment",
         applicationCategory: "BusinessApplication",
+        applicationSubCategory: "Logistics & Shipping",
+        operatingSystem: "Web",
         description:
           "Comprehensive logistics platform with ordering, secure checkout, real-time shipment tracking, and partner management tools.",
-        author: { "@type": "Person", name: "Azaz Shaikh" },
+        featureList: [
+          "Order management",
+          "Secure checkout",
+          "Real-time shipment tracking",
+          "Partner management portal",
+        ],
+        author: authorRef,
       },
     },
     {
@@ -67,11 +94,19 @@ const projectsSchema = {
       position: 4,
       item: {
         "@type": "SoftwareApplication",
-        name: "Gym Flow Platform",
-        applicationCategory: "HealthApplication",
+        name: "Nova Control",
+        applicationCategory: "BusinessApplication",
+        applicationSubCategory: "Dashboard & Analytics",
+        operatingSystem: "Web",
         description:
-          "Comprehensive fitness tracking and gym management platform with customized workout routines and analytics.",
-        author: { "@type": "Person", name: "Azaz Shaikh" },
+          "Futuristic data visualization platform with modular component architecture and streamlined information hierarchy.",
+        featureList: [
+          "Modular dashboard components",
+          "Real-time data visualization",
+          "Scalable architecture",
+          "Analytics reporting",
+        ],
+        author: authorRef,
       },
     },
     {
@@ -79,11 +114,19 @@ const projectsSchema = {
       position: 5,
       item: {
         "@type": "SoftwareApplication",
-        name: "Python Data Pipeline",
-        applicationCategory: "DeveloperApplication",
+        name: "Gym Flow Platform",
+        applicationCategory: "HealthApplication",
+        applicationSubCategory: "Fitness Management",
+        operatingSystem: "Web",
         description:
-          "High-performance Python data pipeline for ETL workflows, automated reporting, and batch processing of large-scale structured datasets.",
-        author: { "@type": "Person", name: "Azaz Shaikh" },
+          "Comprehensive fitness tracking and gym management platform with customized workout routines and analytics.",
+        featureList: [
+          "Workout routine builder",
+          "Fitness progress tracking",
+          "Gym member management",
+          "Performance analytics",
+        ],
+        author: authorRef,
       },
     },
     {
@@ -91,11 +134,19 @@ const projectsSchema = {
       position: 6,
       item: {
         "@type": "SoftwareApplication",
-        name: "LangChain RAG System",
+        name: "Python Data Pipeline",
         applicationCategory: "DeveloperApplication",
+        applicationSubCategory: "ETL & Data Engineering",
+        operatingSystem: "Cross-platform",
         description:
-          "Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge bases.",
-        author: { "@type": "Person", name: "Azaz Shaikh" },
+          "High-performance Python data pipeline for ETL workflows, automated reporting, and batch processing of large-scale structured datasets.",
+        featureList: [
+          "ETL workflow automation",
+          "Automated reporting",
+          "Large-scale batch processing",
+          "Pandas-based data transformation",
+        ],
+        author: authorRef,
       },
     },
     {
@@ -103,11 +154,39 @@ const projectsSchema = {
       position: 7,
       item: {
         "@type": "SoftwareApplication",
+        name: "LangChain RAG System",
+        applicationCategory: "DeveloperApplication",
+        applicationSubCategory: "AI & Machine Learning",
+        operatingSystem: "Cross-platform",
+        description:
+          "Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge bases.",
+        featureList: [
+          "LangChain integration",
+          "Vector database retrieval",
+          "Custom knowledge base support",
+          "Context-aware AI responses",
+        ],
+        author: authorRef,
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 8,
+      item: {
+        "@type": "SoftwareApplication",
         name: "LangGraph AI Agent",
         applicationCategory: "DeveloperApplication",
+        applicationSubCategory: "AI Agents & Orchestration",
+        operatingSystem: "Cross-platform",
         description:
-          "Stateful multi-step AI agent orchestration built on LangGraph, capable of tool use, conditional branching, and autonomous task completion.",
-        author: { "@type": "Person", name: "Azaz Shaikh" },
+          "Stateful multi-step AI agent orchestration built on LangGraph, capable of tool use, conditional branching, memory, and autonomous task completion.",
+        featureList: [
+          "LangGraph orchestration",
+          "Stateful multi-step reasoning",
+          "Tool use and conditional branching",
+          "Autonomous task completion",
+        ],
+        author: authorRef,
       },
     },
   ],
@@ -771,7 +850,7 @@ export default function Home() {
             </h2>
             <p>I partner with forward-thinking teams to engineer robust, high-performance web systems.</p>
             <div className="contact-actions">
-              <a className="button button-primary" href="mailto:[EMAIL_ADDRESS]">Email Me</a>
+              <a className="button button-primary" href="mailto:azazshaikh2703@gmail.com">Email Me</a>
               <a
                 className="button button-secondary"
                 href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322"

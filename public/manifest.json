@@ -4,16 +4,18 @@
   "description": "Portfolio of Azaz Shaikh — full-stack software engineer building scalable web systems and business automation tools.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#050816",
-  "theme_color": "#4ed8ff",
+  "background_color": "#050505",
+  "theme_color": "#fa5d19",
+  "orientation": "portrait-primary",
+  "lang": "en-US",
+  "categories": ["developer", "portfolio", "technology"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
-  ],
-  "lang": "en",
-  "categories": ["developer", "portfolio", "technology"]
+  ]
 }
