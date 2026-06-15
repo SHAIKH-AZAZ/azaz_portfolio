@@ -4481,3 +4481,657 @@ main {
         display: none;
     }
 }
+
+/* ── WorkflowDiagram ─────────────────────────────────────────────── */
+
+/* Dash-flow animations */
+@keyframes wf-dash-flow {
+    from { stroke-dashoffset: 36; }
+    to   { stroke-dashoffset: 0;  }
+}
+@keyframes wf-dash-flow-v {
+    from { stroke-dashoffset: 36; }
+    to   { stroke-dashoffset: 0;  }
+}
+@keyframes wf-hub-pulse {
+    0%, 100% { opacity: 0.65; transform: scale(1);    }
+    50%       { opacity: 1;   transform: scale(1.05); }
+}
+@keyframes wf-node-in {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ── Rotating arc ── */
+@keyframes wf-arc-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg);   }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes wf-arc-spin-rev {
+    from { transform: translate(-50%, -50%) rotate(0deg);    }
+    to   { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+.wf-arc {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: wf-arc-spin var(--wf-arc-dur, 3s) linear infinite;
+}
+
+.wf-arc.wf-arc-reverse {
+    animation-name: wf-arc-spin-rev;
+}
+
+.wf-dash-anim {
+    animation: wf-dash-flow 1.1s linear infinite;
+}
+.wf-dash-anim-v {
+    animation: wf-dash-flow-v 1.1s linear infinite;
+}
+
+/* ── Shell ── */
+.wf-shell {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: rgba(8, 8, 10, 0.65);
+    backdrop-filter: blur(12px);
+    padding: 3rem 2rem 2.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.8rem;
+}
+
+/* Grid-paper background */
+.wf-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.042) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.042) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Header text block */
+.wf-header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 38rem;
+}
+
+.wf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: rgba(250, 93, 25, 0.06);
+    font-family: var(--font-space-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.wf-headline {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-bricolage);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    color: var(--text);
+}
+
+.wf-headline-accent {
+    background: linear-gradient(135deg, var(--accent) 20%, var(--accent-2) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.wf-subtext {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+/* ── Node row ── */
+.wf-nodes-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* ── Node cards ── */
+.wf-node-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1.6rem 1.3rem 1.3rem;
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+    min-width: 134px;
+    transition:
+        border-color 250ms ease,
+        box-shadow 250ms ease,
+        transform 250ms ease;
+    cursor: default;
+    opacity: 0;
+}
+
+.wf-is-visible .wf-node-card {
+    animation: wf-node-in 0.55s ease forwards;
+}
+
+.wf-is-visible .wf-nodes-row > .wf-node-card:first-child { animation-delay: 0.05s; }
+.wf-is-visible .wf-node-hub                              { animation-delay: 0.2s;  }
+.wf-is-visible .wf-nodes-row > .wf-node-card:last-child  { animation-delay: 0.35s; }
+
+.wf-node-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(250, 93, 25, 0.35);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ── Regular node icon wrap — stack arc + icon ── */
+.wf-node-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* size matches the arc SVG diameter (60px) */
+    width: 60px;
+    height: 60px;
+    color: var(--accent);
+}
+
+/* The actual icon sits on top of the arc */
+.wf-node-icon-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(250, 93, 25, 0.09);
+    border: 1px solid rgba(250, 93, 25, 0.2);
+}
+
+/* Node labels */
+.wf-node-label {
+    font-family: var(--font-space-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.05rem;
+}
+
+.wf-node-sublabel {
+    font-size: 0.78rem;
+    color: rgba(156, 163, 175, 0.6);
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 110px;
+}
+
+/* ── Hub (center) node ── */
+.wf-node-hub {
+    min-width: 160px;
+    padding: 1.5rem 1.4rem 1.3rem;
+    border-color: rgba(250, 93, 25, 0.35);
+    background: rgba(250, 93, 25, 0.04);
+    box-shadow:
+        0 0 0 1px rgba(250, 93, 25, 0.22),
+        0 0 44px rgba(250, 93, 25, 0.14),
+        var(--shadow);
+    position: relative;
+    /* overflow:visible lets arc SVGs bleed outside card bounds */
+    overflow: visible;
+}
+
+.wf-node-hub .wf-node-label {
+    color: var(--accent);
+}
+
+.wf-node-hub:hover {
+    border-color: rgba(250, 93, 25, 0.6);
+    box-shadow:
+        0 0 0 1px rgba(250, 93, 25, 0.4),
+        0 0 60px rgba(250, 93, 25, 0.22),
+        var(--shadow-hover);
+}
+
+/* Fixed-size container — arcs are absolute inside, so they don't
+   push the card taller than the side nodes */
+.wf-hub-arcs-wrap {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* AS initials gradient circle — sits above the arcs (z-index: 1) */
+.wf-hub-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 4px 18px rgba(250, 93, 25, 0.45);
+    animation: wf-hub-pulse 3.2s ease-in-out infinite;
+}
+
+.wf-hub-initials {
+    font-family: var(--font-bricolage);
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
+/* ── Sequential pipeline dot ── */
+.wf-dot-core {
+    filter:
+        drop-shadow(0 0 4px rgba(250, 93, 25, 1))
+        drop-shadow(0 0 9px rgba(250, 93, 25, 0.7));
+}
+
+.wf-dot-halo {
+    transition: r 0.3s ease;
+}
+
+/* ── Connector ── */
+.wf-connector {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wf-connector-svg {
+    width: 110px;
+    height: 28px;
+    display: block;
+    overflow: visible;
+}
+
+/* Vertical connector — hidden on desktop */
+.wf-connector-svg-v {
+    display: none;
+}
+
+/* Bottom glow */
+.wf-bottom-glow {
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 6rem;
+    background: radial-gradient(ellipse at center, rgba(250, 93, 25, 0.1), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .wf-shell {
+        padding: 2rem 1.25rem 2rem;
+        gap: 1.75rem;
+    }
+
+    .wf-nodes-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .wf-connector-svg {
+        display: none;
+    }
+
+    .wf-connector-svg-v {
+        display: block;
+        width: 28px;
+        height: 72px;
+        overflow: visible;
+    }
+
+    .wf-node-card {
+        min-width: unset;
+        width: 100%;
+        max-width: 260px;
+    }
+}
+
+
+
+.wf-dash-anim {
+    animation: wf-dash-flow 1.2s linear infinite;
+}
+.wf-dash-anim-v {
+    animation: wf-dash-flow-v 1.2s linear infinite;
+}
+
+/* Shell — wraps entire diagram block */
+.wf-shell {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: rgba(8, 8, 10, 0.65);
+    backdrop-filter: blur(12px);
+    padding: 3rem 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+/* Grid-paper background */
+.wf-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Header text block */
+.wf-header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 38rem;
+}
+
+.wf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: rgba(250, 93, 25, 0.06);
+    font-family: var(--font-space-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.wf-headline {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-bricolage);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    color: var(--text);
+}
+
+.wf-headline-accent {
+    background: linear-gradient(135deg, var(--accent) 20%, var(--accent-2) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.wf-subtext {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+/* Node row */
+.wf-nodes-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    max-width: 780px;
+}
+
+/* ── Node cards ── */
+.wf-node-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.5rem 1.2rem 1.2rem;
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+    min-width: 130px;
+    transition:
+        border-color 250ms ease,
+        box-shadow 250ms ease,
+        transform 250ms ease;
+    cursor: default;
+    opacity: 0;
+}
+
+.wf-is-visible .wf-node-card {
+    animation: wf-node-in 0.55s ease forwards;
+}
+
+.wf-is-visible .wf-nodes-row > .wf-node-card:first-child { animation-delay: 0.05s; }
+.wf-is-visible .wf-node-hub                              { animation-delay: 0.2s;  }
+.wf-is-visible .wf-nodes-row > .wf-node-card:last-child  { animation-delay: 0.35s; }
+
+.wf-node-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(250, 93, 25, 0.35);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Icon wrapper for regular nodes */
+.wf-node-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(250, 93, 25, 0.08);
+    border: 1px solid rgba(250, 93, 25, 0.18);
+    color: var(--accent);
+}
+
+/* Node labels */
+.wf-node-label {
+    font-family: var(--font-space-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.1rem;
+}
+
+.wf-node-sublabel {
+    font-size: 0.78rem;
+    color: rgba(156, 163, 175, 0.65);
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 110px;
+}
+
+/* ── Hub (center) node ── */
+.wf-node-hub {
+    min-width: 156px;
+    padding: 1.8rem 1.4rem 1.3rem;
+    border-color: rgba(250, 93, 25, 0.35);
+    background: rgba(250, 93, 25, 0.04);
+    box-shadow:
+        0 0 0 1px rgba(250, 93, 25, 0.25),
+        0 0 40px rgba(250, 93, 25, 0.14),
+        var(--shadow);
+    position: relative;
+    overflow: visible;
+}
+
+.wf-node-hub .wf-node-label {
+    color: var(--accent);
+}
+
+.wf-node-hub:hover {
+    border-color: rgba(250, 93, 25, 0.6);
+    box-shadow:
+        0 0 0 1px rgba(250, 93, 25, 0.4),
+        0 0 60px rgba(250, 93, 25, 0.22),
+        var(--shadow-hover);
+}
+
+/* Rotating ring behind hub icon */
+.wf-hub-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px dashed rgba(250, 93, 25, 0.25);
+    transform: translate(-50%, -68%);
+    animation: wf-ring-spin 14s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Hub icon circle with AS initials */
+.wf-hub-icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 4px 20px rgba(250, 93, 25, 0.35);
+    animation: wf-hub-pulse 3.5s ease-in-out infinite;
+}
+
+.wf-hub-initials {
+    font-family: var(--font-bricolage);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
+/* ── Connector ── */
+.wf-connector {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wf-connector-svg {
+    width: 100px;
+    height: 24px;
+    display: block;
+}
+
+/* Vertical connector — hidden on desktop */
+.wf-connector-svg-v {
+    display: none;
+}
+
+/* Bottom glow */
+.wf-bottom-glow {
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 6rem;
+    background: radial-gradient(ellipse at center, rgba(250, 93, 25, 0.1), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .wf-shell {
+        padding: 2rem 1.25rem 2rem;
+        gap: 1.75rem;
+    }
+
+    .wf-nodes-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .wf-connector-svg {
+        display: none;
+    }
+
+    .wf-connector-svg-v {
+        display: block;
+        width: 24px;
+        height: 60px;
+    }
+
+    .wf-node-card {
+        min-width: unset;
+        width: 100%;
+        max-width: 260px;
+    }
+}
+

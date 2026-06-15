@@ -6,6 +6,7 @@ import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
 import ProjectShowcaseReveal from './components/ProjectShowcaseReveal';
 import ProjectCardPixelCanvas from './components/ProjectCardPixelCanvas';
+import WorkflowDiagram from './components/WorkflowDiagram';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -771,6 +772,17 @@ export default function Home() {
               </div>
             </article>
 
+          </div>
+        </section>
+
+        {/* ── How It Works / Workflow Diagram ── */}
+        <section className="section" id="how-it-works">
+          <div className="section-heading reveal">
+            <p className="eyebrow">How It Works</p>
+            <h2>A clear pipeline from your idea to a live, running system.</h2>
+          </div>
+          <div className="reveal">
+            <WorkflowDiagram />
           </div>
         </section>
 
