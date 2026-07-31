@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import TerminalPixelCanvas from './TerminalPixelCanvas';
 
 const TYPE_START_DELAY = 120;
 const TYPE_CHAR_SPEED = 12;
@@ -68,54 +67,52 @@ const TABS = [
     label: 'Profile',
     lines: [
       [{ t: '# Portfolio profile', c: 'comment' }],
-      [{ t: 'const developer = ', c: 'normal' }, { t: '{', c: 'normal' }],
-      [{ t: '  name: ', c: 'normal' }, { t: '"Azaz Shaikh"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  role: ', c: 'normal' }, { t: '"Full-Stack Engineer"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  focus: ', c: 'normal' }, { t: '"automation + scalable web apps"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  availableFor: ', c: 'normal' }, { t: '"freelance and remote work"', c: 'string' }],
-      [{ t: '}', c: 'normal' }],
+      [{ t: 'const ', c: 'keyword' }, { t: 'developer', c: 'variable' }, { t: ' = ', c: 'operator' }, { t: '{', c: 'normal' }],
+      [{ t: '  name: ', c: 'property' }, { t: '"Azaz Shaikh"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  role: ', c: 'property' }, { t: '"Full-Stack Engineer"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  focus: ', c: 'property' }, { t: '"automation + scalable web apps"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  availableFor: ', c: 'property' }, { t: '"freelance and remote work"', c: 'string' }],
+      [{ t: '};', c: 'normal' }],
     ],
   },
   {
     id: 'projects',
     label: 'Projects',
     lines: [
-      [{ t: '# Selected builds', c: 'comment' }],
-      [{ t: 'projects.map((project) => ', c: 'normal' }, { t: 'ship', c: 'accent' }, { t: '(project))', c: 'normal' }],
+      [{ t: '# Selected production builds', c: 'comment' }],
+      [{ t: 'const ', c: 'keyword' }, { t: 'ship', c: 'function' }, { t: ' = ', c: 'operator' }, { t: 'async ', c: 'keyword' }, { t: '(build) => ', c: 'operator' }, { t: 'deploy', c: 'accent' }, { t: '(build);', c: 'normal' }],
       [],
-      [{ t: '[', c: 'normal' }],
-      [{ t: '  ', c: 'normal' }, { t: '"POC Waste Optimizer"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  ', c: 'normal' }, { t: '"Excel Cleaner"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  ', c: 'normal' }, { t: '"FastShipment"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  ', c: 'normal' }, { t: '"LangChain RAG System"', c: 'string' }],
-      [{ t: ']', c: 'normal' }],
+      [{ t: 'const ', c: 'keyword' }, { t: 'projects', c: 'variable' }, { t: ' = [', c: 'normal' }],
+      [{ t: '  ', c: 'normal' }, { t: '"POC Waste Optimizer"', c: 'string' }, { t: ',', c: 'normal' }, { t: ' // Cutting algorithm', c: 'comment' }],
+      [{ t: '  ', c: 'normal' }, { t: '"Excel Cleaner Tool"', c: 'string' }, { t: ',', c: 'normal' }, { t: ' // XLSX Data Stripper', c: 'comment' }],
+      [{ t: '  ', c: 'normal' }, { t: '"FastShipment"', c: 'string' }, { t: ',', c: 'normal' }, { t: ' // Logistics Platform', c: 'comment' }],
+      [{ t: '  ', c: 'normal' }, { t: '"LangChain AI Agent"', c: 'string' }, { t: ' // RAG Vector Workflow', c: 'comment' }],
+      [{ t: '];', c: 'normal' }],
     ],
   },
   {
     id: 'stack',
     label: '{ } Stack',
     lines: [
-      [{ t: '# Production toolkit', c: 'comment' }],
-      [{ t: 'frontend: ', c: 'normal' }, { t: 'React, Next.js, GSAP', c: 'accent' }],
-      [{ t: 'backend:  ', c: 'normal' }, { t: 'Node.js, Python, REST APIs', c: 'accent' }],
-      [{ t: 'data:     ', c: 'normal' }, { t: 'SQL, MongoDB, Pandas', c: 'accent' }],
-      [{ t: 'ai:       ', c: 'normal' }, { t: 'LangChain, LangGraph, RAG', c: 'accent' }],
-      [],
-      [{ t: 'optimize(', c: 'normal' }, { t: '"workflow"', c: 'string' }, { t: ') -> measurable impact', c: 'normal' }],
+      [{ t: '# Full-stack toolkit & AI tech', c: 'comment' }],
+      [{ t: 'const ', c: 'keyword' }, { t: 'stack', c: 'variable' }, { t: ' = {', c: 'normal' }],
+      [{ t: '  frontend: ', c: 'property' }, { t: '["React", "Next.js", "GSAP"]', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  backend: ', c: 'property' }, { t: '["Node.js", "Python", "REST APIs"]', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  data: ', c: 'property' }, { t: '["SQL", "MongoDB", "Pandas"]', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  ai: ', c: 'property' }, { t: '["LangChain", "LangGraph", "RAG"]', c: 'string' }],
+      [{ t: '};', c: 'normal' }],
     ],
   },
   {
     id: 'contact',
     label: 'Contact',
     lines: [
-      [{ t: '# Start a project', c: 'comment' }],
-      [{ t: 'const inquiry = ', c: 'normal' }, { t: 'await', c: 'accent' }, { t: ' contactAzaz({', c: 'normal' }],
-      [{ t: '  need: ', c: 'normal' }, { t: '"web app, automation, or AI system"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  priority: ', c: 'normal' }, { t: '"reliable, clean, scalable"', c: 'string' }, { t: ',', c: 'normal' }],
-      [{ t: '  timeline: ', c: 'normal' }, { t: '"ready to discuss"', c: 'string' }],
-      [{ t: '})', c: 'normal' }],
-      [],
-      [{ t: 'return ', c: 'normal' }, { t: '"project discovery call"', c: 'string' }],
+      [{ t: '# Initialize project discovery', c: 'comment' }],
+      [{ t: 'const ', c: 'keyword' }, { t: 'inquiry', c: 'variable' }, { t: ' = ', c: 'operator' }, { t: 'await ', c: 'keyword' }, { t: 'contactAzaz', c: 'function' }, { t: '({', c: 'normal' }],
+      [{ t: '  need: ', c: 'property' }, { t: '"web app, automation, or AI system"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  priority: ', c: 'property' }, { t: '"scalable & production-ready"', c: 'string' }, { t: ',', c: 'normal' }],
+      [{ t: '  timeline: ', c: 'property' }, { t: '"ready for discussion"', c: 'string' }],
+      [{ t: '});', c: 'normal' }],
     ],
   },
 ];
@@ -123,14 +120,14 @@ const TABS = [
 const OUTPUT_LINES = [
   { t: '# Azaz Shaikh', c: 'h1' },
   { t: '', c: 'blank' },
-  { t: 'Full-stack engineer for scalable web apps,', c: 'body' },
-  { t: 'business automation, and AI-enabled workflows.', c: 'body' },
+  { t: 'Full-stack engineer specializing in scalable web platforms,', c: 'body' },
+  { t: 'business automation tools, and autonomous AI systems.', c: 'body' },
   { t: '', c: 'blank' },
   { t: '## Portfolio Signals', c: 'h2' },
   { t: '', c: 'blank' },
-  { t: '- Business systems built for real workflows', c: 'li' },
-  { t: '- Clean frontend motion and interaction design', c: 'li' },
-  { t: '- Backend logic, data pipelines, and AI agents', c: 'li' },
+  { t: '✓ High-performance web applications built for real workflows', c: 'li' },
+  { t: '✓ Custom optimization algorithms (bar cutting, logistics)', c: 'li' },
+  { t: '✓ End-to-end data pipelines & LangGraph AI agents', c: 'li' },
 ];
 
 /* ── Tab Icon SVGs ───────────────────────────────────────────────── */
@@ -169,16 +166,8 @@ export default function CodeTerminalDemo() {
   const [codeVisibleChars, setCodeVisibleChars] = useState(0);
   const [outputVisibleChars, setOutputVisibleChars] = useState(0);
   const [scrambleTick, setScrambleTick] = useState(0);
-  const [showTabSwitchEffect, setShowTabSwitchEffect] = useState(false);
-  const [tabSwitchEffectKey, setTabSwitchEffectKey] = useState(0);
 
   const handleTabClick = (idx) => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduceMotion) {
-      setShowTabSwitchEffect(true);
-      setTabSwitchEffectKey((key) => key + 1);
-    }
-
     if (idx === activeIdx) {
       setAnimKey((k) => k + 1);
       return;
@@ -253,38 +242,15 @@ export default function CodeTerminalDemo() {
     return () => window.clearInterval(intervalId);
   }, [codeCharCount, codeVisibleChars, outputCharCount, outputVisibleChars]);
 
-  useEffect(() => {
-    if (!showTabSwitchEffect || tabSwitchEffectKey === 0) {
-      return undefined;
-    }
-
-    if (codeVisibleChars < codeCharCount || outputVisibleChars < outputCharCount) {
-      return undefined;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setShowTabSwitchEffect(false);
-    }, 260);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [
-    codeCharCount,
-    codeVisibleChars,
-    outputCharCount,
-    outputVisibleChars,
-    showTabSwitchEffect,
-    tabSwitchEffectKey,
-  ]);
-
   return (
     <div className="ctd-shell">
-      <TerminalPixelCanvas active={showTabSwitchEffect} playKey={tabSwitchEffectKey} />
-
       {/* Window chrome + Tab bar */}
       <div className="ctd-chrome">
-        <span className="ctd-dot ctd-dot-red" />
-        <span className="ctd-dot ctd-dot-yellow" />
-        <span className="ctd-dot ctd-dot-green" />
+        <div className="ctd-dots" aria-hidden="true">
+          <span className="ctd-dot ctd-dot-red" />
+          <span className="ctd-dot ctd-dot-yellow" />
+          <span className="ctd-dot ctd-dot-green" />
+        </div>
         <div className="ctd-tabs" role="tablist" aria-label="Language selector">
           {TABS.map((tab, idx) => {
             const Icon = TAB_ICONS[idx];
@@ -303,6 +269,10 @@ export default function CodeTerminalDemo() {
               </button>
             );
           })}
+        </div>
+        <div className="ctd-status-pill">
+          <span className="ctd-status-glow" />
+          <span>RUNNING</span>
         </div>
       </div>
 
@@ -339,10 +309,7 @@ export default function CodeTerminalDemo() {
         {/* RIGHT — Markdown output panel */}
         <div className="ctd-output-panel">
           <div className="ctd-output-chrome">
-            <span className="ctd-dot ctd-dot-red" />
-            <span className="ctd-dot ctd-dot-yellow" />
-            <span className="ctd-dot ctd-dot-green" />
-            <span className="ctd-output-label">Output</span>
+            <span className="ctd-output-badge">● TERMINAL OUTPUT</span>
           </div>
           <div className="ctd-output-body">
             {(() => {
