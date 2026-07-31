@@ -300,7 +300,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="about-grid">
-            <article className="about-card glass reveal">
+            <article className="about-card reveal project-coral">
               <p className="about-intro">
                 My work focuses on identifying real-world operational bottlenecks and engineering scalable software systems that solve them permanently.
               </p>
@@ -308,7 +308,7 @@ export default function Home() {
                 Combining deep data logic with resilient full-stack architectures, I build platforms that don&apos;t just look professional—they fundamentally improve how organizations run.
               </p>
             </article>
-            <article className="insight-card glass reveal">
+            <article className="insight-card reveal project-cyan">
               <div className="insight-item">
                 <span>01</span>
                 <div><h3>Operational Efficiency</h3><p>Building automated platforms that replace manual tasks and save hundreds of hours.</p></div>
@@ -323,7 +323,7 @@ export default function Home() {
               </div>
             </article>
           </div>
-          <div className="skill-panel glass reveal">
+          <div className="skill-panel reveal project-lime">
             <div className="skill-group">
               <h3 className="skill-group-title">Frontend</h3>
               <div className="skill-tags">
