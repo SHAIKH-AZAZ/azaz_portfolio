@@ -3001,431 +3001,555 @@ main {
     min-height: 0.4rem;
 }
 
-/* ── Firecrawl Feature Cards (Integrations & Open Source) ── */
+/* ── Business Impact Cards (automation run + measured outcomes) ── */
 
-.fc-features-section {
+.bi-section {
     padding-bottom: 0;
 }
 
-.fc-features-grid {
+.bi-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
 }
 
 @media (min-width: 900px) {
-    .fc-features-grid {
+    .bi-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-.fc-feature-card {
+.bi-card {
     position: relative;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--line-strong);
     border-radius: var(--radius-xl);
+    border: 1px solid var(--line-strong);
     background: var(--panel-strong);
+    box-shadow: var(--shadow);
     overflow: hidden;
     transition:
-        transform 350ms ease,
-        box-shadow 350ms ease,
-        border-color 350ms ease;
-    box-shadow:
-        0 8px 40px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    min-height: 420px;
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
 }
 
-.fc-feature-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(250, 93, 25, 0.25);
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(250, 93, 25, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-/* cURL top bar widget */
-.fc-curl-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin: 1.5rem 1.5rem 0;
-    padding: 0.55rem 0.8rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--line-strong);
-    border-radius: 10px;
-    font-family: var(--font-space-mono);
-    font-size: 0.78rem;
-}
-
-.fc-curl-icon {
-    color: var(--muted);
-    font-weight: 700;
-    letter-spacing: -0.05em;
-}
-
-.fc-curl-label {
-    color: var(--text);
-    font-weight: 700;
-    flex: none;
-}
-
-.fc-curl-progress-track {
-    flex: 1;
-    position: relative;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 99px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-}
-
-.fc-curl-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
-    border-radius: 99px;
-    box-shadow: 0 0 8px var(--accent);
-    animation: fcProgressPulse 3s ease-in-out infinite alternate;
-}
-
-@keyframes fcProgressPulse {
-    0% {
-        opacity: 0.75;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-.fc-curl-percent {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.6rem;
-    color: var(--muted);
-    background: var(--panel-strong);
-    padding: 0 0.3rem;
-}
-
-/* Integration network diagram */
-.fc-integration-net {
-    position: relative;
-    flex: 1;
-    margin: 1rem 1.5rem;
-    min-height: 180px;
-}
-
-.fc-net-svg {
+.bi-card::before {
+    content: "";
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    background:
+        radial-gradient(
+            120% 80% at 50% -10%,
+            rgba(250, 93, 25, 0.07),
+            transparent 60%
+        );
+    pointer-events: none;
 }
 
-.fc-net-node {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid var(--line-strong);
-    background: rgba(18, 18, 22, 0.9);
-    color: var(--muted);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    transition: transform 300ms ease;
+.bi-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(250, 93, 25, 0.25);
+    box-shadow: var(--shadow-hover);
 }
 
-.fc-feature-card:hover .fc-net-node {
-    transform: scale(1.05);
-}
-
-.fc-net-node-left {
-    width: 3rem;
-    height: 3rem;
-    top: 50%;
-    left: 8%;
-    transform: translateY(-50%);
-}
-
-.fc-net-node-center {
-    width: 4rem;
-    height: 4rem;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-color: rgba(250, 93, 25, 0.35);
-    box-shadow:
-        0 0 24px rgba(250, 93, 25, 0.2),
-        0 4px 16px rgba(0, 0, 0, 0.5);
-    z-index: 2;
-}
-
-.fc-net-node-tr {
-    width: 2.5rem;
-    height: 2.5rem;
-    top: 12%;
-    right: 10%;
-    border-color: rgba(250, 93, 25, 0.2);
-}
-
-.fc-net-node-br {
-    width: 2.5rem;
-    height: 2.5rem;
-    bottom: 10%;
-    right: 10%;
-    border-color: rgba(160, 122, 255, 0.2);
-}
-
-.fc-net-arrow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.75rem;
-    color: var(--muted);
-    opacity: 0.4;
-    margin-left: -5.5rem;
-    margin-top: 0.1rem;
-    animation: fcArrowPulse 2s ease-in-out infinite;
-}
-
-@keyframes fcArrowPulse {
-    0%,
-    100% {
-        opacity: 0.25;
-    }
-    50% {
-        opacity: 0.6;
-    }
-}
-
-/* GitHub Repo header */
-.fc-gh-header {
+/* ── Card top bar ── */
+.bi-card-bar {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.6rem;
-    padding: 1.2rem 1.4rem 0.8rem;
+    gap: 0.75rem;
+    padding: 0.85rem 1.25rem;
     border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.02);
 }
 
-.fc-gh-repo-info {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-}
-
-.fc-gh-logo {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #1d6bd6, #0e4fa1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: none;
-}
-
-.fc-gh-repo-name {
-    font-family: var(--font-manrope);
-    font-size: 0.8rem;
+.bi-mono-label {
+    font-family: var(--font-space-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
     color: var(--muted);
+    letter-spacing: -0.01em;
 }
 
-.fc-gh-repo-name strong {
+.bi-mono-fn {
     color: var(--text);
     font-weight: 700;
 }
 
-.fc-gh-public-pill {
+.bi-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     font-family: var(--font-space-mono);
     font-size: 0.62rem;
     font-weight: 700;
-    padding: 0.15rem 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    padding: 0.25rem 0.55rem;
     border-radius: 99px;
-    border: 1px solid rgba(160, 122, 255, 0.3);
+    border: 1px solid rgba(250, 93, 25, 0.25);
+    background: rgba(250, 93, 25, 0.08);
+    transition:
+        color 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+.bi-status.is-done {
     color: var(--accent-2);
-    letter-spacing: 0.04em;
+    border-color: rgba(160, 122, 255, 0.3);
+    background: rgba(160, 122, 255, 0.1);
 }
 
-.fc-gh-star-btn {
-    display: flex;
+.bi-status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 0 currentColor;
+    animation: biPulse 1.6s ease-out infinite;
+}
+
+.bi-status.is-done .bi-status-dot {
+    animation: none;
+}
+
+@keyframes biPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(250, 93, 25, 0.5);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(250, 93, 25, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(250, 93, 25, 0);
+    }
+}
+
+/* before/after legend */
+.bi-legend {
+    display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
     font-family: var(--font-space-mono);
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
     color: var(--muted);
-    padding: 0.3rem 0.65rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    cursor: default;
-    white-space: nowrap;
-    transition: border-color 200ms ease;
 }
 
-.fc-feature-card:hover .fc-gh-star-btn {
-    border-color: rgba(250, 93, 25, 0.3);
+.bi-legend-before,
+.bi-legend-after {
+    width: 9px;
+    height: 9px;
+    border-radius: 3px;
 }
 
-.fc-gh-star-count {
-    color: var(--text);
-    font-weight: 800;
-    padding-left: 0.2rem;
-    border-left: 1px solid var(--line-strong);
-    margin-left: 0.2rem;
+.bi-legend-before {
+    background: linear-gradient(
+        90deg,
+        rgba(160, 122, 255, 0.5),
+        rgba(160, 122, 255, 0.2)
+    );
 }
 
-/* PR list */
-.fc-pr-list {
+.bi-legend-after {
+    margin-left: 0.35rem;
+    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+
+/* ── Card body ── */
+.bi-card-body {
+    position: relative;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 0 1.4rem;
-    gap: 0;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.25rem 1.25rem;
 }
 
-.fc-pr-row {
+/* ── Pipeline stages ── */
+.bi-stages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.7rem;
+}
+
+.bi-stage {
     display: flex;
     align-items: flex-start;
     gap: 0.7rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--line);
-    transition: background 200ms ease;
+    opacity: 0.42;
+    transition: opacity 0.35s ease;
 }
 
-.fc-pr-row:last-child {
-    border-bottom: none;
+.bi-stage.is-active,
+.bi-stage.is-done {
+    opacity: 1;
 }
 
-.fc-pr-row-muted {
-    opacity: 0.5;
-}
-
-.fc-pr-icon {
+.bi-stage-dot {
     flex: none;
-    color: var(--accent);
-    margin-top: 1px;
-    opacity: 0.8;
-}
-
-.fc-pr-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    min-width: 0;
-}
-
-.fc-pr-title {
-    font-family: var(--font-manrope);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text);
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.fc-pr-meta {
-    font-family: var(--font-space-mono);
-    font-size: 0.65rem;
-    color: var(--muted);
-    margin: 0;
-}
-
-.fc-pr-author {
-    color: var(--accent-2);
-}
-
-/* Collaborator avatar stack */
-.fc-avatar-stack {
-    display: flex;
-    align-items: center;
-    padding: 0.8rem 1.4rem;
-}
-
-.fc-avatar {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-space-mono);
-    font-size: 0.58rem;
-    font-weight: 800;
-    border: 2px solid var(--bg-soft);
-    margin-left: -0.5rem;
-    flex: none;
-}
-
-.fc-avatar:first-child {
-    margin-left: 0;
-}
-
-.fc-av-1 {
-    background: #1d6bd6;
-    color: white;
-}
-.fc-av-2 {
-    background: var(--accent);
-    color: white;
-}
-.fc-av-3 {
-    background: var(--accent-2);
-    color: white;
-}
-
-.fc-avatar-more {
-    font-family: var(--font-space-mono);
-    font-size: 0.65rem;
-    font-weight: 700;
+    border: 1px solid var(--line-strong);
+    background: rgba(255, 255, 255, 0.03);
     color: var(--muted);
-    margin-left: 0.5rem;
+    transition:
+        color 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease,
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Card footer (label + title + desc) */
-.fc-card-footer {
+.bi-stage.is-active .bi-stage-dot {
+    color: var(--accent);
+    border-color: rgba(250, 93, 25, 0.4);
+    background: rgba(250, 93, 25, 0.1);
+    transform: scale(1.06);
+}
+
+.bi-stage.is-done .bi-stage-dot {
+    color: var(--accent-2);
+    border-color: rgba(160, 122, 255, 0.34);
+    background: rgba(160, 122, 255, 0.12);
+}
+
+.bi-stage-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.15rem;
+}
+
+.bi-stage-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+}
+
+.bi-stage-label {
+    font-family: var(--font-manrope);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+}
+
+.bi-stage-meta {
+    flex: none;
+    font-family: var(--font-space-mono);
+    font-size: 0.62rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.bi-stage-track {
+    position: relative;
+    display: block;
+    height: 3px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+}
+
+.bi-stage-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+
+.bi-stage.is-idle .bi-stage-fill {
+    width: 0;
+    transition: width 0.2s ease;
+}
+
+/* A keyframe animation — NOT a transition. Going is-done -> is-active leaves
+ * the computed width at 100%, so a width transition has no delta to animate
+ * and the bar snaps full. An animation re-runs every time the class is
+ * applied, and unlike a transition it also runs on first render. */
+.bi-stage.is-active .bi-stage-fill {
+    animation: biFill var(--bi-fill, 900ms) linear forwards;
+}
+
+@keyframes biFill {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.bi-stage.is-done .bi-stage-fill {
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(160, 122, 255, 0.5),
+        rgba(160, 122, 255, 0.22)
+    );
+    box-shadow: none;
+}
+
+/* leading-edge glow travels with the fill (crisp: width is animated, not scaled) */
+.bi-stage.is-active .bi-stage-fill {
+    box-shadow: 0 0 8px rgba(250, 93, 25, 0.6);
+}
+
+/* ── Run result chips ── */
+.bi-result {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bi-result.is-shown {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bi-result-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.32rem 0.62rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    font-family: var(--font-space-mono);
+    font-size: 0.66rem;
+}
+
+.bi-result-chip-accent {
+    border-color: rgba(250, 93, 25, 0.28);
+    background: rgba(250, 93, 25, 0.08);
+}
+
+.bi-result-key {
+    color: var(--muted);
+}
+
+.bi-result-val {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.bi-result-chip-accent .bi-result-val {
+    color: var(--accent-strong);
+}
+
+/* ── Outcome metrics ── */
+.bi-metrics {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.05rem;
+}
+
+.bi-metric-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.45rem;
+}
+
+.bi-metric-label {
+    font-family: var(--font-manrope);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* neutral output pill: purple = baseline, orange = live, neutral = result */
+.bi-metric-drop {
+    flex: none;
+    font-family: var(--font-space-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--text);
+    padding: 0.15rem 0.42rem;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.bi-metric-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.bi-metric-track {
+    position: relative;
+    flex: 1;
+    display: block;
+    height: 7px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+/* faint bar = the "before" extent, bright bar = the "after" */
+.bi-metric-ghost {
+    position: absolute;
+    inset: 0;
+    border-radius: 99px;
+    background: linear-gradient(
+        90deg,
+        rgba(160, 122, 255, 0.34),
+        rgba(160, 122, 255, 0.14)
+    );
+}
+
+.bi-metric-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+    box-shadow: 0 0 10px rgba(250, 93, 25, 0.4);
+    transition: width 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bi-metric-value {
+    flex: none;
+    min-width: 3.4rem;
+    text-align: right;
+    font-family: var(--font-space-mono);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+.bi-metric-unit {
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-left: 0.1rem;
+}
+
+.bi-metric-scope {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-space-mono);
+    font-size: 0.62rem;
+    color: var(--muted);
+}
+
+.bi-metrics-note {
+    margin: 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.74rem;
+    color: var(--muted);
+}
+
+/* ── Card footer ── */
+.bi-card-footer {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    padding: 1rem 1.4rem 1.5rem;
+    padding: 1.15rem 1.25rem 1.35rem;
     border-top: 1px solid var(--line);
-    margin-top: auto;
+    background: rgba(255, 255, 255, 0.015);
 }
 
-.fc-card-tag {
+.bi-card-tag {
     display: flex;
     align-items: center;
     gap: 0.4rem;
     font-family: var(--font-space-mono);
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.1em;
+    color: var(--accent);
     margin: 0;
 }
 
-.fc-card-title {
+.bi-card-title {
     font-family: var(--font-bricolage);
     font-size: 1.35rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--text);
     margin: 0.1rem 0 0;
     line-height: 1.25;
 }
 
-.fc-card-desc {
+.bi-card-desc {
     font-size: 0.88rem;
     color: var(--muted);
     line-height: 1.6;
     margin: 0;
+}
+
+@media (max-width: 480px) {
+    .bi-stage-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.15rem;
+    }
+
+    .bi-stage-meta {
+        white-space: normal;
+    }
+
+    .bi-card-bar,
+    .bi-card-body,
+    .bi-card-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bi-card,
+    .bi-stage,
+    .bi-stage-dot,
+    .bi-stage-fill,
+    .bi-metric-fill,
+    .bi-result {
+        transition: none;
+    }
+
+    .bi-status-dot {
+        animation: none;
+    }
+
+    .bi-stage.is-active .bi-stage-fill {
+        animation: none;
+        width: 100%;
+    }
 }
 
 /* ── Hero Scraper Animation Dashboard ── */
