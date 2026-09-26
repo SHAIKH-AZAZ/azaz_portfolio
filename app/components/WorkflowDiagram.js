@@ -31,7 +31,7 @@ function RotatingArc({ diameter = 68, dashFraction = 0.28, speed = '3s', reverse
         cy={diameter / 2}
         r={r}
         fill="none"
-        stroke="rgba(250,93,25,0.78)"
+        style={{ stroke: 'rgba(var(--accent-rgb), 0.78)' }}
         strokeWidth="2"
         strokeDasharray={`${dash} ${gap}`}
         strokeLinecap="round"
@@ -50,7 +50,7 @@ function StaticConnector() {
         <line x1="4" y1={cy} x2={W - 4} y2={cy} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
         <line
           x1="4" y1={cy} x2={W - 4} y2={cy}
-          stroke="rgba(250,93,25,0.25)"
+          style={{ stroke: 'rgba(var(--accent-rgb), 0.25)' }}
           strokeWidth="1.2"
           strokeDasharray="6 8"
           strokeLinecap="round"
@@ -59,13 +59,13 @@ function StaticConnector() {
         {/* forward arrow */}
         <polyline
           points={`${W-10},${cy-4} ${W-3},${cy} ${W-10},${cy+4}`}
-          stroke="rgba(250,93,25,0.45)" strokeWidth="1.4"
+          style={{ stroke: 'rgba(var(--accent-rgb), 0.45)' }} strokeWidth="1.4"
           strokeLinecap="round" strokeLinejoin="round"
         />
         {/* return arrow */}
         <polyline
           points={`10,${cy-4} 3,${cy} 10,${cy+4}`}
-          stroke="rgba(250,93,25,0.3)" strokeWidth="1.2"
+          style={{ stroke: 'rgba(var(--accent-rgb), 0.3)' }} strokeWidth="1.2"
           strokeLinecap="round" strokeLinejoin="round"
         />
       </svg>
@@ -74,12 +74,12 @@ function StaticConnector() {
         <line x1="14" y1="4" x2="14" y2="68" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
         <line
           x1="14" y1="4" x2="14" y2="68"
-          stroke="rgba(250,93,25,0.25)" strokeWidth="1.2"
+          style={{ stroke: 'rgba(var(--accent-rgb), 0.25)' }} strokeWidth="1.2"
           strokeDasharray="6 8" strokeLinecap="round"
           className="wf-dash-anim-v"
         />
-        <polyline points="9.5,60 14,68 18.5,60" stroke="rgba(250,93,25,0.45)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        <polyline points="9.5,12 14,4 18.5,12"  stroke="rgba(250,93,25,0.3)"  strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+        <polyline points="9.5,60 14,68 18.5,60" style={{ stroke: 'rgba(var(--accent-rgb), 0.45)' }} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        <polyline points="9.5,12 14,4 18.5,12"  style={{ stroke: 'rgba(var(--accent-rgb), 0.3)' }}  strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   );
@@ -275,11 +275,11 @@ export default function WorkflowDiagram() {
             }}
           >
             {/* Outer soft halo */}
-            <circle cx={dot.x} cy={dot.y} r={dot.paused ? 18 : 11} fill="rgba(250,93,25,0.1)" className="wf-dot-halo" />
+            <circle cx={dot.x} cy={dot.y} r={dot.paused ? 18 : 11} style={{ fill: 'rgba(var(--accent-rgb), 0.1)' }} className="wf-dot-halo" />
             {/* Mid glow */}
-            <circle cx={dot.x} cy={dot.y} r={dot.paused ? 10 : 6.5} fill="rgba(250,93,25,0.25)" />
+            <circle cx={dot.x} cy={dot.y} r={dot.paused ? 10 : 6.5} style={{ fill: 'rgba(var(--accent-rgb), 0.25)' }} />
             {/* Core */}
-            <circle cx={dot.x} cy={dot.y} r="4.2" fill="#fa5d19" className="wf-dot-core" />
+            <circle cx={dot.x} cy={dot.y} r="4.2" style={{ fill: 'var(--accent)' }} className="wf-dot-core" />
           </svg>
         )}
 

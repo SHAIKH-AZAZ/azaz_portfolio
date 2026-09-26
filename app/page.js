@@ -58,6 +58,14 @@ const featuredWork = [
     stack: ['Next.js', 'Regex', 'Data processing'],
   },
   {
+    name: 'ShamGym',
+    kind: 'Gym website, live',
+    url: 'https://shamgym.vercel.app/',
+    image: '/work/shamgym.webp',
+    text: 'Website for a strength and conditioning gym, with classes, trainers, membership plans, a blog and free-trial booking.',
+    stack: ['Next.js', 'Responsive UI'],
+  },
+  {
     name: 'FastShipment',
     kind: 'Logistics platform',
     image: '/work/fastshipment.webp',
@@ -262,14 +270,12 @@ export default function Home() {
       />
       <script
         dangerouslySetInnerHTML={{
-          __html: "try{sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
+          __html: "try{var p=new URLSearchParams(location.search).get('palette');if(p)document.documentElement.dataset.palette=p;sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
         }}
       />
       <IntroOverlay />
       <InteractiveCanvas />
       <div className="noise" aria-hidden="true" />
-      <div className="page-blur blur-a" aria-hidden="true" />
-      <div className="page-blur blur-b" aria-hidden="true" />
 
       <div className="scroll-progress-container" aria-hidden="true">
         <div className="scroll-progress-track" />
@@ -294,52 +300,42 @@ export default function Home() {
         {/* ── Hero ── */}
         <section className="section hero">
           <div className="hero-copy reveal">
-            <p className="eyebrow">Web Developer / Frontend Motion / Interactive UI</p>
+            <p className="hero-status">
+              <span className="hero-status-dot" aria-hidden="true" />
+              Open to freelance and remote roles
+            </p>
             <h1>
-              <span className="title-line"><span className="title-word">Websites that</span></span>
-              <span className="title-line">
-                <span className="title-word">
-                  <TypewriterText phrases={['feel alive', 'are built to scale', 'automate operations', 'convert visitors']} />
-                </span>
-              </span>
-              <span className="title-line"><span className="title-word">from the</span></span>
-              <span className="title-line"><span className="title-word">first scroll.</span></span>
+              <span className="title-line"><span className="title-word">I turn manual</span></span>
+              <span className="title-line"><span className="title-word">operations into</span></span>
+              <span className="title-line"><span className="title-word">software that</span></span>
+              <span className="title-line"><span className="title-word">runs itself.</span></span>
             </h1>
             <p className="lead">
-              I&apos;m Azaz Shaikh, a web developer crafting immersive digital experiences with
-              clean structure, strong visual systems, and motion that actually adds value.
+              I&apos;m Azaz Shaikh, a full-stack engineer. I build web apps and automation tools that
+              replace spreadsheets and copy-paste, from steel cutting plans to live shipment tracking.
             </p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#work">View Projects</a>
-              <a className="button button-secondary" href="#contact">Start a Project</a>
+              <a className="button button-primary" href="#work">View projects</a>
+              <a className="button button-secondary" href="#contact">Start a project</a>
             </div>
             <div className="hero-metrics">
-              <article className="metric-card glass reveal">
+              <article className="metric-card reveal">
                 <ScrambleText className="metric-value" text="1+" />
                 <span className="metric-label">Year of full-stack engineering experience</span>
               </article>
-              <article className="metric-card glass reveal">
+              <article className="metric-card reveal">
                 <ScrambleText className="metric-value" text="15+" delay={120} />
                 <span className="metric-label">Business operations optimized through code</span>
               </article>
-              <article className="metric-card glass reveal">
+              <article className="metric-card reveal">
                 <ScrambleText className="metric-value" text="98%" delay={240} />
                 <span className="metric-label">Performance &amp; efficiency increase on core systems</span>
               </article>
             </div>
           </div>
 
-          <div className="hero-stage reveal" aria-hidden="true">
-            <div className="halo" />
-            <div className="orb orb-a" data-parallax="0.16" />
-            <div className="orb orb-b" data-parallax="-0.1" />
-            <div className="orb orb-c" data-parallax="0.08" />
-
+          <div className="hero-stage reveal">
             <HeroScraperAnimation />
-
-            <div className="floating-tag tag-a">Business Solutions</div>
-            <div className="floating-tag tag-b">Optimization Logic</div>
-            <div className="floating-tag tag-c">Scalable Systems</div>
           </div>
         </section>
 
@@ -370,10 +366,10 @@ export default function Home() {
               Combining deep data logic with resilient full-stack architectures, I build platforms that don&apos;t just look professional—they fundamentally improve how organizations run.
             </p>
           </div>
-          <div className="about-card reveal project-coral">
+          <div className="about-card reveal">
             <AboutFlow />
           </div>
-          <div className="skill-panel reveal project-lime">
+          <div className="skill-panel reveal">
             <dl className="skill-list">
               {skills.map(({ group, tools, practices }) => (
                 <div className="skill-row" key={group}>

@@ -2,12 +2,11 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 
-const TERMINAL_PIXEL_COLORS = [
-  'rgba(250, 93, 25, 0.92)',
-  'rgba(110, 231, 183, 0.7)',
-  'rgba(14, 165, 233, 0.42)',
-  'rgba(255, 255, 255, 0.26)',
-];
+// Accent comes from the CSS palette tokens; the rest are neutral
+const terminalPixelColors = () => {
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb').trim();
+  return [`rgba(${accent}, 0.92)`, 'rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.26)'];
+};
 
 function createPixel(ctx, canvas, x, y, color, baseSpeed, delay) {
   const rand = (min, max) => Math.random() * (max - min) + min;
@@ -99,10 +98,11 @@ export default function TerminalPixelCanvas({ active, playKey, gap = 6, speed = 
 
     const effectiveSpeed = reducedMotionRef.current ? 0 : Math.min(speed, 100) * 0.001;
     const pixels = [];
+    const colors = terminalPixelColors();
 
     for (let x = 0; x < w; x += gap) {
       for (let y = 0; y < h; y += gap) {
-        const color = TERMINAL_PIXEL_COLORS[Math.floor(Math.random() * TERMINAL_PIXEL_COLORS.length)];
+        const color = colors[Math.floor(Math.random() * colors.length)];
         const dx = x - w / 2;
         const dy = y - h / 2;
         const delay = reducedMotionRef.current ? 0 : Math.sqrt(dx * dx + dy * dy);
