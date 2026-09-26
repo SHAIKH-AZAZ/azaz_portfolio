@@ -1,6 +1,6 @@
 // Smaller builds without a live link or screenshot: one row each, with a category icon
 // and a stack that reuses the skill logos where one exists.
-const BUILDS = [
+export const BUILDS = [
   { name: 'Nova Control', kind: 'Dashboard system', icon: 'dashboard', text: 'Data visualization dashboard with a modular component architecture.', stack: ['Architecture', 'Analytics'] },
   { name: 'Gym Flow Platform', kind: 'Web app', icon: 'app', text: 'Fitness tracking and gym management with custom routines and analytics.', stack: ['Next.js', 'Analytics'] },
   { name: 'Python Data Pipeline', kind: 'Python backend', icon: 'pipeline', text: 'ETL pipeline for automated ingestion, transformation and batch reporting.', stack: ['Python', 'Pandas', 'ETL'] },

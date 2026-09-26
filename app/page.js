@@ -4,7 +4,8 @@ import TypewriterText from './components/TypewriterText';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
 import DeliveryPipeline from './components/DeliveryPipeline';
-import OtherBuilds from './components/OtherBuilds';
+import OtherBuilds, { BUILDS } from './components/OtherBuilds';
+import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
@@ -361,6 +362,18 @@ export default function Home() {
                 <span key={i}>{s}</span>
               ))}
           </div>
+        </section>
+
+        {/* ── Stack orbit: tools and live work around the numbers ── */}
+        <section className="section orbit-section" aria-label="Stack and results">
+          <StackOrbit
+            stats={[
+              { value: featuredWork.length + BUILDS.length, label: 'Projects built' },
+              { value: skills.reduce((n, g) => n + g.tools.length, 0), label: 'Tools in the stack' },
+              { value: featuredWork.filter((w) => w.url).length, label: 'Apps live' },
+            ]}
+            headline={<>The stack behind every<br /> system I ship</>}
+          />
         </section>
 
         {/* ── About ── */}
