@@ -22,6 +22,7 @@
     --accent-ink-strong: #084a8c;
     --accent-ink-rgb: 11, 92, 173;
     --ink-rgb: 16, 42, 67;
+    --sheet: #ffffff;
     --ok: #0f7b53;
     --ok-rgb: 15, 123, 83;
     --grid-alpha: 0.08;
@@ -60,6 +61,7 @@
     --accent-ink-strong: #b3dbff;
     --accent-ink-rgb: 140, 200, 255;
     --ink-rgb: 255, 255, 255;
+    --sheet: #133e6a;
     --ok: #34d399;
     --ok-rgb: 52, 211, 153;
     --grid-alpha: 0.06;
@@ -2483,56 +2485,71 @@ main {
     width: 100%;
 }
 
+/* pill tabs: a single indicator slides under the active tab (positions set in JS) */
 .tabs-wrapper {
+    position: relative;
+    isolation: isolate;
     display: flex;
-    gap: 0.3rem;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 0.2rem;
     flex-wrap: wrap;
+    gap: 0.15rem;
+    padding: 0.2rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg);
+}
+
+.tab-indicator {
+    position: absolute;
+    top: var(--active-tab-top, 0);
+    left: 0;
+    z-index: -1;
+    width: var(--active-tab-width, 0);
+    height: var(--active-tab-height, 0);
+    transform: translateX(var(--active-tab-left, 0));
+    border-radius: 7px;
+    background: rgba(var(--accent-ink-rgb), 0.14);
+    box-shadow: inset 0 0 0 1px rgba(var(--accent-ink-rgb), 0.28);
+}
+
+.tabs-wrapper[data-ready] .tab-indicator {
+    transition:
+        width 200ms ease-in-out,
+        transform 200ms ease-in-out,
+        top 200ms ease-in-out;
 }
 
 .tab-btn {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border: 0;
+    border-radius: 7px;
     background: transparent;
-    border: 1px solid transparent;
     font-family: var(--font-space-mono);
     font-size: 0.74rem;
     font-weight: 700;
     color: var(--muted);
-    padding: 0.35rem 0.6rem;
-    border-radius: 6px;
     cursor: pointer;
-    transition: all 180ms ease;
-}
-
-.tab-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.4;
-    transition: all 180ms ease;
+    transition: color 200ms ease;
 }
 
 .tab-btn:hover {
     color: var(--text);
-    background: rgba(var(--ink-rgb), 0.03);
 }
 
 .tab-btn.is-active {
     color: var(--accent-ink-strong);
-    background: rgba(var(--accent-rgb), 0.08);
-    border: 1px solid rgba(var(--accent-ink-rgb), 0.2);
 }
 
-.tab-btn.is-active .tab-dot {
-    background: var(--accent-ink);
-    opacity: 1;
-    box-shadow: none;
+.tab-btn:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tabs-wrapper[data-ready] .tab-indicator {
+        transition: none;
+    }
 }
 
 /* Scrape Action Run Circle Button */
@@ -3180,16 +3197,50 @@ a.work-shot[href]:hover {
     --dp-node: 2.6rem;
     --dp-gap: 2rem;
     --dp-cycle: 4.8s; /* 3 beams x 1.2s, then a 1.2s rest on the live node */
+    position: relative;
+    isolation: isolate;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--dp-gap);
     margin: 2.5rem 0 0;
-    padding: 0;
+    padding: 3rem 3.25rem;
     list-style: none;
+}
+
+/* white sheet behind the pipeline. Two linear masks unioned: each keeps its middle band
+   opaque, so the edges stay crisp and only the four corners, where both fade, dissolve
+   into the page. The mask sits on this layer only, so the steps never fade. */
+.dp::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-xl);
+    background: var(--sheet);
+    -webkit-mask-image:
+        linear-gradient(90deg, transparent, #000 5.5rem, #000 calc(100% - 5.5rem), transparent),
+        linear-gradient(180deg, transparent, #000 4.5rem, #000 calc(100% - 4.5rem), transparent);
+    mask-image:
+        linear-gradient(90deg, transparent, #000 5.5rem, #000 calc(100% - 5.5rem), transparent),
+        linear-gradient(180deg, transparent, #000 4.5rem, #000 calc(100% - 4.5rem), transparent);
 }
 
 .dp-step {
     position: relative;
+}
+
+@media (min-width: 901px) {
+    .dp {
+        row-gap: 0; /* rows are node / title / text / output; spacing comes from margins */
+    }
+
+    .dp-step {
+        display: grid;
+        grid-row: span 4;
+        grid-template-rows: subgrid;
+        align-content: start;
+    }
 }
 
 .dp-node {
@@ -3200,7 +3251,7 @@ a.work-shot[href]:hover {
     margin-bottom: 1.1rem;
     border-radius: 50%;
     border: 1.5px solid var(--accent-ink);
-    background: var(--bg);
+    background: var(--sheet);
     color: var(--accent-ink);
     font-weight: 700;
     /* each node pulses as the beam reaches it (--i = its position) */
@@ -3339,6 +3390,7 @@ a.work-shot[href]:hover {
     .dp {
         --dp-gap: 1.75rem;
         grid-template-columns: 1fr;
+        padding: 2rem 1.25rem;
     }
 
     .dp-step {
@@ -3394,6 +3446,351 @@ a.work-shot[href]:hover {
     }
 
     .dp-node {
+        animation: none;
+    }
+}
+
+/* ── Stack orbit: tools and live work on two arcs around the numbers ── */
+.orbit-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+}
+
+.orbit-frame {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.orbit-stage {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform-origin: top center;
+}
+
+.orbit-arcs {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+}
+
+.orbit-arc {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+}
+
+.orbit-arc-outer {
+    stroke: var(--line-strong);
+    stroke-width: 2;
+}
+
+.orbit-arc-inner {
+    stroke: rgba(var(--ink-rgb), 0.3);
+    stroke-width: 3;
+}
+
+.orbit.is-visible .orbit-arc {
+    animation: orbitDraw 1.4s ease-out forwards;
+}
+
+.orbit.is-visible .orbit-arc-inner {
+    animation-delay: 0.1s;
+}
+
+@keyframes orbitDraw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* each chip pops in on its own delay, then floats on its own rhythm */
+.orbit-item {
+    position: absolute;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+}
+
+.orbit.is-visible .orbit-item {
+    animation: orbitPop 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(0.5s + var(--i) * 0.07s);
+}
+
+@keyframes orbitPop {
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.orbit-float {
+    animation: orbitFloat var(--float-dur) ease-in-out var(--float-delay) infinite;
+    transition: scale 200ms ease;
+}
+
+.orbit-float:hover {
+    scale: 1.06;
+}
+
+@keyframes orbitFloat {
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+.orbit-logo {
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: #f6f8fa;
+    box-shadow: 0 2px 8px rgba(var(--shadow-rgb), calc(0.3 * var(--shadow-k)));
+}
+
+.orbit-logo img {
+    width: 1.85rem;
+    height: 1.85rem;
+    object-fit: contain;
+}
+
+.orbit-pill,
+.orbit-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+    padding: 0 0.75rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(var(--shadow-rgb), calc(0.25 * var(--shadow-k)));
+}
+
+.orbit-pill {
+    border: 1px solid var(--line-strong);
+    background: var(--sheet);
+    color: var(--text-soft);
+}
+
+.orbit-pill img {
+    width: 1rem;
+    height: 1rem;
+}
+
+.orbit-live-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 3px rgba(var(--ok-rgb), 0.18);
+}
+
+.orbit-status {
+    border: 1px solid rgba(var(--ok-rgb), 0.4);
+    background: color-mix(in srgb, var(--ok) 14%, var(--sheet));
+    color: var(--ok);
+    font-weight: 600;
+}
+
+.orbit-check {
+    display: grid;
+    place-items: center;
+    width: 3.1rem;
+    height: 3.1rem;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--ok-rgb), 0.4);
+    background: color-mix(in srgb, var(--ok) 16%, var(--sheet));
+    color: var(--ok);
+}
+
+.orbit-monogram {
+    display: grid;
+    place-items: center;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 50%;
+    border: 4px solid var(--sheet);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    box-shadow: 0 0 0 1px var(--line-strong), 0 6px 18px rgba(var(--shadow-rgb), calc(0.35 * var(--shadow-k)));
+}
+
+.orbit-stats {
+    position: absolute;
+    top: 393px;
+    left: 50%;
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    gap: 1.75rem;
+    margin: 0;
+    transform: translateX(-50%);
+}
+
+.orbit-stat {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 0.9rem;
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+}
+
+.orbit-stat dd {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+}
+
+.orbit-stat dt {
+    white-space: nowrap;
+    /* undo the stage scale so labels stay readable on phones */
+    font-size: calc(0.9rem / var(--orbit-scale, 1));
+    color: var(--muted);
+}
+
+.orbit-headline {
+    max-width: 38rem;
+    margin: 0.5rem auto 0;
+    text-align: center;
+    font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+}
+
+.orbit-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: 48rem;
+    margin: 2.2rem auto 0;
+}
+
+.orbit-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 2.6rem;
+    padding: 0 1rem 0 0.35rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    background: var(--sheet);
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+    transition:
+        border-color 200ms ease,
+        box-shadow 200ms ease,
+        translate 200ms ease;
+}
+
+.orbit-tag:hover {
+    translate: 0 -2px;
+    border-color: rgba(var(--accent-ink-rgb), 0.45);
+    box-shadow: 0 6px 16px -6px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
+}
+
+.orbit-tag:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+}
+
+.orbit-tag-icon {
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 7px;
+    background: rgba(var(--accent-ink-rgb), 0.1);
+    color: var(--accent-ink);
+    transition: background-color 200ms ease, color 200ms ease;
+}
+
+.orbit-tag:hover .orbit-tag-icon {
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+.orbit-tag-icon svg {
+    width: 0.95rem;
+    height: 0.95rem;
+}
+
+/* stats, headline and tags fade up after the chips */
+.orbit.is-visible .orbit-stat,
+.orbit.is-visible .orbit-headline,
+.orbit.is-visible .orbit-tag {
+    animation: orbitReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.orbit.is-visible .orbit-stat {
+    animation-delay: calc(0.9s + var(--i) * 0.12s);
+}
+
+.orbit.is-visible .orbit-headline {
+    animation-delay: 1.3s;
+}
+
+.orbit.is-visible .orbit-tag {
+    animation-delay: calc(1.6s + var(--i) * 0.08s);
+}
+
+@keyframes orbitReveal {
+    to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orbit-arc {
+        stroke-dashoffset: 0;
+    }
+
+    .orbit-item {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    .orbit-stat,
+    .orbit-headline,
+    .orbit-tag {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+
+    .orbit.is-visible .orbit-arc,
+    .orbit.is-visible .orbit-item,
+    .orbit.is-visible .orbit-stat,
+    .orbit.is-visible .orbit-headline,
+    .orbit.is-visible .orbit-tag,
+    .orbit-float {
         animation: none;
     }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 const MODES = {
   PROFILE: {
@@ -105,6 +105,8 @@ export default function HeroScraperAnimation() {
   const [typedJson, setTypedJson] = useState('');
   const [typedStatus, setTypedStatus] = useState('');
   const timerRef = useRef(null);
+  const listRef = useRef(null);
+  const tabRefs = useRef({});
 
   const currentMode = MODES[activeMode];
 
@@ -228,6 +230,46 @@ export default function HeroScraperAnimation() {
     };
   }, []);
 
+  // Sliding pill: place the indicator under the active tab (and keep it there on resize).
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return undefined;
+    const place = () => {
+      const el = tabRefs.current[activeMode];
+      if (!el) return;
+      list.style.setProperty('--active-tab-left', `${el.offsetLeft}px`);
+      list.style.setProperty('--active-tab-top', `${el.offsetTop}px`);
+      list.style.setProperty('--active-tab-width', `${el.offsetWidth}px`);
+      list.style.setProperty('--active-tab-height', `${el.offsetHeight}px`);
+    };
+    place();
+    // slide only after the first placement, so the pill doesn't grow in from 0 on load
+    const raf = requestAnimationFrame(() => list.setAttribute('data-ready', ''));
+    const ro = new ResizeObserver(place);
+    ro.observe(list);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [activeMode]);
+
+  const modeKeys = Object.keys(MODES);
+
+  // arrow keys / Home / End move between tabs, like a native tablist
+  const handleTabKeyDown = (event) => {
+    const i = modeKeys.indexOf(activeMode);
+    const next = {
+      ArrowRight: (i + 1) % modeKeys.length,
+      ArrowLeft: (i - 1 + modeKeys.length) % modeKeys.length,
+      Home: 0,
+      End: modeKeys.length - 1,
+    }[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    handleTabClick(modeKeys[next]);
+    tabRefs.current[modeKeys[next]]?.focus();
+  };
+
   const handleTabClick = (modeId) => {
     if (timerRef.current) clearInterval(timerRef.current);
     setActiveMode(modeId);
@@ -256,14 +298,27 @@ export default function HeroScraperAnimation() {
           </div>
 
           <div className="scraper-controls">
-            <div className="tabs-wrapper">
+            <div
+              ref={listRef}
+              className="tabs-wrapper"
+              role="tablist"
+              aria-label="About Azaz"
+              onKeyDown={handleTabKeyDown}
+            >
+              <span className="tab-indicator" aria-hidden="true" />
               {Object.values(MODES).map((mode) => (
                 <button
                   key={mode.id}
+                  ref={(el) => { tabRefs.current[mode.id] = el; }}
+                  id={`hero-tab-${mode.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeMode === mode.id}
+                  aria-controls="hero-tabpanel"
+                  tabIndex={activeMode === mode.id ? 0 : -1}
                   className={`tab-btn ${activeMode === mode.id ? 'is-active' : ''}`}
                   onClick={() => handleTabClick(mode.id)}
                 >
-                  <span className="tab-dot" />
                   {mode.label}
                 </button>
               ))}
@@ -284,7 +339,12 @@ export default function HeroScraperAnimation() {
           </div>
         </div>
 
-        <div className="scrape-output-frame">
+        <div
+          className="scrape-output-frame"
+          id="hero-tabpanel"
+          role="tabpanel"
+          aria-labelledby={`hero-tab-${activeMode}`}
+        >
           <div className={`scrape-output-sweep ${isScraping ? 'is-scanning' : ''}`} />
           <pre className="scrape-output-code">
             <code>{renderScrapeOutput(typedJson)}<span className="json-caret" /></code>
