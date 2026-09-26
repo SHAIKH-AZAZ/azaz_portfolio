@@ -1,32 +1,32 @@
-/* Two themes from one drawing: Blueprint (dark) is blue paper with white linework; Vellum
-   (light) is blue-grey tracing paper with navy ink. The yellow marker is the call to action
-   in both. --accent fills (buttons, dots); --accent-ink draws (text, lines, bars).
-   Every color on the site derives from these tokens; the canvases read them at runtime. */
+/* Two themes from one drawing: Vellum (light, the default) is blue-grey tracing paper with
+   navy ink; Blueprint (dark) is blue paper with pale-blue linework. --accent fills (buttons,
+   dots); --accent-ink draws (text, lines, bars). Every color on the site derives from these
+   tokens; the canvases read them at runtime. */
 :root {
-    color-scheme: dark;
-    --bg: #0f345c;
-    --bg-soft: #133e6a;
-    --sunken-rgb: 11, 40, 71;
-    --panel: rgba(11, 40, 71, 0.72);
-    --panel-strong: rgba(12, 44, 78, 0.96);
-    --line: rgba(255, 255, 255, 0.1);
-    --line-strong: rgba(255, 255, 255, 0.2);
-    --text: #f3f6f9;
-    --text-soft: #d3e0ec;
-    --muted: #a3bcd6;
-    --accent: #ffd447;
-    --accent-strong: #ffe07a;
-    --accent-rgb: 255, 212, 71;
-    --on-accent: #0f2e52;
-    --accent-ink: #ffd447;
-    --accent-ink-strong: #ffe07a;
-    --accent-ink-rgb: 255, 212, 71;
-    --ink-rgb: 255, 255, 255;
-    --ok: #34d399;
-    --ok-rgb: 52, 211, 153;
-    --grid-alpha: 0.06;
-    --shadow-rgb: 4, 18, 36;
-    --shadow-k: 1;
+    color-scheme: light;
+    --bg: #e4eaf0;
+    --bg-soft: #d9e1ea;
+    --sunken-rgb: 246, 248, 250;
+    --panel: rgba(246, 248, 250, 0.82);
+    --panel-strong: rgba(248, 250, 252, 0.97);
+    --line: rgba(16, 42, 67, 0.14);
+    --line-strong: rgba(16, 42, 67, 0.26);
+    --text: #102a43;
+    --text-soft: #243b53;
+    --muted: #435d7a;
+    --accent: #0b5cad;
+    --accent-strong: #084a8c;
+    --accent-rgb: 11, 92, 173;
+    --on-accent: #ffffff;
+    --accent-ink: #0b5cad;
+    --accent-ink-strong: #084a8c;
+    --accent-ink-rgb: 11, 92, 173;
+    --ink-rgb: 16, 42, 67;
+    --ok: #0f7b53;
+    --ok-rgb: 15, 123, 83;
+    --grid-alpha: 0.08;
+    --shadow-rgb: 16, 42, 67;
+    --shadow-k: 0.18;
     --shadow: 0 4px 30px rgba(var(--shadow-rgb), calc(0.45 * var(--shadow-k)));
     --shadow-hover: 0 12px 50px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
     --radius-xl: 24px;
@@ -40,37 +40,36 @@
         Consolas, monospace;
 }
 
-:root[data-theme="light"] {
-    color-scheme: light;
-    --bg: #e4eaf0;
-    --bg-soft: #d9e1ea;
-    --sunken-rgb: 246, 248, 250;
-    --panel: rgba(246, 248, 250, 0.82);
-    --panel-strong: rgba(248, 250, 252, 0.97);
-    --line: rgba(16, 42, 67, 0.14);
-    --line-strong: rgba(16, 42, 67, 0.26);
-    --text: #102a43;
-    --text-soft: #243b53;
-    --muted: #435d7a;
-    --accent: #f7c52b;
-    --accent-strong: #e8b518;
-    --accent-rgb: 247, 197, 43;
-    --on-accent: #102a43;
-    --accent-ink: #0b5cad;
-    --accent-ink-strong: #084a8c;
-    --accent-ink-rgb: 11, 92, 173;
-    --ink-rgb: 16, 42, 67;
-    --ok: #0f7b53;
-    --ok-rgb: 15, 123, 83;
-    --grid-alpha: 0.08;
-    --shadow-rgb: 16, 42, 67;
-    --shadow-k: 0.18;
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0f345c;
+    --bg-soft: #133e6a;
+    --sunken-rgb: 11, 40, 71;
+    --panel: rgba(11, 40, 71, 0.72);
+    --panel-strong: rgba(12, 44, 78, 0.96);
+    --line: rgba(255, 255, 255, 0.1);
+    --line-strong: rgba(255, 255, 255, 0.2);
+    --text: #f3f6f9;
+    --text-soft: #d3e0ec;
+    --muted: #a3bcd6;
+    --accent: #8cc8ff;
+    --accent-strong: #b3dbff;
+    --accent-rgb: 140, 200, 255;
+    --on-accent: #0f2e52;
+    --accent-ink: #8cc8ff;
+    --accent-ink-strong: #b3dbff;
+    --accent-ink-rgb: 140, 200, 255;
+    --ink-rgb: 255, 255, 255;
+    --ok: #34d399;
+    --ok-rgb: 52, 211, 153;
+    --grid-alpha: 0.06;
+    --shadow-rgb: 4, 18, 36;
+    --shadow-k: 1;
 }
 
-/* The yellow marker survives in both themes as the text highlighter */
 ::selection {
-    background: #ffd447;
-    color: #0f2e52;
+    background: rgba(var(--accent-ink-rgb), 0.3);
+    color: var(--text);
 }
 
 *,
@@ -312,12 +311,12 @@ textarea {
     height: 1.05rem;
 }
 
-.theme-icon-moon,
-[data-theme="light"] .theme-icon-sun {
+.theme-icon-sun,
+[data-theme="dark"] .theme-icon-moon {
     display: none;
 }
 
-[data-theme="light"] .theme-icon-moon {
+[data-theme="dark"] .theme-icon-sun {
     display: block;
 }
 

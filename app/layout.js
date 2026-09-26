@@ -17,11 +17,8 @@ const BASE_URL = "https://azazshaikh.info";
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#e4eaf0" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f345c" },
-  ],
-  colorScheme: "dark light",
+  themeColor: "#e4eaf0",
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -344,11 +341,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Theme before first paint: saved choice, else the OS preference */}
+        {/* Theme before first paint: saved choice, else light. #0f345c = dark --bg (globals.css) */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t}catch(e){}",
+              "try{var t=localStorage.getItem('theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#0f345c'}catch(e){}",
           }}
         />
         {/* ── JSON-LD Structured Data ── */}
