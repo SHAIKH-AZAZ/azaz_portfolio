@@ -37,10 +37,15 @@ const TAGS = [
   { label: 'Start a project', href: '#contact', icon: <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z" /> },
 ];
 
+// px strings rounded to 2 decimals: the browser rounds long floats when it parses the
+// server HTML, so raw numbers would not match on hydration
 function positionOnRing(ring, angle) {
   const rad = (angle * Math.PI) / 180;
   const r = RADIUS[ring];
-  return { left: CENTER.x + r * Math.cos(rad), top: CENTER.y - r * Math.sin(rad) };
+  return {
+    left: `${(CENTER.x + r * Math.cos(rad)).toFixed(2)}px`,
+    top: `${(CENTER.y - r * Math.sin(rad)).toFixed(2)}px`,
+  };
 }
 
 // arc from the stage's bottom-left edge, over the top, to the bottom-right edge
@@ -147,7 +152,7 @@ export default function StackOrbit({ stats, headline }) {
   return (
     <div ref={rootRef} className={`orbit${visible ? ' is-visible' : ''}`}>
       <div ref={frameRef} className="orbit-frame" style={{ height: STAGE_H * fit.scale }}>
-        <div className="orbit-stage" style={{ width: STAGE_W, height: STAGE_H, transform: `translateX(-50%) scale(${fit.scale})`, '--orbit-scale': fit.scale }}>
+        <div className="orbit-stage" style={{ width: STAGE_W, height: STAGE_H, transform: `translateX(-50%) scale(${fit.scale})`, '--orbit-scale': String(fit.scale) }}>
           <svg className="orbit-arcs" width={STAGE_W} height={STAGE_H} viewBox={`0 0 ${STAGE_W} ${STAGE_H}`} fill="none" aria-hidden="true">
             <path className="orbit-arc orbit-arc-outer" d={arcPath(RADIUS.outer)} pathLength="1" />
             <path className="orbit-arc orbit-arc-inner" d={arcPath(RADIUS.inner)} pathLength="1" />
@@ -155,16 +160,16 @@ export default function StackOrbit({ stats, headline }) {
 
           {ITEMS.map((item, i) => ({ item, i, pos: positionOnRing(item.ring, item.angle) }))
             // chips need ~70 stage px from their centre to the frame edge to show whole
-            .filter(({ pos }) => Math.abs(pos.left - CENTER.x) <= fit.half - 70)
+            .filter(({ pos }) => Math.abs(parseFloat(pos.left) - CENTER.x) <= fit.half - 70)
             .map(({ item, i, pos }) => (
               <div
                 key={`${item.kind}-${item.angle}`}
                 className="orbit-item"
                 style={{
                   ...pos,
-                  '--i': i,
-                  '--float-dur': `${4 + (i % 4) * 0.6}s`,
-                  '--float-delay': `${(i * 0.4) % 2}s`,
+                  '--i': String(i),
+                  '--float-dur': `${(4 + (i % 4) * 0.6).toFixed(1)}s`,
+                  '--float-delay': `${((i * 0.4) % 2).toFixed(1)}s`,
                 }}
               >
                 <div className="orbit-float">
@@ -175,7 +180,7 @@ export default function StackOrbit({ stats, headline }) {
 
           <dl className="orbit-stats">
             {stats.map((s, i) => (
-              <div key={s.label} className="orbit-stat" style={{ '--i': i }}>
+              <div key={s.label} className="orbit-stat" style={{ '--i': String(i) }}>
                 <dt>{s.label}</dt>
                 <dd>{Math.round(s.value * progress[i])}{s.suffix}</dd>
               </div>
@@ -188,7 +193,7 @@ export default function StackOrbit({ stats, headline }) {
 
       <nav className="orbit-tags" aria-label="Jump to">
         {TAGS.map((t, i) => (
-          <a key={t.label} href={t.href} className="orbit-tag" style={{ '--i': i }}>
+          <a key={t.label} href={t.href} className="orbit-tag" style={{ '--i': String(i) }}>
             <span className="orbit-tag-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 {t.icon}
