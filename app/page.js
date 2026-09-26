@@ -4,6 +4,7 @@ import TypewriterText from './components/TypewriterText';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
 import DeliveryPipeline from './components/DeliveryPipeline';
+import OtherBuilds from './components/OtherBuilds';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
@@ -78,14 +79,6 @@ const featuredWork = [
     text: 'A logistics platform with ordering, secure checkout, real-time shipment tracking with dynamic editing, and partner management tools.',
     stack: ['Python', 'Checkout', 'Tracking'],
   },
-];
-
-const otherWork = [
-  { name: 'Nova Control', text: 'Data visualization dashboard with a modular component architecture.', stack: ['Architecture', 'Analytics'] },
-  { name: 'Gym Flow Platform', text: 'Fitness tracking and gym management with custom routines and analytics.', stack: ['Next.js', 'Analytics'] },
-  { name: 'Python Data Pipeline', text: 'ETL pipeline for automated ingestion, transformation and batch reporting.', stack: ['Python', 'Pandas', 'ETL'] },
-  { name: 'LangChain RAG System', text: 'Context-aware AI assistant grounded in a custom knowledge base.', stack: ['LangChain', 'OpenAI', 'VectorDB'] },
-  { name: 'LangGraph AI Agent', text: 'Stateful multi-step agent with tool use, branching and memory.', stack: ['LangGraph', 'Python', 'LLM'] },
 ];
 
 const BASE_URL = "https://azazshaikh.info";
@@ -488,18 +481,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="work-more reveal">
-            <h3>Other builds</h3>
-            <ul>
-              {otherWork.map((w) => (
-                <li key={w.name}>
-                  <span className="work-more-name">{w.name}</span>
-                  <span className="work-more-text">{w.text}</span>
-                  <span className="work-more-stack">{w.stack.join(', ')}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <OtherBuilds />
         </section>
 
         {/* ── Why Choose Me: automation run + measured outcomes ── */}
