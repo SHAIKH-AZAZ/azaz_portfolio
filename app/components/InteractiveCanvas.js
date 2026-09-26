@@ -143,19 +143,6 @@ export default function InteractiveCanvas() {
         });
       }
 
-      const cursorGlow = document.querySelector('.cursor-glow');
-      if (cursorGlow && !prefersReducedMotion && supportsFinePointer) {
-        gsap.set(cursorGlow, { x: -160, y: -160 });
-        const moveX = gsap.quickTo(cursorGlow, 'x', { duration: 0.45, ease: 'power3.out' });
-        const moveY = gsap.quickTo(cursorGlow, 'y', { duration: 0.45, ease: 'power3.out' });
-        const moveGlow = (event) => {
-          moveX(event.clientX - 160);
-          moveY(event.clientY - 160);
-        };
-        window.addEventListener('pointermove', moveGlow, { passive: true });
-        cleanupFns.push(() => window.removeEventListener('pointermove', moveGlow));
-      }
-
       const tiltCard = document.querySelector('[data-tilt]');
       if (tiltCard && !prefersReducedMotion && supportsFinePointer) {
         gsap.set(tiltCard, { transformPerspective: 1000, transformStyle: 'preserve-3d' });
@@ -235,13 +222,23 @@ export default function InteractiveCanvas() {
     let canvasObs = null;
     let resizeCanvas = null;
     let beforeUnload = null;
+    let themeObs = null;
 
     if (canvas && !prefersReducedMotion) {
       const ctx = canvas.getContext('2d');
-      // Palette comes from CSS tokens so the canvas follows globals.css
-      const rootStyle = getComputedStyle(document.documentElement);
-      const accentRgb = rootStyle.getPropertyValue('--accent-rgb').trim();
-      const gridAlpha = parseFloat(rootStyle.getPropertyValue('--grid-alpha')) || 0.02;
+      // Palette comes from the CSS tokens; re-read whenever the theme toggles
+      let accentRgb = '';
+      let inkRgb = '';
+      let gridAlpha = 0.02;
+      const readPalette = () => {
+        const rootStyle = getComputedStyle(document.documentElement);
+        accentRgb = rootStyle.getPropertyValue('--accent-ink-rgb').trim();
+        inkRgb = rootStyle.getPropertyValue('--ink-rgb').trim();
+        gridAlpha = parseFloat(rootStyle.getPropertyValue('--grid-alpha')) || 0.02;
+      };
+      readPalette();
+      themeObs = new MutationObserver(readPalette);
+      themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       let width = 0, height = 0, isCanvasVisible = true;
       let targetMouseX = -1000;
       let targetMouseY = -1000;
@@ -310,7 +307,7 @@ export default function InteractiveCanvas() {
         const plusSize = 4;
 
         // 1. Draw static background grid with subtle breathing effect
-        ctx.strokeStyle = `rgba(255, 255, 255, ${gridAlpha * (0.6 + Math.sin(pulseAlpha) * 0.15)})`;
+        ctx.strokeStyle = `rgba(${inkRgb}, ${gridAlpha * (0.6 + Math.sin(pulseAlpha) * 0.15)})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let x = 0; x < width; x += gridSpacing) {
@@ -324,7 +321,7 @@ export default function InteractiveCanvas() {
         ctx.stroke();
 
         // 2. Draw static plus intersection markers
-        ctx.strokeStyle = `rgba(255, 255, 255, ${gridAlpha * (2 + Math.sin(pulseAlpha) * 0.5)})`;
+        ctx.strokeStyle = `rgba(${inkRgb}, ${gridAlpha * (2 + Math.sin(pulseAlpha) * 0.5)})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let x = 0; x < width; x += gridSpacing) {
@@ -416,6 +413,7 @@ export default function InteractiveCanvas() {
       cancelAnimationFrame(rafId);
       cancelAnimationFrame(animId);
       canvasObs?.disconnect();
+      themeObs?.disconnect();
       if (resizeCanvas) window.removeEventListener('resize', resizeCanvas);
       if (beforeUnload) window.removeEventListener('beforeunload', beforeUnload);
       document.body.classList.remove('has-motion');
@@ -425,7 +423,6 @@ export default function InteractiveCanvas() {
   return (
     <>
       <canvas className="particle-canvas" aria-hidden="true" ref={canvasRef} />
-      <div className="cursor-glow" aria-hidden="true" />
     </>
   );
 }
