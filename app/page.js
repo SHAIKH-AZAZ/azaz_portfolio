@@ -1,14 +1,12 @@
 import InteractiveCanvas from './components/InteractiveCanvas';
-import SitePreview from './components/SitePreview';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
-import ProjectShowcaseReveal from './components/ProjectShowcaseReveal';
-import ProjectCardPixelCanvas from './components/ProjectCardPixelCanvas';
 import WorkflowDiagram from './components/WorkflowDiagram';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
+import AboutFlow from './components/AboutFlow';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -40,6 +38,40 @@ const skills = [
     tools: [['LangChain', 'langchain'], ['LangGraph', 'langgraph'], ['Pandas', 'pandas']],
     practices: ['OpenAI API', 'RAG systems', 'AI agents'],
   },
+];
+
+const featuredWork = [
+  {
+    name: 'POC Waste Optimizer',
+    kind: 'Industrial optimization, live',
+    url: 'https://poc-waste-proper.vercel.app/',
+    image: '/work/poc-waste.webp',
+    text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
+    stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
+  },
+  {
+    name: 'Excel Cleaner Tool',
+    kind: 'Data processing, live',
+    url: 'https://excel-cleaner.azazshaikh.info/',
+    image: '/work/excel-cleaner.webp',
+    text: 'A web application that processes raw XLSX files, stripping out hidden macros, objects and messy formatting to output clean, structured data.',
+    stack: ['Next.js', 'Regex', 'Data processing'],
+  },
+  {
+    name: 'FastShipment',
+    kind: 'Logistics platform',
+    image: '/work/fastshipment.webp',
+    text: 'A logistics platform with ordering, secure checkout, real-time shipment tracking with dynamic editing, and partner management tools.',
+    stack: ['Python', 'Checkout', 'Tracking'],
+  },
+];
+
+const otherWork = [
+  { name: 'Nova Control', text: 'Data visualization dashboard with a modular component architecture.', stack: ['Architecture', 'Analytics'] },
+  { name: 'Gym Flow Platform', text: 'Fitness tracking and gym management with custom routines and analytics.', stack: ['Next.js', 'Analytics'] },
+  { name: 'Python Data Pipeline', text: 'ETL pipeline for automated ingestion, transformation and batch reporting.', stack: ['Python', 'Pandas', 'ETL'] },
+  { name: 'LangChain RAG System', text: 'Context-aware AI assistant grounded in a custom knowledge base.', stack: ['LangChain', 'OpenAI', 'VectorDB'] },
+  { name: 'LangGraph AI Agent', text: 'Stateful multi-step agent with tool use, branching and memory.', stack: ['LangGraph', 'Python', 'LLM'] },
 ];
 
 const BASE_URL = "https://azazshaikh.info";
@@ -330,29 +362,16 @@ export default function Home() {
               <TypewriterText phrases={['eliminate inefficiencies', 'automate workflows', 'drive business growth', 'scale effortlessly']} />.
             </h2>
           </div>
-          <div className="about-grid">
-            <article className="about-card reveal project-coral">
-              <p className="about-intro">
-                My work focuses on identifying real-world operational bottlenecks and engineering scalable software systems that solve them permanently.
-              </p>
-              <p>
-                Combining deep data logic with resilient full-stack architectures, I build platforms that don&apos;t just look professional—they fundamentally improve how organizations run.
-              </p>
-            </article>
-            <article className="insight-card reveal project-cyan">
-              <div className="insight-item">
-                <span>01</span>
-                <div><h3>Operational Efficiency</h3><p>Building automated platforms that replace manual tasks and save hundreds of hours.</p></div>
-              </div>
-              <div className="insight-item">
-                <span>02</span>
-                <div><h3>Algorithmic Precision</h3><p>Designing custom optimization algorithms for logistics, resource allocation, and cutting.</p></div>
-              </div>
-              <div className="insight-item">
-                <span>03</span>
-                <div><h3>Scalable Architecture</h3><p>Developing robust backend systems and resilient frontends that grow seamlessly.</p></div>
-              </div>
-            </article>
+          <div className="about-lede reveal">
+            <p className="about-intro">
+              My work focuses on identifying real-world operational bottlenecks and engineering scalable software systems that solve them permanently.
+            </p>
+            <p>
+              Combining deep data logic with resilient full-stack architectures, I build platforms that don&apos;t just look professional—they fundamentally improve how organizations run.
+            </p>
+          </div>
+          <div className="about-card reveal project-coral">
+            <AboutFlow />
           </div>
           <div className="skill-panel reveal project-lime">
             <dl className="skill-list">
@@ -417,248 +436,50 @@ export default function Home() {
             <p className="eyebrow">Featured Work</p>
             <h2>Deployed applications and software solutions engineered to eliminate friction and drive business efficiency.</h2>
           </div>
-          <ProjectShowcaseReveal>
-          <div className="project-grid">
-            <article className="project-card reveal project-coral">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">01</span>
-                  <h3>POC Waste Optimizer</h3>
-                </div>
-                <div className="project-type">
-                  <a
-                    className="project-link"
-                    href="https://poc-waste-proper.vercel.app/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <span>Live App</span>
-                    <svg viewBox="0 0 16 16" className="project-link-icon">
-                      <path d="M5 11 11 5" />
-                      <path d="M6 5h5v5" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame visual-image-wrapper">
-                  <SitePreview
-                    url="https://poc-waste-proper.vercel.app/"
-                    alt="POC Waste Optimizer live preview"
-                  />
-                </div>
-              </div>
-              <p>Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.</p>
-              <div className="tag-list">
-                <span>Next.js</span><span>Optimization</span><span>PostgreSQL</span>
-              </div>
-            </article>
-
-            <article className="project-card reveal project-cyan">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">02</span>
-                  <h3>Excel Cleaner Tool</h3>
-                </div>
-                <div className="project-type">
-                  <a
-                    className="project-link"
-                    href="https://excel-cleaner.azazshaikh.info/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <span>Live App</span>
-                    <svg viewBox="0 0 16 16" className="project-link-icon">
-                      <path d="M5 11 11 5" />
-                      <path d="M6 5h5v5" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame visual-image-wrapper">
-                  <SitePreview
-                    url="https://excel-cleaner.azazshaikh.info/"
-                    alt="Excel Cleaner Tool live preview"
-                    fallbackSrc="/excel-cleaner.png"
-                  />
-                </div>
-              </div>
-              <p>A specialized web application that processes raw XLSX files, automatically stripping out hidden macros, objects, and messy formatting to output clean, structured data arrays.</p>
-              <div className="tag-list">
-                <span>Next.js</span><span>Regex</span><span>Data Processing</span>
-              </div>
-            </article>
-
-            <article className="project-card reveal project-lime">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">03</span>
-                  <h3>Nova Control</h3>
-                </div>
-                <span className="project-type">Dashboard<br />System</span>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame">
-                  <div className="dashboard-grid">
-                    <div className="dash-panel dash-panel-wide">
-                      <div className="terminal-logs">
-                        <div className="log-line text-accent">npm run dev</div>
-                        <div className="log-line text-accent-2">✓ Compiled successfully</div>
-                        <div className="log-line text-muted">Ready on port 3000</div>
-                        <div className="log-line">API route /api/optimize ... 200 OK</div>
-                      </div>
-                    </div>
-                    <div className="dash-panel" />
-                    <div className="dash-panel" />
-                    <div className="dash-panel" />
-                  </div>
-                </div>
-              </div>
-              <p>Futuristic data visualization platform with modular component architecture and streamlined information hierarchy.</p>
-              <div className="tag-list">
-                <span>Architecture</span><span>Analytics</span><span>Scalable</span>
-              </div>
-            </article>
-
-            <article className="project-card reveal project-indigo">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">04</span>
-                  <h3>FastShipment</h3>
-                </div>
-                <span className="project-type">Python<br />Backend</span>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame visual-image-wrapper">
+          <div className="work-featured">
+            {featuredWork.map((w) => (
+              <article className="work-item reveal" key={w.name}>
+                <a
+                  className="work-shot"
+                  href={w.url || undefined}
+                  target={w.url ? '_blank' : undefined}
+                  rel={w.url ? 'noreferrer' : undefined}
+                  tabIndex={w.url ? undefined : -1}
+                >
+                  <span className="work-shot-bar" aria-hidden="true">
+                    <i /><i /><i />
+                    <span>{w.url ? new URL(w.url).host : 'Private build'}</span>
+                  </span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/fastshipment.png" alt="FastShipment Dashboard UI" className="project-snapshot" decoding="async" loading="lazy" />
+                  <img src={w.image} alt={`${w.name} screenshot`} loading="lazy" decoding="async" />
+                </a>
+                <div className="work-body">
+                  <p className="work-kind">{w.kind}</p>
+                  <h3>{w.name}</h3>
+                  <p>{w.text}</p>
+                  <p className="work-stack">{w.stack.join(', ')}</p>
+                  {w.url && (
+                    <a className="work-link" href={w.url} target="_blank" rel="noreferrer">
+                      Open live app <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
                 </div>
-              </div>
-              <p>A comprehensive logistics platform featuring seamless ordering, secure checkout, real-time shipment tracking with dynamic editing, and robust partner management tools.</p>
-              <div className="tag-list">
-                <span>Python</span><span>Checkout</span><span>Tracking</span>
-              </div>
-            </article>
-
-            <article className="project-card reveal project-emerald">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">05</span>
-                  <h3>Gym Flow Platform</h3>
-                </div>
-                <span className="project-type">Web<br />App</span>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame">
-                  <div className="dashboard-grid">
-                    <div className="dash-panel dash-panel-wide" />
-                    <div className="dash-panel" />
-                  </div>
-                </div>
-              </div>
-              <p>A comprehensive fitness tracking and gym management platform with customized workout routines and analytics.</p>
-              <div className="tag-list">
-                <span>Next.js</span><span>Fitness</span><span>Analytics</span>
-              </div>
-            </article>
-
-            <article className="project-card reveal project-amber">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">06</span>
-                  <h3>Python Data Pipeline</h3>
-                </div>
-                <span className="project-type">Python<br />Backend</span>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame">
-                  <div className="visual-pillars">
-                    <div className="pillar" />
-                    <div className="pillar pillar-tall" />
-                    <div className="pillar" style={{ height: '8rem' }} />
-                  </div>
-                  <div className="visual-chip-row">
-                    <span /><span /><span />
-                  </div>
-                </div>
-              </div>
-              <p>High-performance ETL pipeline for automated data ingestion, transformation, and batch reporting across large-scale structured datasets.</p>
-              <div className="tag-list">
-                <span>Python</span><span>ETL</span><span>Automation</span><span>Pandas</span>
-              </div>
-            </article>
-
-            <article className="project-card reveal project-violet">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">07</span>
-                  <h3>LangChain RAG System</h3>
-                </div>
-                <span className="project-type">AI<br />LLM</span>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame">
-                  <div className="visual-card-wide">
-                    <div className="rag-chat-sim">
-                      <div className="chat-bubble user">Q: Optimize bar cutting stock?</div>
-                      <div className="chat-bubble ai">A: Scanning DB... Waste reduced to 2%.</div>
-                    </div>
-                  </div>
-                  <div className="visual-row">
-                    <div className="visual-card" />
-                    <div className="visual-card" />
-                  </div>
-                </div>
-              </div>
-              <p>Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge bases.</p>
-              <div className="tag-list">
-                <span>LangChain</span><span>RAG</span><span>OpenAI</span><span>VectorDB</span>
-              </div>
-            </article>
-
-            <article className="project-card reveal project-rose">
-              <ProjectCardPixelCanvas />
-              <div className="project-header">
-                <div>
-                  <span className="project-number">08</span>
-                  <h3>LangGraph AI Agent</h3>
-                </div>
-                <span className="project-type">AI<br />Agents</span>
-              </div>
-              <div className="project-visual">
-                <div className="visual-frame">
-                  <div className="dashboard-grid">
-                    <div className="dash-panel dash-panel-wide">
-                      <div className="agent-state-container">
-                        <div className="agent-nodes-row">
-                          <div className="agent-node-sim node-a">Research</div>
-                          <span className="agent-arrow-sim">➔</span>
-                          <div className="agent-node-sim node-b">Reason</div>
-                          <span className="agent-arrow-sim">➔</span>
-                          <div className="agent-node-sim node-c">Execute</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="dash-panel" />
-                    <div className="dash-panel" />
-                  </div>
-                </div>
-              </div>
-              <p>Stateful multi-step AI agent built on LangGraph — capable of tool use, conditional branching, memory, and autonomous multi-stage task completion.</p>
-              <div className="tag-list">
-                <span>LangGraph</span><span>Agents</span><span>Python</span><span>LLM</span>
-              </div>
-            </article>
+              </article>
+            ))}
           </div>
-          </ProjectShowcaseReveal>
+
+          <div className="work-more reveal">
+            <h3>Other builds</h3>
+            <ul>
+              {otherWork.map((w) => (
+                <li key={w.name}>
+                  <span className="work-more-name">{w.name}</span>
+                  <span className="work-more-text">{w.text}</span>
+                  <span className="work-more-stack">{w.stack.join(', ')}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         {/* ── Why Choose Me: automation run + measured outcomes ── */}
