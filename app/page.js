@@ -3,10 +3,11 @@ import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
-import WorkflowDiagram from './components/WorkflowDiagram';
+import DeliveryPipeline from './components/DeliveryPipeline';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
+import ThemeToggle from './components/ThemeToggle';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -20,22 +21,27 @@ export const metadata = {
 const skills = [
   {
     group: 'Frontend',
-    tools: [['React', 'react'], ['Next.js', 'nextdotjs'], ['JavaScript', 'javascript'], ['HTML5', 'html5'], ['CSS', 'css'], ['Tailwind CSS', 'tailwindcss']],
+    tools: [['React', 'react.svg'], ['Next.js', 'nextjs.svg'], ['JavaScript', 'javascript.svg'], ['HTML5', 'html5.svg'], ['CSS', 'css3.svg'], ['Tailwind CSS', 'tailwindcss.svg']],
     practices: ['Motion UI'],
   },
   {
     group: 'Backend',
-    tools: [['Node.js', 'nodedotjs'], ['Express', 'express'], ['Python', 'python'], ['MongoDB', 'mongodb']],
+    tools: [['Node.js', 'nodejs.svg'], ['Express', 'express.svg'], ['Python', 'python.svg'], ['MongoDB', 'mongodb.svg']],
     practices: ['REST APIs', 'SQL', 'optimization algorithms'],
   },
   {
+    group: 'DevOps & cloud',
+    tools: [['Docker', 'docker.svg'], ['GitHub Actions', 'githubactions.svg'], ['AWS', 'aws.svg'], ['Linux', 'linux.webp'], ['Nginx', 'nginx.svg'], ['Vercel', 'vercel.svg']],
+    practices: ['CI/CD pipelines'],
+  },
+  {
     group: 'Testing & tools',
-    tools: [['Selenium', 'selenium'], ['Cypress', 'cypress'], ['Postman', 'postman'], ['Git', 'git'], ['GitHub', 'github'], ['Vercel', 'vercel']],
+    tools: [['Selenium', 'selenium.svg'], ['Cypress', 'cypress.svg'], ['Postman', 'postman.svg'], ['Git', 'git.svg'], ['GitHub', 'github.svg']],
     practices: ['Manual testing', 'test automation'],
   },
   {
     group: 'AI & Python',
-    tools: [['LangChain', 'langchain'], ['LangGraph', 'langgraph'], ['Pandas', 'pandas']],
+    tools: [['LangChain', 'langchain.svg'], ['LangGraph', 'langgraph.svg'], ['Pandas', 'pandas.svg']],
     practices: ['OpenAI API', 'RAG systems', 'AI agents'],
   },
 ];
@@ -91,7 +97,7 @@ const projectsSchema = {
   "@type": "ItemList",
   name: "Projects by Azaz Shaikh",
   description: "Deployed applications and software solutions by Azaz Shaikh",
-  numberOfItems: 8,
+  numberOfItems: 9,
   itemListElement: [
     {
       "@type": "ListItem",
@@ -255,6 +261,18 @@ const projectsSchema = {
         author: authorRef,
       },
     },
+    {
+      "@type": "ListItem",
+      position: 9,
+      item: {
+        "@type": "WebSite",
+        name: "ShamGym",
+        url: "https://shamgym.vercel.app/",
+        description:
+          "Website for a strength and conditioning gym, with classes, trainers, membership plans, a blog and free-trial booking.",
+        author: authorRef,
+      },
+    },
   ],
 };
 
@@ -270,7 +288,7 @@ export default function Home() {
       />
       <script
         dangerouslySetInnerHTML={{
-          __html: "try{var p=new URLSearchParams(location.search).get('palette');if(p)document.documentElement.dataset.palette=p;sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
+          __html: "try{sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
         }}
       />
       <IntroOverlay />
@@ -292,7 +310,10 @@ export default function Home() {
             <a href="#services">Services</a>
             <a href="#contact">Contact</a>
           </nav>
-          <a className="header-cta" href="#contact">Let&apos;s Build</a>
+          <div className="header-actions">
+            <ThemeToggle />
+            <a className="header-cta" href="#contact">Let&apos;s Build</a>
+          </div>
         </div>
       </header>
 
@@ -378,7 +399,10 @@ export default function Home() {
                     <ul className="skill-tools">
                       {tools.map(([name, logo]) => (
                         <li key={name}>
-                          <span className="skill-logo" style={{ maskImage: `url(/logos/${logo}.svg)`, WebkitMaskImage: `url(/logos/${logo}.svg)` }} aria-hidden="true" />
+                          <span className="skill-logo" aria-hidden="true">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={`/logos/${logo}`} alt="" width="20" height="20" loading="lazy" decoding="async" />
+                          </span>
                           {name}
                         </li>
                       ))}
@@ -406,7 +430,7 @@ export default function Home() {
               <p>
                 Developed and shipped{' '}
                 <a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer"
-                  style={{ color: 'var(--accent)', textDecoration: 'underline', textUnderlineOffset: '4px', fontWeight: 700 }}>
+                  style={{ color: 'var(--accent-ink)', textDecoration: 'underline', textUnderlineOffset: '4px', fontWeight: 700 }}>
                   POC Waste ↗
                 </a>
                 , a high-performance Bar Cutting Optimization web application. Engineered custom cutting stock
@@ -496,7 +520,7 @@ export default function Home() {
             <h2>A clear pipeline from your idea to a live, running system.</h2>
           </div>
           <div className="reveal">
-            <WorkflowDiagram />
+            <DeliveryPipeline />
           </div>
         </section>
 
@@ -537,31 +561,6 @@ export default function Home() {
             <article className="service-card glass reveal">
               <h3>SaaS Architectures</h3>
               <p>Scalable software foundations with robust authentication, role-based access, and fast response times.</p>
-            </article>
-          </div>
-        </section>
-
-        {/* ── Process ── */}
-        <section className="section" id="process">
-          <div className="section-heading reveal">
-            <p className="eyebrow">Process</p>
-            <h2>A structured technical methodology designed to de-risk projects and guarantee delivery.</h2>
-          </div>
-          <div className="process-grid">
-            <article className="process-card glass reveal">
-              <span className="step-index">01</span>
-              <h3>Discovery &amp; Scope</h3>
-              <p>Analyze business bottlenecks, map user journeys, and define a clear systems requirement document.</p>
-            </article>
-            <article className="process-card glass reveal">
-              <span className="step-index">02</span>
-              <h3>Architect &amp; Build</h3>
-              <p>Construct scalable databases, wireframe the UI, and write the core algorithms efficiently.</p>
-            </article>
-            <article className="process-card glass reveal">
-              <span className="step-index">03</span>
-              <h3>Test &amp; Deploy</h3>
-              <p>Rigorous QA automation, security validations, and seamless deployment to live production servers.</p>
             </article>
           </div>
         </section>
@@ -633,6 +632,7 @@ export default function Home() {
             <ul>
               <li><a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">POC Waste Optimizer</a></li>
               <li><a href="https://excel-cleaner-one.vercel.app/" target="_blank" rel="noreferrer">Excel Cleaner Tool</a></li>
+              <li><a href="https://shamgym.vercel.app/" target="_blank" rel="noreferrer">ShamGym</a></li>
               <li><a href="#work">FastShipment</a></li>
               <li><a href="#work">Gym Flow Platform</a></li>
               <li><a href="#work">Python Data Pipeline</a></li>
