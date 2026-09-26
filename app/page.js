@@ -8,6 +8,7 @@ import ProjectShowcaseReveal from './components/ProjectShowcaseReveal';
 import ProjectCardPixelCanvas from './components/ProjectCardPixelCanvas';
 import WorkflowDiagram from './components/WorkflowDiagram';
 import BusinessImpact from './components/BusinessImpact';
+import IntroOverlay from './components/IntroOverlay';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -204,6 +205,12 @@ export default function Home() {
           __html: JSON.stringify(projectsSchema).replace(/</g, "\\u003c"),
         }}
       />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: "try{sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
+        }}
+      />
+      <IntroOverlay />
       <InteractiveCanvas />
       <div className="noise" aria-hidden="true" />
       <div className="page-blur blur-a" aria-hidden="true" />

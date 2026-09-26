@@ -5513,3 +5513,102 @@ main {
     }
 }
 
+
+/* ── Intro overlay ── */
+.intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    background: var(--bg);
+    clip-path: inset(0 0 0 0);
+    cursor: pointer;
+}
+
+/* chisle: pre-hydration guard so repeat visitors never see a flash */
+html.intro-seen .intro {
+    display: none;
+}
+
+.intro-center {
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.intro-name {
+    margin: 0;
+    font-family: var(--font-bricolage);
+    font-size: clamp(2.6rem, 11vw, 8rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text);
+}
+
+.intro-char-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.intro-char {
+    display: inline-block;
+}
+
+.intro-char-wrap:nth-child(-n + 4) .intro-char {
+    color: var(--accent);
+}
+
+.intro-role {
+    margin: 1.25rem 0 0;
+    font-family: var(--font-space-mono);
+    font-size: clamp(0.72rem, 2.4vw, 0.95rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.intro-meta {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-space-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.intro-count {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+}
+
+.intro-track {
+    flex: 1;
+    height: 1px;
+    background: var(--line-strong);
+}
+
+.intro-bar {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+@media (max-width: 600px) {
+    .intro-hint {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .intro {
+        display: none;
+    }
+}
