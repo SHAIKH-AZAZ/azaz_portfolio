@@ -19,6 +19,29 @@ export const metadata = {
   alternates: { canonical: "/" },
 };
 
+const skills = [
+  {
+    group: 'Frontend',
+    tools: [['React', 'react'], ['Next.js', 'nextdotjs'], ['JavaScript', 'javascript'], ['HTML5', 'html5'], ['CSS', 'css'], ['Tailwind CSS', 'tailwindcss']],
+    practices: ['Motion UI'],
+  },
+  {
+    group: 'Backend',
+    tools: [['Node.js', 'nodedotjs'], ['Express', 'express'], ['Python', 'python'], ['MongoDB', 'mongodb']],
+    practices: ['REST APIs', 'SQL', 'optimization algorithms'],
+  },
+  {
+    group: 'Testing & tools',
+    tools: [['Selenium', 'selenium'], ['Cypress', 'cypress'], ['Postman', 'postman'], ['Git', 'git'], ['GitHub', 'github'], ['Vercel', 'vercel']],
+    practices: ['Manual testing', 'test automation'],
+  },
+  {
+    group: 'AI & Python',
+    tools: [['LangChain', 'langchain'], ['LangGraph', 'langgraph'], ['Pandas', 'pandas']],
+    practices: ['OpenAI API', 'RAG systems', 'AI agents'],
+  },
+];
+
 const BASE_URL = "https://azazshaikh.info";
 const authorRef = { "@type": "Person", "@id": `${BASE_URL}/#person`, name: "Azaz Shaikh" };
 
@@ -332,34 +355,24 @@ export default function Home() {
             </article>
           </div>
           <div className="skill-panel reveal project-lime">
-            <div className="skill-group">
-              <h3 className="skill-group-title">Frontend</h3>
-              <div className="skill-tags">
-                <span>React</span><span>Next.js</span><span>JavaScript (ES6+)</span>
-                <span>HTML5 / CSS3</span><span>Tailwind CSS</span><span>Motion UI</span>
-              </div>
-            </div>
-            <div className="skill-group">
-              <h3 className="skill-group-title">Backend</h3>
-              <div className="skill-tags">
-                <span>Node.js</span><span>Express</span><span>REST APIs</span>
-                <span>Python</span><span>MongoDB</span><span>SQL</span><span>Optimization Algorithms</span>
-              </div>
-            </div>
-            <div className="skill-group">
-              <h3 className="skill-group-title">QA &amp; Tools</h3>
-              <div className="skill-tags">
-                <span>Manual Testing</span><span>Test Automation</span><span>Selenium / Cypress</span>
-                <span>Postman</span><span>Git / GitHub</span><span>Vercel</span>
-              </div>
-            </div>
-            <div className="skill-group">
-              <h3 className="skill-group-title">AI &amp; Python</h3>
-              <div className="skill-tags">
-                <span>LangChain</span><span>LangGraph</span><span>RAG Systems</span>
-                <span>AI Agents</span><span>Pandas</span><span>OpenAI API</span>
-              </div>
-            </div>
+            <dl className="skill-list">
+              {skills.map(({ group, tools, practices }) => (
+                <div className="skill-row" key={group}>
+                  <dt>{group}</dt>
+                  <dd>
+                    <ul className="skill-tools">
+                      {tools.map(([name, logo]) => (
+                        <li key={name}>
+                          <span className="skill-logo" style={{ maskImage: `url(/logos/${logo}.svg)`, WebkitMaskImage: `url(/logos/${logo}.svg)` }} aria-hidden="true" />
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
+                    {practices && <p className="skill-practices">{practices.join(', ')}</p>}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
 
