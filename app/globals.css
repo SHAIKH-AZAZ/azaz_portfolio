@@ -576,7 +576,7 @@ main {
     justify-content: center;
     min-width: 11rem;
     padding: 0.7rem 1.1rem;
-    border-radius: 999px;
+    border-radius: 6px;
     border: 1px solid var(--line);
     color: var(--muted);
     font-size: 0.78rem;
@@ -3057,22 +3057,56 @@ a.work-shot[href]:hover {
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid var(--line-strong);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--panel-strong);
+    overflow: hidden;
 }
 
 .work-more li {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) minmax(0, 3fr);
-    gap: 1.5rem;
-    align-items: baseline;
-    padding: 1.15rem 0;
-    border-bottom: 1px solid var(--line-strong);
+    grid-template-columns: 2.6rem minmax(0, 3fr) minmax(0, 5fr) minmax(0, 3.2fr);
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid var(--line);
+    transition: background-color 200ms ease;
+}
+
+.work-more li:last-child {
+    border-bottom: 0;
+}
+
+.work-more li:hover {
+    background: rgba(var(--ink-rgb), 0.035);
+}
+
+.work-more-icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 8px;
+    border: 1px solid rgba(var(--accent-ink-rgb), 0.3);
+    background: rgba(var(--accent-ink-rgb), 0.08);
+    color: var(--accent-ink);
+}
+
+.work-more-icon svg {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.work-more-title {
+    display: grid;
+    gap: 0.2rem;
 }
 
 .work-more-name {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: -0.01em;
+    color: var(--text);
     transition: color 200ms ease;
 }
 
@@ -3080,15 +3114,45 @@ a.work-shot[href]:hover {
     color: var(--accent-ink-strong);
 }
 
+.work-more-kind {
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
 .work-more-text {
-    color: var(--text-soft);
+    font-size: 0.95rem;
     line-height: 1.55;
+    color: var(--text-soft);
 }
 
 .work-more-stack {
-    text-align: right;
-    font-size: 0.85rem;
-    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.4rem;
+}
+
+.work-more-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgb(var(--sunken-rgb));
+    font-size: 0.78rem;
+    white-space: nowrap;
+    color: var(--text-soft);
+}
+
+/* same light backing as the skill tiles, so dark logos stay visible */
+.work-more-chip img {
+    width: 0.9rem;
+    height: 0.9rem;
+    padding: 1px;
+    border-radius: 3px;
+    background: #f6f8fa;
+    box-sizing: content-box;
 }
 
 @media (max-width: 860px) {
@@ -3097,12 +3161,18 @@ a.work-shot[href]:hover {
     }
 
     .work-more li {
-        grid-template-columns: 1fr;
-        gap: 0.35rem;
+        grid-template-columns: 2.6rem minmax(0, 1fr);
+        gap: 0.6rem 1rem;
+        padding: 1rem;
+    }
+
+    .work-more-text,
+    .work-more-stack {
+        grid-column: 2;
     }
 
     .work-more-stack {
-        text-align: left;
+        justify-content: flex-start;
     }
 }
 
