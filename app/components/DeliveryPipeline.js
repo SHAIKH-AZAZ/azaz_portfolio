@@ -1,5 +1,6 @@
 // How a project moves from brief to production. Step names and texts mirror the
-// HowTo schema in layout.js, so keep them in sync.
+// HowTo schema in layout.js, so keep them in sync. A light beam runs along each
+// connector in turn (CSS only), and each node pulses as the beam reaches it.
 const STEPS = [
   {
     title: 'Discovery & Scope',
@@ -22,8 +23,9 @@ export default function DeliveryPipeline() {
   return (
     <ol className="dp">
       {STEPS.map((step, i) => (
-        <li className="dp-step" key={step.title}>
+        <li className="dp-step" key={step.title} style={{ '--i': i }}>
           <span className="dp-node" aria-hidden="true">{i + 1}</span>
+          <span className="dp-beam" aria-hidden="true" />
           <h3>{step.title}</h3>
           <p>{step.text}</p>
           <p className="dp-output">
@@ -32,7 +34,7 @@ export default function DeliveryPipeline() {
           </p>
         </li>
       ))}
-      <li className="dp-step dp-live">
+      <li className="dp-step dp-live" style={{ '--i': STEPS.length }}>
         <span className="dp-node" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 6 9 17l-5-5" />
