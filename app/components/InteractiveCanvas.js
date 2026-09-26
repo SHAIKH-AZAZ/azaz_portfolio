@@ -187,16 +187,6 @@ export default function InteractiveCanvas() {
         });
       }
 
-      gsap.utils.toArray('.project-card').forEach((card) => {
-        if (!supportsFinePointer) return;
-        const handleMove = (event) => {
-          const rect = card.getBoundingClientRect();
-          card.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`);
-          card.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);
-        };
-        card.addEventListener('pointermove', handleMove, { passive: true });
-        cleanupFns.push(() => card.removeEventListener('pointermove', handleMove));
-      });
     });
 
     // ── Lenis smooth scroll ──
@@ -248,6 +238,10 @@ export default function InteractiveCanvas() {
 
     if (canvas && !prefersReducedMotion) {
       const ctx = canvas.getContext('2d');
+      // Palette comes from CSS tokens so the canvas follows globals.css
+      const rootStyle = getComputedStyle(document.documentElement);
+      const accentRgb = rootStyle.getPropertyValue('--accent-rgb').trim();
+      const gridAlpha = parseFloat(rootStyle.getPropertyValue('--grid-alpha')) || 0.02;
       let width = 0, height = 0, isCanvasVisible = true;
       let targetMouseX = -1000;
       let targetMouseY = -1000;
@@ -316,7 +310,7 @@ export default function InteractiveCanvas() {
         const plusSize = 4;
 
         // 1. Draw static background grid with subtle breathing effect
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.012 + Math.sin(pulseAlpha) * 0.003})`;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${gridAlpha * (0.6 + Math.sin(pulseAlpha) * 0.15)})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let x = 0; x < width; x += gridSpacing) {
@@ -330,7 +324,7 @@ export default function InteractiveCanvas() {
         ctx.stroke();
 
         // 2. Draw static plus intersection markers
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.04 + Math.sin(pulseAlpha) * 0.01})`;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${gridAlpha * (2 + Math.sin(pulseAlpha) * 0.5)})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let x = 0; x < width; x += gridSpacing) {
@@ -347,9 +341,8 @@ export default function InteractiveCanvas() {
         if (mouseX > -1000) {
           const glowRadius = 260;
           const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, glowRadius);
-          // Firecrawl colors: Neon Heat Orange at center, Amethyst Purple transition, fading out
-          grad.addColorStop(0, 'rgba(250, 93, 25, 0.32)');
-          grad.addColorStop(0.35, 'rgba(160, 122, 255, 0.18)');
+          grad.addColorStop(0, `rgba(${accentRgb}, 0.32)`);
+          grad.addColorStop(0.35, `rgba(${accentRgb}, 0.12)`);
           grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
           ctx.strokeStyle = grad;
