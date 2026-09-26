@@ -15,6 +15,8 @@ export default function TypewriterText({ phrases }) {
 
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;
+    // Reduced motion: keep the first phrase fully typed instead of cycling
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const currentPhrase = phrases[phraseIdx];
     let timeout;

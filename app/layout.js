@@ -17,8 +17,11 @@ const BASE_URL = "https://azazshaikh.info";
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
-  themeColor: "#fa5d19",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#e4eaf0" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f345c" },
+  ],
+  colorScheme: "dark light",
   width: "device-width",
   initialScale: 1,
 };
@@ -138,7 +141,7 @@ export const metadata = {
   other: {
     "geo.region": "IN",
     "geo.placename": "India",
-    "msapplication-TileColor": "#fa5d19",
+    "msapplication-TileColor": "#0f345c",
     "msapplication-config": "none",
     rating: "general",
   },
@@ -339,8 +342,15 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
       <head>
+        {/* Theme before first paint: saved choice, else the OS preference */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t}catch(e){}",
+          }}
+        />
         {/* ── JSON-LD Structured Data ── */}
         <script
           type="application/ld+json"

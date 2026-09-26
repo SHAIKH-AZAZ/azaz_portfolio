@@ -143,19 +143,6 @@ export default function InteractiveCanvas() {
         });
       }
 
-      const cursorGlow = document.querySelector('.cursor-glow');
-      if (cursorGlow && !prefersReducedMotion && supportsFinePointer) {
-        gsap.set(cursorGlow, { x: -160, y: -160 });
-        const moveX = gsap.quickTo(cursorGlow, 'x', { duration: 0.45, ease: 'power3.out' });
-        const moveY = gsap.quickTo(cursorGlow, 'y', { duration: 0.45, ease: 'power3.out' });
-        const moveGlow = (event) => {
-          moveX(event.clientX - 160);
-          moveY(event.clientY - 160);
-        };
-        window.addEventListener('pointermove', moveGlow, { passive: true });
-        cleanupFns.push(() => window.removeEventListener('pointermove', moveGlow));
-      }
-
       const tiltCard = document.querySelector('[data-tilt]');
       if (tiltCard && !prefersReducedMotion && supportsFinePointer) {
         gsap.set(tiltCard, { transformPerspective: 1000, transformStyle: 'preserve-3d' });
@@ -187,16 +174,6 @@ export default function InteractiveCanvas() {
         });
       }
 
-      gsap.utils.toArray('.project-card').forEach((card) => {
-        if (!supportsFinePointer) return;
-        const handleMove = (event) => {
-          const rect = card.getBoundingClientRect();
-          card.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`);
-          card.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);
-        };
-        card.addEventListener('pointermove', handleMove, { passive: true });
-        cleanupFns.push(() => card.removeEventListener('pointermove', handleMove));
-      });
     });
 
     // ── Lenis smooth scroll ──
@@ -245,9 +222,23 @@ export default function InteractiveCanvas() {
     let canvasObs = null;
     let resizeCanvas = null;
     let beforeUnload = null;
+    let themeObs = null;
 
     if (canvas && !prefersReducedMotion) {
       const ctx = canvas.getContext('2d');
+      // Palette comes from the CSS tokens; re-read whenever the theme toggles
+      let accentRgb = '';
+      let inkRgb = '';
+      let gridAlpha = 0.02;
+      const readPalette = () => {
+        const rootStyle = getComputedStyle(document.documentElement);
+        accentRgb = rootStyle.getPropertyValue('--accent-ink-rgb').trim();
+        inkRgb = rootStyle.getPropertyValue('--ink-rgb').trim();
+        gridAlpha = parseFloat(rootStyle.getPropertyValue('--grid-alpha')) || 0.02;
+      };
+      readPalette();
+      themeObs = new MutationObserver(readPalette);
+      themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       let width = 0, height = 0, isCanvasVisible = true;
       let targetMouseX = -1000;
       let targetMouseY = -1000;
@@ -316,7 +307,7 @@ export default function InteractiveCanvas() {
         const plusSize = 4;
 
         // 1. Draw static background grid with subtle breathing effect
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.012 + Math.sin(pulseAlpha) * 0.003})`;
+        ctx.strokeStyle = `rgba(${inkRgb}, ${gridAlpha * (0.6 + Math.sin(pulseAlpha) * 0.15)})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let x = 0; x < width; x += gridSpacing) {
@@ -330,7 +321,7 @@ export default function InteractiveCanvas() {
         ctx.stroke();
 
         // 2. Draw static plus intersection markers
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.04 + Math.sin(pulseAlpha) * 0.01})`;
+        ctx.strokeStyle = `rgba(${inkRgb}, ${gridAlpha * (2 + Math.sin(pulseAlpha) * 0.5)})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let x = 0; x < width; x += gridSpacing) {
@@ -347,9 +338,8 @@ export default function InteractiveCanvas() {
         if (mouseX > -1000) {
           const glowRadius = 260;
           const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, glowRadius);
-          // Firecrawl colors: Neon Heat Orange at center, Amethyst Purple transition, fading out
-          grad.addColorStop(0, 'rgba(250, 93, 25, 0.32)');
-          grad.addColorStop(0.35, 'rgba(160, 122, 255, 0.18)');
+          grad.addColorStop(0, `rgba(${accentRgb}, 0.32)`);
+          grad.addColorStop(0.35, `rgba(${accentRgb}, 0.12)`);
           grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
           ctx.strokeStyle = grad;
@@ -423,6 +413,7 @@ export default function InteractiveCanvas() {
       cancelAnimationFrame(rafId);
       cancelAnimationFrame(animId);
       canvasObs?.disconnect();
+      themeObs?.disconnect();
       if (resizeCanvas) window.removeEventListener('resize', resizeCanvas);
       if (beforeUnload) window.removeEventListener('beforeunload', beforeUnload);
       document.body.classList.remove('has-motion');
@@ -432,7 +423,6 @@ export default function InteractiveCanvas() {
   return (
     <>
       <canvas className="particle-canvas" aria-hidden="true" ref={canvasRef} />
-      <div className="cursor-glow" aria-hidden="true" />
     </>
   );
 }

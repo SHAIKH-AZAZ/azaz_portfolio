@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 const MODES = {
   PROFILE: {
     id: 'PROFILE',
-    url: 'https://azazshaikh.dev/about',
+    url: 'https://azazshaikh.info/about',
     label: 'Profile',
     json: `[
   {
@@ -13,14 +13,14 @@ const MODES = {
     "role": "Full-Stack Software Developer",
     "focus": "fast, scalable web applications",
     "location": "Remote / India",
-    "portfolio": "azazshaikh.dev"
+    "portfolio": "azazshaikh.info"
   }
 ]`,
     visualLayout: 'profile'
   },
   STACK: {
     id: 'STACK',
-    url: 'https://azazshaikh.dev/stack',
+    url: 'https://azazshaikh.info/stack',
     label: 'Stack',
     json: `[
   {
@@ -34,7 +34,7 @@ const MODES = {
   },
   PROJECTS: {
     id: 'PROJECTS',
-    url: 'https://azazshaikh.dev/work',
+    url: 'https://azazshaikh.info/work',
     label: 'Work',
     json: `[
   {
@@ -48,7 +48,7 @@ const MODES = {
   },
   CONTACT: {
     id: 'CONTACT',
-    url: 'https://azazshaikh.dev/contact',
+    url: 'https://azazshaikh.info/contact',
     label: 'Hire',
     json: `[
   {
@@ -104,30 +104,9 @@ export default function HeroScraperAnimation() {
   const [typedUrl, setTypedUrl] = useState('');
   const [typedJson, setTypedJson] = useState('');
   const [typedStatus, setTypedStatus] = useState('');
-  const [charColumns, setCharColumns] = useState([]);
   const timerRef = useRef(null);
 
   const currentMode = MODES[activeMode];
-
-  // Initialize and animate character matrix behind URL bar
-  useEffect(() => {
-    const chars = '- -++-XXXX+ +XX++:API+ +++REACT++ [ .JSON ] [ .UI ] [ PORTFOLIO ] 200_OK';
-    const generateColumns = () => {
-      return Array.from({ length: 6 }, (_, colIdx) => {
-        const length = 12 + Math.floor(Math.random() * 8);
-        const characters = Array.from({ length }, () => 
-          chars[Math.floor(Math.random() * chars.length)]
-        ).join('');
-        return {
-          id: colIdx,
-          chars: characters,
-          delay: `${colIdx * 0.4}s`,
-          duration: `${4 + Math.random() * 4}s`
-        };
-      });
-    };
-    setCharColumns(generateColumns());
-  }, []);
 
   // Handle coordinated interactive sequence (URL Typing -> Scanning -> JSON Typing)
   useEffect(() => {
@@ -256,46 +235,10 @@ export default function HeroScraperAnimation() {
 
   return (
     <div className="scraper-animation-shell" data-tilt>
-      {/* ✦ 4-point Glowing Sparkles (Firecrawl-style) */}
-      <div className="sparkle sparkle-left" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
-        </svg>
-      </div>
-      <div className="sparkle sparkle-right" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
-        </svg>
-      </div>
-
-      {/* Floating Badges */}
-      <div className="floating-badge badge-ok" aria-hidden="true">[ 200 OK ]</div>
-      <div className="floating-badge badge-scrape" aria-hidden="true">[ PORTFOLIO ]</div>
-      <div className="floating-badge badge-json" aria-hidden="true">[ .JSON ]</div>
-      <div className="floating-badge badge-md" aria-hidden="true">[ .JSX ]</div>
-
-      {/* Background Matrix/Character columns */}
-      <div className="character-matrix-bg" aria-hidden="true">
-        {charColumns.map((col) => (
-          <div 
-            key={col.id} 
-            className="matrix-col"
-            style={{ 
-              '--delay': col.delay,
-              '--duration': col.duration
-            }}
-          >
-            {col.chars.split('').map((char, charIdx) => (
-              <span key={charIdx} className="matrix-char">{char}</span>
-            ))}
-          </div>
-        ))}
-      </div>
-
       {/* Chrome Shell */}
       <div className="window-chrome">
         <span /><span /><span />
-        <div className="tab-pill">2 Months Free — Annually ⚡</div>
+        <div className="tab-pill">azaz.json</div>
       </div>
 
       <div className="scraper-stage-content">
