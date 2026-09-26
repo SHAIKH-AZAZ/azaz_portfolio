@@ -7,6 +7,9 @@ export default function ThemeToggle() {
     const next = root.dataset.theme === 'light' ? 'dark' : 'light';
     const apply = () => {
       root.dataset.theme = next;
+      // browser UI color follows the page background token
+      document.querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', getComputedStyle(root).getPropertyValue('--bg').trim());
       try { localStorage.setItem('theme', next); } catch {}
     };
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

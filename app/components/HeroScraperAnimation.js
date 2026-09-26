@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 const MODES = {
   PROFILE: {
     id: 'PROFILE',
-    url: 'https://azazshaikh.info/about',
+    url: 'https://azazshaikh.info/profile',
     label: 'Profile',
     json: `[
   {
