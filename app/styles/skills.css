@@ -1,85 +1,20 @@
-/* ── Skills ── */
+/* ── Skills ──
+   The panel look (hover lift, elevation, corner ticks, transitions) is defined
+   once for .about-card + .skill-panel in cards.css. This file used to restate
+   `transition`, `::after` and the hover box-shadow, which — importing after
+   cards.css — silently overrode them and made this panel jump 3px on hover
+   with no easing, sit flatter than the card beside it, and hide its corner
+   ticks until hover. Only genuinely skills-specific layout lives here. */
 .skill-panel {
     --skill-accent-rgb: var(--accent-ink-rgb);
     margin-top: 1.25rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
     padding: 2rem;
-    border-radius: 0;
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    transition:
-        border-color 220ms ease,
-        box-shadow 220ms ease;
-}
-
-.skill-panel::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    opacity: 0;
-    background:
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            0 0 / 14px 1px,
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            0 0 / 1px 14px,
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            100% 0 / 14px 1px,
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            100% 0 / 1px 14px,
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            0 100% / 14px 1px,
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            0 100% / 1px 14px,
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            100% 100% / 14px 1px,
-        linear-gradient(
-                rgba(var(--skill-accent-rgb), 0.9),
-                rgba(var(--skill-accent-rgb), 0.9)
-            )
-            100% 100% / 1px 14px;
-    background-repeat: no-repeat;
-    transition: opacity 220ms ease;
-}
-
-.skill-panel:hover {
-    border-color: rgba(var(--skill-accent-rgb), 0.35);
-    box-shadow:
-        var(--shadow),
-        0 0 0 1px rgba(var(--skill-accent-rgb), 0.08);
-}
-
-.skill-panel:hover::after {
-    opacity: 1;
 }
 
 .skill-list {
-    grid-column: 1 / -1;
     margin: 0;
 }
 

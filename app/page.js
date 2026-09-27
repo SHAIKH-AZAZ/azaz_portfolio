@@ -473,8 +473,8 @@ export default function Home() {
                   rel={w.url ? 'noreferrer' : undefined}
                   tabIndex={w.url ? undefined : -1}
                 >
-                  <span className="work-shot-bar" aria-hidden="true">
-                    <i /><i /><i />
+                  <span className="work-shot-bar">
+                    <i aria-hidden="true" /><i aria-hidden="true" /><i aria-hidden="true" />
                     <span>{w.url ? new URL(w.url).host : 'Private build'}</span>
                   </span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -581,7 +581,11 @@ export default function Home() {
               >
                 LinkedIn
               </a>
-              <a className="button button-secondary" href="#top" style={{ flex: 'none', minWidth: 'auto', padding: '0.95rem 1.15rem' }}>
+              <a
+                className="button button-secondary button-icon"
+                href="#top"
+                aria-label="Back to top"
+              >
                 <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M8 12V4m0 0l-3 3m3-3l3 3" />
                 </svg>
@@ -645,7 +649,7 @@ export default function Home() {
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
               <a href="mailto:azazshaikh2703@gmail.com">Contact Us</a>
             </div>
-            <a className="button footer-cta-btn" href="mailto:azazshaikh2703@gmail.com">
+            <a className="button button-primary footer-cta-btn" href="mailto:azazshaikh2703@gmail.com">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cta-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
               <span>Email Consult</span>
             </a>

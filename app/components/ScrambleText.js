@@ -80,8 +80,12 @@ export default function ScrambleText({
   }, [chars, delay, duration, text]);
 
   return (
-    <Component ref={ref} className={className} aria-label={text}>
-      {displayText}
+    <Component ref={ref} className={className}>
+      {/* The scrambling string is the visual layer only. `aria-label` on a bare
+          <span> is ignored by most screen readers, which then read the garbage
+          mid-animation, so the real value is exposed as hidden text instead. */}
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">{displayText}</span>
     </Component>
   );
 }

@@ -341,11 +341,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Theme before first paint: saved choice, else light. #0f345c = dark --bg (globals.css) */}
+        {/* Motion state before first paint: without this, .reveal content paints
+            visible, then blinks out when the client effect adds the class.
+            The failsafe un-hides everything if the bundle never boots, so a JS
+            error can never leave the page blank. InteractiveCanvas sets
+            window.__motionReady on mount. #0f345c = dark --bg (globals.css) */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var t=localStorage.getItem('theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#0f345c'}catch(e){}",
+              "try{var t=localStorage.getItem('theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#0f345c';if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('has-motion');setTimeout(function(){if(!window.__motionReady)document.documentElement.classList.remove('has-motion')},4000)}}catch(e){}",
           }}
         />
         {/* ── JSON-LD Structured Data ── */}

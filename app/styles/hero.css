@@ -102,36 +102,14 @@
     place-items: center;
 }
 
-.has-motion .hero-copy h1 .title-word {
-    opacity: 0;
-    filter: blur(6px);
-    transform: translateY(100%) skewY(5deg);
-    transform-origin: left bottom;
-    transition:
-        opacity 480ms ease,
-        filter 700ms ease,
-        transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, filter, transform;
-}
-
-.has-motion .hero-copy.is-visible h1 .title-word {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0) skewY(0);
-}
-
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(1) .title-word {
-    transition-delay: 100ms;
-}
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(2) .title-word {
-    transition-delay: 200ms;
-}
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(3) .title-word {
-    transition-delay: 300ms;
-}
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(4) .title-word {
-    transition-delay: 400ms;
-}
+/* No pre-animation CSS guard on .title-word, on purpose.
+   .hero-copy is itself a .reveal, so `has-motion` — set before first paint by the
+   inline script in layout.js — already hides the whole block before it can flash,
+   which makes a second guard here redundant. Worse, declaring a CSS transform on
+   these words gave GSAP a pre-existing matrix to adopt as its baseline: the reveal
+   tween then ran to completion while leaving the words at translateY(100%), where
+   .title-line's overflow: hidden clipped them out of sight. GSAP owns these
+   properties outright now; see the heroTimeline in InteractiveCanvas.js. */
 
 @media (max-width: 1100px) {
     .hero {
