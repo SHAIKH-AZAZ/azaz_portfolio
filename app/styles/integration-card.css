@@ -1,0 +1,194 @@
+/* ── Integration card: tools wired into one hub (leads the services grid) ── */
+.int-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background: var(--sheet);
+    box-shadow: var(--shadow);
+}
+
+.int-visual {
+    position: relative;
+    aspect-ratio: 564 / 410;
+    padding: 1.5rem;
+    background: rgba(var(--ink-rgb), 0.035);
+    border-bottom: 1px solid var(--line);
+    container-type: inline-size;
+}
+
+/* dot grid, faded out at the top and bottom */
+.int-visual::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(var(--ink-rgb), 0.28) 1px, transparent 1px) 0 0 / 28px 28px;
+    mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent);
+    pointer-events: none;
+}
+
+.int-diagram {
+    position: relative;
+    height: 100%;
+}
+
+.int-diagram svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.int-line,
+.int-beam {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+}
+
+.int-line {
+    stroke: var(--line-strong);
+    stroke-width: 1;
+}
+
+/* one short dash per line, running from the hub out to the tool */
+.int-beam {
+    stroke: var(--accent-ink);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 40 160;
+    opacity: 0.7;
+    animation: intBeam 4s linear var(--beam-delay) infinite backwards;
+}
+
+@keyframes intBeam {
+    from {
+        stroke-dashoffset: 200;
+    }
+    to {
+        stroke-dashoffset: -200;
+    }
+}
+
+.int-hub,
+.int-tool {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 4px 14px rgba(var(--shadow-rgb), calc(0.35 * var(--shadow-k)));
+}
+
+.int-hub {
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    width: clamp(2.6rem, 14cqi, 4rem);
+    height: clamp(2.6rem, 14cqi, 4rem);
+    border-radius: 14px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: clamp(0.85rem, 4cqi, 1.15rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+/* slow ring breathing out of the hub */
+.int-hub::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 2px solid rgba(var(--accent-ink-rgb), 0.35);
+    animation: intPulse 3s ease-in-out infinite;
+}
+
+@keyframes intPulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.18);
+        opacity: 0;
+    }
+}
+
+/* logos keep their brand colors on a light tile, like the skills list */
+.int-tool {
+    z-index: 1;
+    width: clamp(2rem, 9.5cqi, 3.2rem);
+    height: clamp(2rem, 9.5cqi, 3.2rem);
+    border-radius: 10px;
+    background: #f6f8fa;
+}
+
+.int-tool img {
+    width: 55%;
+    height: 55%;
+    object-fit: contain;
+}
+
+.has-motion .int-card .int-tool {
+    opacity: 0;
+    scale: 0.8;
+    transition:
+        opacity 400ms ease,
+        scale 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: calc(300ms + var(--i) * 100ms);
+}
+
+.has-motion .int-card.is-visible .int-tool {
+    opacity: 1;
+    scale: 1;
+}
+
+.int-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1.5rem 1.6rem 1.7rem;
+}
+
+.int-body h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--text);
+}
+
+.int-body p {
+    margin: 0 0 0.6rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+/* full-width row (tablet): visual beside the text so the diagram stays card-sized */
+@media (min-width: 641px) and (max-width: 999px) {
+    .int-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        align-items: center;
+    }
+
+    .int-visual {
+        border-bottom: 0;
+        border-right: 1px solid var(--line);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .int-beam {
+        display: none;
+    }
+
+    .int-hub::after {
+        animation: none;
+    }
+}

@@ -1,6 +1,7 @@
 import InteractiveCanvas from './components/InteractiveCanvas';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
+import IntegrationCard from './components/IntegrationCard';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
 import DeliveryPipeline from './components/DeliveryPipeline';
@@ -541,6 +542,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="service-grid">
+            <IntegrationCard />
             <article className="service-card glass reveal">
               <h3>Enterprise Applications</h3>
               <p>Internal tools, dashboards, and CRM extensions built to unify operations and data management.</p>
