@@ -1,0 +1,234 @@
+/* ── Work ── */
+.work-featured {
+    display: grid;
+    gap: clamp(3rem, 7vw, 5.5rem);
+    margin-top: 2.5rem;
+}
+
+.work-item {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+}
+
+.work-shot {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    background: var(--bg-soft);
+    box-shadow: 0 30px 80px -30px rgba(var(--shadow-rgb), calc(0.9 * var(--shadow-k)));
+    transition: border-color 250ms ease, transform 350ms ease;
+}
+
+a.work-shot[href]:hover {
+    border-color: rgba(var(--accent-ink-rgb), 0.5);
+    transform: translateY(-4px);
+}
+
+.work-shot-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--line-strong);
+    font-family: var(--font-space-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+}
+
+.work-shot-bar i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(var(--ink-rgb), 0.14);
+}
+
+.work-shot-bar span {
+    margin-left: 0.6rem;
+}
+
+.work-shot img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+}
+
+.work-kind {
+    margin: 0 0 0.6rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.work-body h3 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.work-body p {
+    max-width: 46ch;
+    color: var(--text-soft);
+    line-height: 1.65;
+}
+
+.work-body .work-stack {
+    margin: 1.1rem 0 1.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.work-link {
+    display: inline-flex;
+    gap: 0.4rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--accent-ink);
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 200ms ease;
+}
+
+.work-link:hover,
+.work-link:focus-visible {
+    color: var(--accent-ink-strong);
+}
+
+.work-more {
+    margin-top: clamp(3.5rem, 8vw, 6rem);
+}
+
+.work-more h3 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.work-more ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--panel-strong);
+    overflow: hidden;
+}
+
+.work-more li {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(0, 3fr) minmax(0, 5fr) minmax(0, 3.2fr);
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid var(--line);
+    transition: background-color 200ms ease;
+}
+
+.work-more li:last-child {
+    border-bottom: 0;
+}
+
+.work-more li:hover {
+    background: rgba(var(--ink-rgb), 0.035);
+}
+
+.work-more-icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 8px;
+    border: 1px solid rgba(var(--accent-ink-rgb), 0.3);
+    background: rgba(var(--accent-ink-rgb), 0.08);
+    color: var(--accent-ink);
+}
+
+.work-more-icon svg {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.work-more-title {
+    display: grid;
+    gap: 0.2rem;
+}
+
+.work-more-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    transition: color 200ms ease;
+}
+
+.work-more li:hover .work-more-name {
+    color: var(--accent-ink-strong);
+}
+
+.work-more-kind {
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
+.work-more-text {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-soft);
+}
+
+.work-more-stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.4rem;
+}
+
+.work-more-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgb(var(--sunken-rgb));
+    font-size: 0.78rem;
+    white-space: nowrap;
+    color: var(--text-soft);
+}
+
+/* same light backing as the skill tiles, so dark logos stay visible */
+.work-more-chip img {
+    width: 0.9rem;
+    height: 0.9rem;
+    padding: 1px;
+    border-radius: 3px;
+    background: #f6f8fa;
+    box-sizing: content-box;
+}
+
+@media (max-width: 860px) {
+    .work-item {
+        grid-template-columns: 1fr;
+    }
+
+    .work-more li {
+        grid-template-columns: 2.6rem minmax(0, 1fr);
+        gap: 0.6rem 1rem;
+        padding: 1rem;
+    }
+
+    .work-more-text,
+    .work-more-stack {
+        grid-column: 2;
+    }
+
+    .work-more-stack {
+        justify-content: flex-start;
+    }
+}
