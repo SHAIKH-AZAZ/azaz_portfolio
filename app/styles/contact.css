@@ -1,0 +1,44 @@
+/* ── Contact ── */
+.contact-panel {
+    position: relative;
+    padding: 3rem;
+    overflow: hidden;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow);
+}
+
+.contact-panel h2 {
+    max-width: 14ch;
+    font-family: var(--font-bricolage);
+    font-size: clamp(2.2rem, 4vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+    color: var(--text);
+    min-height: calc(1.04em * 4);
+}
+
+.contact-panel p {
+    max-width: 36rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+@media (max-width: 820px) {
+    .contact-panel h2 {
+        max-width: 100%;
+    }
+
+    .contact-panel h2 {
+        min-height: calc(1.04em * 5);
+    }
+}
+
+@media (max-width: 640px) {
+    .contact-panel {
+        border-radius: 1.25rem;
+        padding: 1.25rem;
+    }
+}

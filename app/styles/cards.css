@@ -1,0 +1,138 @@
+/* ── Shared card look (about + skills): dotted texture and corner ticks ── */
+.about-card,
+.skill-panel {
+    --project-accent: var(--accent-ink);
+    --project-accent-soft: rgba(var(--accent-ink-rgb), 0.12);
+    --project-accent-rgb: var(--accent-ink-rgb);
+    padding: 1.8rem;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+        radial-gradient(
+            circle at 52% 2%,
+            rgba(var(--project-accent-rgb), 0.1),
+            transparent 23rem
+        ),
+        linear-gradient(
+            180deg,
+            rgba(var(--ink-rgb), 0.025),
+            rgba(var(--ink-rgb), 0.006)
+        ),
+        rgba(var(--sunken-rgb), 0.9);
+    border: 1px solid rgba(var(--project-accent-rgb), 0.15);
+    box-shadow:
+        0 22px 60px rgba(var(--shadow-rgb), calc(0.38 * var(--shadow-k))),
+        inset 0 1px 0 rgba(var(--ink-rgb), 0.04);
+    transition:
+        transform 280ms ease,
+        border-color 260ms ease,
+        box-shadow 260ms ease,
+        background 260ms ease;
+}
+
+.about-card:hover,
+.skill-panel:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--project-accent-rgb), 0.35);
+    background:
+        radial-gradient(
+            circle at 52% 2%,
+            rgba(var(--project-accent-rgb), 0.14),
+            transparent 25rem
+        ),
+        linear-gradient(
+            180deg,
+            rgba(var(--ink-rgb), 0.035),
+            rgba(var(--ink-rgb), 0.008)
+        ),
+        rgba(var(--sunken-rgb), 0.92);
+    box-shadow:
+        0 26px 70px rgba(var(--shadow-rgb), calc(0.5 * var(--shadow-k))),
+        0 0 0 1px rgba(var(--project-accent-rgb), 0.08),
+        inset 0 1px 0 rgba(var(--ink-rgb), 0.06);
+}
+
+.about-card::before,
+.skill-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+                circle,
+                rgba(var(--ink-rgb), 0.1) 0 1px,
+                transparent 1.5px
+            )
+            0 0 / 10px 10px,
+        linear-gradient(135deg, rgba(var(--ink-rgb), 0.06), transparent 32%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    transition: opacity 260ms ease;
+}
+
+.about-card:hover::before,
+.skill-panel:hover::before {
+    opacity: 0.22;
+}
+
+.about-card::after,
+.skill-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            0 0 / 14px 1px,
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            0 0 / 1px 14px,
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            100% 0 / 14px 1px,
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            100% 0 / 1px 14px,
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            0 100% / 14px 1px,
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            0 100% / 1px 14px,
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            100% 100% / 14px 1px,
+        linear-gradient(
+                rgba(var(--project-accent-rgb), 0.9),
+                rgba(var(--project-accent-rgb), 0.9)
+            )
+            100% 100% / 1px 14px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 1;
+    transition: opacity 260ms ease;
+}
+
+@media (max-width: 640px) {
+    .about-card {
+        padding: 1.25rem;
+    }
+}

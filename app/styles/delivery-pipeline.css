@@ -1,0 +1,257 @@
+/* ── Delivery pipeline: numbered steps joined by arrows, ending in the live system ── */
+.dp {
+    --dp-node: 2.6rem;
+    --dp-gap: 2rem;
+    --dp-cycle: 4.8s; /* 3 beams x 1.2s, then a 1.2s rest on the live node */
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--dp-gap);
+    margin: 2.5rem 0 0;
+    padding: 3rem 3.25rem;
+    list-style: none;
+}
+
+/* white sheet behind the pipeline. Two linear masks unioned: each keeps its middle band
+   opaque, so the edges stay crisp and only the four corners, where both fade, dissolve
+   into the page. The mask sits on this layer only, so the steps never fade. */
+.dp::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-xl);
+    background: var(--sheet);
+    -webkit-mask-image:
+        linear-gradient(90deg, transparent, #000 5.5rem, #000 calc(100% - 5.5rem), transparent),
+        linear-gradient(180deg, transparent, #000 4.5rem, #000 calc(100% - 4.5rem), transparent);
+    mask-image:
+        linear-gradient(90deg, transparent, #000 5.5rem, #000 calc(100% - 5.5rem), transparent),
+        linear-gradient(180deg, transparent, #000 4.5rem, #000 calc(100% - 4.5rem), transparent);
+}
+
+.dp-step {
+    position: relative;
+}
+
+@media (min-width: 901px) {
+    .dp {
+        row-gap: 0; /* rows are node / title / text / output; spacing comes from margins */
+    }
+
+    .dp-step {
+        display: grid;
+        grid-row: span 4;
+        grid-template-rows: subgrid;
+        align-content: start;
+    }
+}
+
+.dp-node {
+    display: grid;
+    place-items: center;
+    width: var(--dp-node);
+    height: var(--dp-node);
+    margin-bottom: 1.1rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-ink);
+    background: var(--sheet);
+    color: var(--accent-ink);
+    font-weight: 700;
+    /* each node pulses as the beam reaches it (--i = its position) */
+    animation: dpNodePulse var(--dp-cycle) ease-out infinite;
+    animation-delay: calc(var(--i) * var(--dp-cycle) / 4);
+}
+
+.dp-live .dp-node {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+/* connector line + arrowhead from each node to the next */
+.dp-step:not(:last-child)::after,
+.dp-step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+}
+
+.dp-step:not(:last-child)::after {
+    top: calc(var(--dp-node) / 2);
+    left: calc(var(--dp-node) + 0.6rem);
+    right: calc(0.6rem - var(--dp-gap));
+    height: 1.5px;
+    background: rgba(var(--ink-rgb), 0.3);
+}
+
+.dp-step:not(:last-child)::before {
+    top: calc(var(--dp-node) / 2 - 4px);
+    right: calc(0.6rem - var(--dp-gap));
+    width: 8px;
+    height: 8px;
+    border-top: 1.5px solid rgba(var(--ink-rgb), 0.45);
+    border-right: 1.5px solid rgba(var(--ink-rgb), 0.45);
+    transform: rotate(45deg);
+}
+
+/* light beam that travels along the connector, one connector after another */
+.dp-beam {
+    position: absolute;
+    z-index: 1;
+    top: calc(var(--dp-node) / 2 + 0.75px - 5px);
+    left: calc(var(--dp-node) + 0.6rem);
+    right: calc(0.6rem - var(--dp-gap) + 6px);
+    height: 10px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.dp-beam::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 0;
+    width: 45%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgb(var(--accent-ink-rgb)) 70%, transparent);
+    filter: drop-shadow(0 0 4px rgba(var(--accent-ink-rgb), 0.8));
+    transform: translateX(-100%);
+    animation: dpBeam var(--dp-cycle) cubic-bezier(0.45, 0, 0.25, 1) infinite;
+    animation-delay: calc(var(--i) * var(--dp-cycle) / 4);
+}
+
+@keyframes dpBeam {
+    0% {
+        transform: translateX(-100%);
+        opacity: 1;
+    }
+    25% {
+        transform: translateX(225%);
+        opacity: 1;
+    }
+    25.1%,
+    100% {
+        transform: translateX(225%);
+        opacity: 0;
+    }
+}
+
+@keyframes dpBeamDown {
+    0% {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+    25% {
+        transform: translateY(225%);
+        opacity: 1;
+    }
+    25.1%,
+    100% {
+        transform: translateY(225%);
+        opacity: 0;
+    }
+}
+
+@keyframes dpNodePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(var(--accent-ink-rgb), 0.5);
+    }
+    15%,
+    100% {
+        box-shadow: 0 0 0 10px rgba(var(--accent-ink-rgb), 0);
+    }
+}
+
+.dp-step h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.dp-step p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.dp-step .dp-output {
+    margin-top: 0.9rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+    color: var(--text-soft);
+}
+
+.dp-output span {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+@media (max-width: 900px) {
+    .dp {
+        --dp-gap: 1.75rem;
+        grid-template-columns: 1fr;
+        padding: 2rem 1.25rem;
+    }
+
+    .dp-step {
+        padding-left: calc(var(--dp-node) + 1rem);
+    }
+
+    .dp-node {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .dp-step:not(:last-child)::after {
+        top: calc(var(--dp-node) + 0.5rem);
+        bottom: calc(0.5rem - var(--dp-gap));
+        left: calc(var(--dp-node) / 2);
+        right: auto;
+        width: 1.5px;
+        height: auto;
+    }
+
+    .dp-step:not(:last-child)::before {
+        top: auto;
+        bottom: calc(0.5rem - var(--dp-gap));
+        right: auto;
+        left: calc(var(--dp-node) / 2 - 4px);
+        transform: rotate(135deg);
+    }
+
+    .dp-beam {
+        top: calc(var(--dp-node) + 0.5rem);
+        bottom: calc(0.5rem - var(--dp-gap) + 6px);
+        left: calc(var(--dp-node) / 2 + 0.75px - 5px);
+        right: auto;
+        width: 10px;
+        height: auto;
+    }
+
+    .dp-beam::before {
+        top: 0;
+        left: 4px;
+        width: 2px;
+        height: 45%;
+        background: linear-gradient(180deg, transparent, rgb(var(--accent-ink-rgb)) 70%, transparent);
+        transform: translateY(-100%);
+        animation-name: dpBeamDown;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dp-beam {
+        display: none;
+    }
+
+    .dp-node {
+        animation: none;
+    }
+}
