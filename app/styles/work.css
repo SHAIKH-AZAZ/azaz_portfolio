@@ -27,6 +27,9 @@ a.work-shot[href]:hover {
     transform: translateY(-4px);
 }
 
+/* 0.78rem, not 0.72rem. This bar carries the host name for live projects and
+   "Private build" for the one that has no link — the only signal that a card is
+   not clickable, so it is no longer aria-hidden and has to be legible. */
 .work-shot-bar {
     display: flex;
     align-items: center;
@@ -34,7 +37,7 @@ a.work-shot[href]:hover {
     padding: 0.6rem 0.8rem;
     border-bottom: 1px solid var(--line-strong);
     font-family: var(--font-space-mono);
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     color: var(--muted);
 }
 

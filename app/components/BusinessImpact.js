@@ -118,7 +118,11 @@ export default function BusinessImpact() {
         <div className="bi-panel">
           <div className="bi-panel-bar">
             <span>Example run</span>
-            <span className={`bi-status${finished ? ' is-done' : ''}`} aria-live="polite">
+            {/* This loop restarts forever, so a live region here would announce
+                "Running…" / "Finished in 1.8 s" every second or two with no way
+                to stop it. It is decorative — the steps below carry the meaning,
+                and the outcome is exposed once as static text. */}
+            <span className={`bi-status${finished ? ' is-done' : ''}`} aria-hidden="true">
               {finished ? 'Finished in 1.8 s' : 'Running…'}
             </span>
           </div>
@@ -135,7 +139,7 @@ export default function BusinessImpact() {
                     <span className="bi-step-title">{s.title}</span>
                     <span className="bi-step-text">{s.text}</span>
                   </span>
-                  <span className="bi-step-state">{STATE_TEXT[state]}</span>
+                  <span className="bi-step-state" aria-hidden="true">{STATE_TEXT[state]}</span>
                   <span className="bi-step-track" aria-hidden="true" />
                 </li>
               );

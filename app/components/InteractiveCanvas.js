@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 
 export default function InteractiveCanvas() {
   const canvasRef = useRef(null);
@@ -14,7 +15,9 @@ export default function InteractiveCanvas() {
     const supportsFinePointer = window.matchMedia('(pointer: fine)').matches;
     const cleanupFns = [];
 
-    document.body.classList.add('has-motion');
+    // Tells the pre-paint script in layout.js that the bundle booted, so its
+    // 4s failsafe does not un-hide .reveal content out from under GSAP.
+    window.__motionReady = true;
 
     const header = document.querySelector('.site-header');
     const setHeaderState = () => {
@@ -56,6 +59,9 @@ export default function InteractiveCanvas() {
           filter: 'blur(6px)',
           skewY: 5,
           yPercent: 110,
+          xPercent: 0,
+          rotation: 0,
+          scale: 1,
           transformOrigin: 'left bottom',
         });
 
@@ -177,43 +183,34 @@ export default function InteractiveCanvas() {
     });
 
     // ── Lenis smooth scroll ──
+    // Imported from node_modules (was a runtime CDN <script>, which made scroll
+    // depend on a third party and would break under a strict CSP).
     let lenis = null;
     let rafId = null;
-    let lenisScript = null;
-    let lenisTimeout = null;
 
     if (!prefersReducedMotion) {
-      lenisScript = document.createElement('script');
-      lenisScript.src = 'https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js';
-      lenisScript.async = true;
-      lenisScript.onload = () => {
-        lenis = new window.Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          direction: 'vertical',
-          gestureDirection: 'vertical',
-          smooth: true,
-          mouseMultiplier: 1,
-          smoothTouch: false,
-          touchMultiplier: 1.5,
-          infinite: false,
-        });
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smoothWheel: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 1.5,
+        infinite: false,
+      });
 
-        lenis.on('scroll', () => {
-          ScrollTrigger.update();
-          setHeaderState();
-        });
+      lenis.on('scroll', () => {
+        ScrollTrigger.update();
+        setHeaderState();
+      });
 
-        function raf(time) {
-          lenis.raf(time);
-          rafId = requestAnimationFrame(raf);
-        }
+      const raf = (time) => {
+        lenis.raf(time);
         rafId = requestAnimationFrame(raf);
       };
-
-      lenisTimeout = setTimeout(() => {
-        document.head.appendChild(lenisScript);
-      }, 100);
+      rafId = requestAnimationFrame(raf);
     }
 
     // ── Glowing grid canvas ──
@@ -407,8 +404,6 @@ export default function InteractiveCanvas() {
     return () => {
       cleanupFns.forEach((cleanup) => cleanup());
       context.revert();
-      clearTimeout(lenisTimeout);
-      lenisScript?.remove();
       lenis?.destroy();
       cancelAnimationFrame(rafId);
       cancelAnimationFrame(animId);
@@ -416,7 +411,9 @@ export default function InteractiveCanvas() {
       themeObs?.disconnect();
       if (resizeCanvas) window.removeEventListener('resize', resizeCanvas);
       if (beforeUnload) window.removeEventListener('beforeunload', beforeUnload);
-      document.body.classList.remove('has-motion');
+      // Un-hide on unmount so .reveal content can never be left at opacity 0.
+      window.__motionReady = false;
+      document.documentElement.classList.remove('has-motion');
     };
   }, []);
 

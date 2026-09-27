@@ -104,14 +104,47 @@ export default function HeroScraperAnimation() {
   const [typedUrl, setTypedUrl] = useState('');
   const [typedJson, setTypedJson] = useState('');
   const [typedStatus, setTypedStatus] = useState('');
+  const [reduced, setReduced] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [autoPaused, setAutoPaused] = useState(false);
+  const [autoStopped, setAutoStopped] = useState(false);
+  const [replayKey, setReplayKey] = useState(0);
   const timerRef = useRef(null);
+  const runTimerRef = useRef(null);
   const listRef = useRef(null);
   const tabRefs = useRef({});
 
   const currentMode = MODES[activeMode];
 
+  /* Reduced motion is read once and honoured by every timer in this component. */
+  useEffect(() => {
+    setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+
+  /* Only cycle modes while the hero is actually on screen. */
+  useEffect(() => {
+    const el = listRef.current?.closest('.scraper-animation-shell');
+    if (!el) return undefined;
+    const obs = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      threshold: 0.25,
+    });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   // Handle coordinated interactive sequence (URL Typing -> Scanning -> JSON Typing)
   useEffect(() => {
+    const targetUrl = currentMode.url;
+    const targetJson = currentMode.json;
+
+    // Reduced motion: show the finished result, run no timers.
+    if (reduced) {
+      setTypedUrl(targetUrl);
+      setTypedJson(targetJson);
+      setIsScraping(false);
+      return undefined;
+    }
+
     let active = true;
     let urlInterval = null;
     let jsonInterval = null;
@@ -123,7 +156,6 @@ export default function HeroScraperAnimation() {
     setIsScraping(false);
 
     // 1. Type the URL
-    const targetUrl = currentMode.url;
     let urlIdx = 0;
     
     urlInterval = setInterval(() => {
@@ -142,7 +174,6 @@ export default function HeroScraperAnimation() {
           if (!active) return;
           setIsScraping(false);
           
-          const targetJson = currentMode.json;
           let jsonIdx = 0;
           
           jsonInterval = setInterval(() => {
@@ -165,28 +196,31 @@ export default function HeroScraperAnimation() {
       if (jsonInterval) clearInterval(jsonInterval);
       if (scanTimeout) clearTimeout(scanTimeout);
     };
-  }, [activeMode, currentMode]);
+  }, [activeMode, currentMode, reduced, replayKey]);
 
-  // Autoplay loop (runs through modes when user is idle)
+  /* Autoplay loop. Paused when the user hovers or focuses the widget, when the
+     hero is offscreen, for reduced motion, or once stopped from the control —
+     WCAG 2.2.2 requires a mechanism to pause auto-updating content. */
   useEffect(() => {
-    const startAutoplay = () => {
-      timerRef.current = setInterval(() => {
-        setActiveMode((prev) => {
-          const keys = Object.keys(MODES);
-          const nextIdx = (keys.indexOf(prev) + 1) % keys.length;
-          return keys[nextIdx];
-        });
-      }, 7500);
-    };
+    if (reduced || autoStopped || autoPaused || !inView) return undefined;
 
-    startAutoplay();
+    timerRef.current = setInterval(() => {
+      setActiveMode((prev) => {
+        const keys = Object.keys(MODES);
+        const nextIdx = (keys.indexOf(prev) + 1) % keys.length;
+        return keys[nextIdx];
+      });
+    }, 7500);
 
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
+    return () => clearInterval(timerRef.current);
+  }, [reduced, autoStopped, autoPaused, inView]);
 
   useEffect(() => {
+    if (reduced) {
+      setTypedStatus(STATUS_WORDS[0]);
+      return undefined;
+    }
+
     let active = true;
     let wordIndex = 0;
     let charIndex = 0;
@@ -228,7 +262,7 @@ export default function HeroScraperAnimation() {
       active = false;
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, []);
+  }, [reduced]);
 
   // Sliding pill: place the indicator under the active tab (and keep it there on resize).
   useLayoutEffect(() => {
@@ -271,12 +305,32 @@ export default function HeroScraperAnimation() {
   };
 
   const handleTabClick = (modeId) => {
-    if (timerRef.current) clearInterval(timerRef.current);
     setActiveMode(modeId);
   };
 
+  /* Replay the scrape sequence from the current mode. Bumping `replayKey` is
+     what actually restarts the typing effect; the sweep is a short visual cue
+     layered on top. The timer is stored so it can be cleared on unmount. */
+  const handleRun = () => {
+    clearTimeout(runTimerRef.current);
+    setIsScraping(true);
+    runTimerRef.current = setTimeout(() => setIsScraping(false), 1500);
+    if (!reduced) setReplayKey((k) => k + 1);
+  };
+
+  useEffect(() => () => clearTimeout(runTimerRef.current), []);
+
+  const autoRunning = !reduced && !autoStopped && inView;
+
   return (
-    <div className="scraper-animation-shell" data-tilt>
+    <div
+      className="scraper-animation-shell"
+      data-tilt
+      onMouseEnter={() => setAutoPaused(true)}
+      onMouseLeave={() => setAutoPaused(false)}
+      onFocus={() => setAutoPaused(true)}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setAutoPaused(false); }}
+    >
       {/* Chrome Shell */}
       <div className="window-chrome">
         <span /><span /><span />
@@ -326,15 +380,34 @@ export default function HeroScraperAnimation() {
 
             <button 
               className={`action-run-btn ${isScraping ? 'is-running' : ''}`}
-              onClick={() => {
-                setIsScraping(true);
-                setTimeout(() => setIsScraping(false), 1500);
-              }}
+              onClick={handleRun}
               aria-label="Run automated process"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className="arrow-icon">
                 <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z" />
               </svg>
+            </button>
+
+            {/* WCAG 2.2.2: the mode rotation must be stoppable by the user. */}
+            <button
+              type="button"
+              className="action-autoplay-btn"
+              onClick={() => setAutoStopped((s) => !s)}
+              aria-pressed={!autoRunning}
+              aria-label={autoRunning ? 'Pause automatic rotation' : 'Resume automatic rotation'}
+              title={autoRunning ? 'Pause rotation' : 'Resume rotation'}
+              hidden={reduced}
+            >
+              {autoRunning ? (
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5.14v13.72L19 12 8 5.14z" />
+                </svg>
+              )}
             </button>
           </div>
         </div>

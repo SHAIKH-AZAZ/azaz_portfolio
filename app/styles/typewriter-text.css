@@ -1,7 +1,21 @@
-/* Typewriter animation in hero H1 */
+/* Animated phrase in the About / Services / Contact headings.
+   The container is an inline-grid stack: the hidden sizer occupies the same
+   cell as the animated text and holds the longest phrase, so the heading keeps
+   a fixed width and the trailing punctuation never lands next to an empty gap. */
 .typewriter-container {
-    display: inline;
+    display: inline-grid;
     position: relative;
+    vertical-align: baseline;
+}
+
+.typewriter-text,
+.typewriter-sizer {
+    grid-area: 1 / 1;
+}
+
+.typewriter-sizer {
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .typewriter-text::after {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const TYPE_START_DELAY = 120;
 const TYPE_CHAR_SPEED = 12;
@@ -166,6 +166,7 @@ export default function CodeTerminalDemo() {
   const [codeVisibleChars, setCodeVisibleChars] = useState(0);
   const [outputVisibleChars, setOutputVisibleChars] = useState(0);
   const [scrambleTick, setScrambleTick] = useState(0);
+  const tabRefs = useRef({});
 
   const handleTabClick = (idx) => {
     if (idx === activeIdx) {
@@ -230,17 +231,39 @@ export default function CodeTerminalDemo() {
     };
   }, [activeIdx, animKey, codeCharCount, outputCharCount]);
 
+  // Drive the scramble from a single interval that only restarts when typing
+  // starts or stops. It used to depend on the visible-char counters directly,
+  // which change every 12ms — so the interval was torn down and re-armed ~83x a
+  // second and the scramble never actually fired.
+  const typing = codeVisibleChars < codeCharCount || outputVisibleChars < outputCharCount;
+
   useEffect(() => {
-    if (codeVisibleChars >= codeCharCount && outputVisibleChars >= outputCharCount) {
-      return undefined;
-    }
+    if (!typing) return undefined;
 
     const intervalId = window.setInterval(() => {
       setScrambleTick((tick) => tick + 1);
     }, 45);
 
     return () => window.clearInterval(intervalId);
-  }, [codeCharCount, codeVisibleChars, outputCharCount, outputVisibleChars]);
+  }, [typing]);
+
+  // Arrow keys / Home / End move between tabs, and only the selected tab is in
+  // the tab order (roving tabindex), matching the hero's tablist.
+  const handleTabKeyDown = (event) => {
+    const i = activeIdx;
+    const map = {
+      ArrowRight: (i + 1) % TABS.length,
+      ArrowLeft: (i - 1 + TABS.length) % TABS.length,
+      Home: 0,
+      End: TABS.length - 1,
+    };
+    const next = map[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    setActiveIdx(next);
+    setAnimKey((k) => k + 1);
+    tabRefs.current[next]?.focus();
+  };
 
   return (
     <div className="ctd-shell">
@@ -251,16 +274,24 @@ export default function CodeTerminalDemo() {
           <span className="ctd-dot ctd-dot-yellow" />
           <span className="ctd-dot ctd-dot-green" />
         </div>
-        <div className="ctd-tabs" role="tablist" aria-label="Language selector">
+        <div
+          className="ctd-tabs"
+          role="tablist"
+          aria-label="Code sample"
+          onKeyDown={handleTabKeyDown}
+        >
           {TABS.map((tab, idx) => {
             const Icon = TAB_ICONS[idx];
             return (
               <button
                 key={tab.id}
+                ref={(el) => { tabRefs.current[idx] = el; }}
+                type="button"
                 role="tab"
                 id={`ctd-tab-${tab.id}`}
                 aria-selected={idx === activeIdx}
                 aria-controls="ctd-tabpanel"
+                tabIndex={idx === activeIdx ? 0 : -1}
                 className={`ctd-tab ${idx === activeIdx ? 'is-active' : ''}`}
                 onClick={() => handleTabClick(idx)}
               >
@@ -277,7 +308,12 @@ export default function CodeTerminalDemo() {
       </div>
 
       {/* Two-panel layout */}
-      <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel">
+      <div
+        className="ctd-panels"
+        id="ctd-tabpanel"
+        role="tabpanel"
+        aria-labelledby={`ctd-tab-${activeTab.id}`}
+      >
         {/* LEFT — Code panel */}
         <div className="ctd-code-panel">
           {(() => {
