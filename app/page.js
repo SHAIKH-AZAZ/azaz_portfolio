@@ -10,6 +10,7 @@ import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
+import Timeline from './components/Timeline';
 import ThemeToggle from './components/ThemeToggle';
 
 
@@ -422,40 +423,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Experience ── */}
-        <section className="section" id="experience">
-          <div className="section-heading reveal">
-            <p className="eyebrow">Experience</p>
-            <h2>My professional journey and hands-on industry experience.</h2>
-          </div>
-          <div className="experience-list">
-            <article className="experience-card glass reveal">
-              <div className="exp-header">
-                <h3>Full Stack IT Engineer</h3>
-                <span className="exp-company">Buniyadbyte</span>
-              </div>
-              <p>
-                Developed and shipped{' '}
-                <a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer"
-                  style={{ color: 'var(--accent-ink)', textDecoration: 'underline', textUnderlineOffset: '4px', fontWeight: 700 }}>
-                  POC Waste ↗
-                </a>
-                , a high-performance Bar Cutting Optimization web application. Engineered custom cutting stock
-                algorithms to minimize raw material waste and built a complete project management interface.
-              </p>
-            </article>
-            <article className="experience-card glass reveal">
-              <div className="exp-header">
-                <h3>QA Manual and Automations Engineer Intern</h3>
-                <span className="exp-company">Maxgen Web Technologies</span>
-              </div>
-              <p>
-                Secured the quality and reliability of software products by executing comprehensive manual test
-                cases and implementing automated testing scripts.
-              </p>
-            </article>
-          </div>
-        </section>
+        <Timeline />
 
         {/* ── Work ── */}
         <section className="section" id="work">

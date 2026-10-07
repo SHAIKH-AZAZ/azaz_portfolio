@@ -1,0 +1,299 @@
+/* ── Timeline: sticky stage + horizontally scrubbed track ── */
+/* Everything is sized in vw so the choreography in Timeline.js (scroll windows,
+   slide distance) lines up at any width. Mobile (≤600px) swaps in its own sizes. */
+.timeline {
+    position: relative;
+    width: 100%;
+    height: 200vw;
+}
+
+.tl-stage {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    padding-top: 10%;
+    overflow: hidden;
+}
+
+.tl-track {
+    display: flex;
+    align-items: center;
+    gap: 5vw;
+    width: 240vw;
+    height: 30vw;
+    margin-right: 2vw;
+    padding: 0 5vw;
+}
+
+.tl-photo {
+    width: 30vw;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 1vw;
+}
+
+.tl-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 20% 50%;
+}
+
+.tl-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* axis: dot, growing rail, dot */
+.tl-axis {
+    position: absolute;
+    top: 49%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.tl-cap,
+.tl-dot {
+    border-radius: 50%;
+    background: var(--accent-ink);
+}
+
+.tl-cap {
+    width: 0.8vw;
+    height: 0.8vw;
+}
+
+.tl-rail {
+    width: 0;
+    height: 1px;
+    background: var(--accent-ink);
+}
+
+/* rows */
+.tl-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 50%;
+}
+
+.tl-row--top {
+    gap: 0.5vw;
+}
+
+.tl-lead {
+    height: 100%;
+    padding-top: 2vw;
+}
+
+.tl-row--top .tl-lead {
+    width: 20%;
+}
+
+.tl-row--bottom .tl-lead {
+    width: 34%;
+}
+
+.tl-lead h2 {
+    width: 65%;
+    margin: 0;
+    font-size: 3vw;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+}
+
+.tl-lead p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.65vw;
+    line-height: 1;
+}
+
+.tl-list {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.tl-row--top .tl-list {
+    column-gap: 15vw;
+}
+
+.tl-row--bottom .tl-list {
+    column-gap: 20vw;
+    margin-left: 7vw;
+}
+
+/* items */
+.tl-item {
+    position: relative;
+    height: 100%;
+    padding: 0 3vw;
+}
+
+.tl-item--top {
+    width: 30vw;
+}
+
+.tl-item--bottom {
+    width: 25vw;
+}
+
+.tl-marker {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tl-item--top .tl-marker {
+    top: 0;
+    bottom: 0;
+}
+
+.tl-item--bottom .tl-marker {
+    bottom: -1%;
+}
+
+.tl-dot {
+    position: relative;
+    width: 1vw;
+    height: 1vw;
+    margin-left: -0.5vw; /* centre on the line; margin, not translate, so GSAP's scale can't clash */
+}
+
+.tl-line {
+    width: 1px;
+    height: 94%;
+    background: var(--accent-ink);
+}
+
+.tl-item--top .tl-line {
+    transform-origin: bottom;
+}
+
+.tl-item--bottom .tl-line {
+    transform-origin: top;
+}
+
+.tl-copy > * {
+    margin: 0;
+}
+
+.tl-copy > * + * {
+    margin-top: 1vw;
+}
+
+.tl-item--top .tl-copy {
+    margin-top: -1vw;
+}
+
+.tl-item--bottom .tl-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+}
+
+.tl-title {
+    font-size: 2.5vw;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.tl-text {
+    width: 90%;
+    color: var(--muted);
+    font-size: 1.5vw;
+    line-height: 1.15;
+}
+
+@media (max-width: 600px) {
+    .timeline {
+        height: 400vh;
+    }
+
+    .tl-stage {
+        top: 5%;
+    }
+
+    .tl-track {
+        width: 800vw;
+        height: 80vh;
+        padding: 0 7vw;
+    }
+
+    .tl-photo {
+        width: 85vw;
+        height: 65vw;
+        border-radius: 5vw;
+    }
+
+    .tl-cap {
+        width: 2vw;
+        height: 2vw;
+    }
+
+    .tl-lead {
+        padding-top: 5vw;
+    }
+
+    .tl-row--top .tl-lead {
+        height: fit-content;
+    }
+
+    .tl-row--bottom .tl-lead {
+        width: 30%;
+    }
+
+    .tl-lead h2 {
+        font-size: 8.5vw;
+    }
+
+    .tl-lead p {
+        font-size: 4.2vw;
+    }
+
+    .tl-row--top .tl-list {
+        column-gap: 40vw;
+    }
+
+    .tl-row--bottom .tl-list {
+        column-gap: 40vw;
+    }
+
+    .tl-item {
+        width: 70vw;
+        padding: 0 7vw;
+    }
+
+    .tl-dot {
+        width: 2.5vw;
+        height: 2.5vw;
+        margin-left: -1.25vw;
+    }
+
+    .tl-item--bottom .tl-line {
+        height: 100%;
+    }
+
+    .tl-item--top .tl-copy {
+        margin-top: -2vw;
+    }
+
+    .tl-title {
+        font-size: 6.4vw;
+    }
+
+    .tl-text {
+        font-size: 4.8vw;
+    }
+}
