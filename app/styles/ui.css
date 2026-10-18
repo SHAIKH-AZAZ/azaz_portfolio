@@ -139,7 +139,7 @@
    ========================= */
 
 .button:focus-visible {
-    outline: 3px solid rgba(var(--accent-rgb), 0.25);
+    outline: 3px solid var(--accent-ink);
     outline-offset: 3px;
 }
 
@@ -189,14 +189,6 @@
     color: var(--text);
 }
 
-.section-heading-stable h2 {
-    min-height: calc(1.06em * 3);
-}
-
-.section-heading-services-stable h2 {
-    min-height: calc(1.06em * 5);
-}
-
 @media (max-width: 820px) {
     .section-heading h2 {
         max-width: 100%;
@@ -206,13 +198,6 @@
         gap: 0.7rem;
     }
 
-    .section-heading-stable h2 {
-        min-height: calc(1.06em * 4);
-    }
-
-    .section-heading-services-stable h2 {
-        min-height: calc(1.06em * 6);
-    }
 }
 
 /* text carets (code demo, scraper) */

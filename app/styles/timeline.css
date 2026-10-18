@@ -1,185 +1,88 @@
-/* ── Timeline: sticky stage + horizontally scrubbed track ── */
-/* Everything is sized in vw so the choreography in Timeline.js (scroll windows,
-   slide distance) lines up at any width. Mobile (≤600px) swaps in its own sizes. */
+/* A chronological vertical timeline is the default, including before hydration. */
 .timeline {
     position: relative;
     width: 100%;
-    height: 200vw;
+    scroll-margin-top: 6rem;
+    padding: clamp(4rem, 8vw, 7rem) 0;
 }
 
-.tl-stage {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    padding-top: 10%;
-    overflow: hidden;
-}
-
+.tl-stage,
 .tl-track {
-    display: flex;
-    align-items: center;
-    gap: 5vw;
-    width: 240vw;
-    height: 30vw;
-    margin-right: 2vw;
-    padding: 0 5vw;
-}
-
-.tl-photo {
-    width: 30vw;
-    height: 100%;
-    overflow: hidden;
-    border-radius: 1vw;
-}
-
-.tl-photo img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 20% 50%;
 }
 
 .tl-body {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: var(--container);
+    margin: 0 auto;
 }
 
-/* axis: dot, growing rail, dot */
+.tl-photo,
 .tl-axis {
-    position: absolute;
-    top: 49%;
-    left: 0;
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.tl-cap,
-.tl-dot {
-    border-radius: 50%;
-    background: var(--accent-ink);
-}
-
-.tl-cap {
-    width: 0.8vw;
-    height: 0.8vw;
-}
-
-.tl-rail {
-    width: 0;
-    height: 1px;
-    background: var(--accent-ink);
-}
-
-/* rows */
-.tl-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    height: 50%;
-}
-
-.tl-row--top {
-    gap: 0.5vw;
+    display: none;
 }
 
 .tl-lead {
-    height: 100%;
-    padding-top: 2vw;
-}
-
-.tl-row--top .tl-lead {
-    width: 20%;
-}
-
-.tl-row--bottom .tl-lead {
-    width: 34%;
+    margin-bottom: 2.5rem;
 }
 
 .tl-lead h2 {
-    width: 65%;
+    max-width: 18ch;
     margin: 0;
-    font-size: 3vw;
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 700;
-    line-height: 0.95;
+    line-height: 1.08;
     letter-spacing: -0.03em;
 }
 
 .tl-lead p {
-    margin: 0;
+    margin: 1rem 0 0;
     color: var(--muted);
-    font-size: 1.65vw;
-    line-height: 1;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .tl-list {
-    display: flex;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    display: grid;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.tl-row--top .tl-list {
-    column-gap: 15vw;
+.tl-list::before {
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0;
+    left: 0.25rem;
+    width: 1px;
+    background: var(--line-strong);
+    content: "";
 }
 
-.tl-row--bottom .tl-list {
-    column-gap: 20vw;
-    margin-left: 7vw;
-}
-
-/* items */
 .tl-item {
     position: relative;
-    height: 100%;
-    padding: 0 3vw;
-}
-
-.tl-item--top {
-    width: 30vw;
-}
-
-.tl-item--bottom {
-    width: 25vw;
+    min-width: 0;
+    padding-left: 1.75rem;
 }
 
 .tl-marker {
     position: absolute;
+    top: 0.5rem;
     left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.tl-item--top .tl-marker {
-    top: 0;
-    bottom: 0;
-}
-
-.tl-item--bottom .tl-marker {
-    bottom: -1%;
 }
 
 .tl-dot {
-    position: relative;
-    width: 1vw;
-    height: 1vw;
-    margin-left: -0.5vw; /* centre on the line; margin, not translate, so GSAP's scale can't clash */
-}
-
-.tl-line {
-    width: 1px;
-    height: 94%;
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
     background: var(--accent-ink);
 }
 
-.tl-item--top .tl-line {
-    transform-origin: bottom;
-}
-
-.tl-item--bottom .tl-line {
-    transform-origin: top;
+.tl-line {
+    display: none;
 }
 
 .tl-copy > * {
@@ -187,113 +90,199 @@
 }
 
 .tl-copy > * + * {
-    margin-top: 1vw;
-}
-
-.tl-item--top .tl-copy {
-    margin-top: -1vw;
-}
-
-.tl-item--bottom .tl-copy {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 100%;
-    height: 100%;
+    margin-top: 0.65rem;
 }
 
 .tl-title {
-    font-size: 2.5vw;
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
     font-weight: 700;
-    line-height: 1;
+    line-height: 1.2;
     letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
 }
 
 .tl-text {
-    width: 90%;
+    max-width: 65ch;
     color: var(--muted);
-    font-size: 1.5vw;
-    line-height: 1.15;
+    font-size: 1rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
 }
 
-@media (max-width: 600px) {
-    .timeline {
-        height: 400vh;
+/* Only a successfully initialized, motion-enabled desktop gets the track. */
+@media (min-width: 821px) and (prefers-reduced-motion: no-preference) {
+    .timeline.timeline--animated {
+        height: max(200vw, 180vh);
+        padding: 0;
     }
 
-    .tl-stage {
-        top: 5%;
+    .timeline--animated .tl-stage {
+        position: sticky;
+        top: 0;
+        display: flex;
+        align-items: center;
+        height: 100svh;
+        padding: 5rem 0 2rem;
+        overflow: hidden;
     }
 
-    .tl-track {
-        width: 800vw;
-        height: 80vh;
-        padding: 0 7vw;
+    .timeline--animated .tl-track {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        gap: 5vw;
+        width: 240vw;
+        height: clamp(34rem, 40vw, 48rem);
+        padding: 0 5vw;
     }
 
-    .tl-photo {
-        width: 85vw;
-        height: 65vw;
-        border-radius: 5vw;
+    .timeline--animated .tl-photo {
+        display: block;
+        flex: 0 0 30vw;
+        height: 30vw;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
     }
 
-    .tl-cap {
-        width: 2vw;
-        height: 2vw;
+    .timeline--animated .tl-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 20% 50%;
     }
 
-    .tl-lead {
-        padding-top: 5vw;
+    .timeline--animated .tl-body {
+        flex: 0 0 190vw;
+        width: 190vw;
+        height: 100%;
+        margin: 0;
     }
 
-    .tl-row--top .tl-lead {
-        height: fit-content;
+    .timeline--animated .tl-lead {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30vw;
+        height: 100%;
+        margin: 0;
+        padding-top: 1rem;
     }
 
-    .tl-row--bottom .tl-lead {
-        width: 30%;
+    .timeline--animated .tl-lead h2 {
+        width: 80%;
+        font-size: clamp(2rem, 3vw, 4rem);
     }
 
-    .tl-lead h2 {
-        font-size: 8.5vw;
+    .timeline--animated .tl-lead p {
+        position: absolute;
+        top: 50%;
+        margin-top: 2vw;
+        font-size: clamp(1rem, 1.65vw, 1.75rem);
     }
 
-    .tl-lead p {
-        font-size: 4.2vw;
+    .timeline--animated .tl-axis {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
 
-    .tl-row--top .tl-list {
-        column-gap: 40vw;
+    .timeline--animated .tl-cap {
+        flex: 0 0 auto;
+        width: 0.8vw;
+        height: 0.8vw;
+        border-radius: 50%;
+        background: var(--accent-ink);
     }
 
-    .tl-row--bottom .tl-list {
-        column-gap: 40vw;
+    .timeline--animated .tl-rail {
+        width: 0;
+        height: 1px;
+        background: var(--accent-ink);
     }
 
-    .tl-item {
-        width: 70vw;
-        padding: 0 7vw;
-    }
-
-    .tl-dot {
-        width: 2.5vw;
-        height: 2.5vw;
-        margin-left: -1.25vw;
-    }
-
-    .tl-item--bottom .tl-line {
+    .timeline--animated .tl-list {
+        grid-template-columns: 30vw repeat(7, 22.5vw);
+        grid-template-rows: repeat(2, 50%);
+        gap: 0;
+        width: 100%;
         height: 100%;
     }
 
-    .tl-item--top .tl-copy {
-        margin-top: -2vw;
+    .timeline--animated .tl-list::before {
+        display: none;
     }
 
-    .tl-title {
-        font-size: 6.4vw;
+    .timeline--animated .tl-item {
+        grid-column: calc(var(--tl-index) + 2);
+        width: 30vw;
+        height: 100%;
+        padding: 1rem 3vw;
     }
 
-    .tl-text {
-        font-size: 4.8vw;
+    .timeline--animated .tl-item:nth-child(odd) {
+        grid-row: 1;
+    }
+
+    .timeline--animated .tl-item:nth-child(even) {
+        grid-row: 2;
+        width: 25vw;
+    }
+
+    .timeline--animated .tl-marker {
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 1px;
+        height: 100%;
+    }
+
+    .timeline--animated .tl-item:nth-child(even) .tl-marker {
+        flex-direction: column-reverse;
+    }
+
+    .timeline--animated .tl-dot {
+        flex: 0 0 auto;
+        width: clamp(0.5rem, 1vw, 1rem);
+        height: clamp(0.5rem, 1vw, 1rem);
+    }
+
+    .timeline--animated .tl-line {
+        display: block;
+        flex: 1;
+        width: 1px;
+        background: var(--accent-ink);
+        transform-origin: bottom;
+    }
+
+    .timeline--animated .tl-item:nth-child(even) .tl-line {
+        transform-origin: top;
+    }
+
+    .timeline--animated .tl-copy {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .timeline--animated .tl-copy > * + * {
+        margin-top: clamp(0.5rem, 1vw, 1rem);
+    }
+
+    .timeline--animated .tl-item:nth-child(even) .tl-copy {
+        justify-content: flex-end;
+    }
+
+    .timeline--animated .tl-title {
+        font-size: clamp(1.35rem, 2.5vw, 3rem);
+        line-height: 1.08;
+    }
+
+    .timeline--animated .tl-text {
+        font-size: clamp(1rem, 1.5vw, 1.5rem);
+        line-height: 1.4;
     }
 }

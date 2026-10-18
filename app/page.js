@@ -1,6 +1,6 @@
 import InteractiveCanvas from './components/InteractiveCanvas';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
-import TypewriterText from './components/TypewriterText';
+import Header from './components/Header';
 import IntegrationCard from './components/IntegrationCard';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
@@ -11,7 +11,7 @@ import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
 import Timeline from './components/Timeline';
-import ThemeToggle from './components/ThemeToggle';
+import ContactEmail from './components/ContactEmail';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -53,33 +53,41 @@ const skills = [
 const featuredWork = [
   {
     name: 'POC Waste Optimizer',
-    kind: 'Industrial optimization, live',
+    kind: 'Industrial optimization',
     url: 'https://poc-waste-proper.vercel.app/',
     image: '/work/poc-waste.webp',
-    text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
+    problem: 'Manual cutting plans make it difficult to use raw material efficiently.',
+    contribution: 'Bar-cutting algorithms and a project-management interface.',
+    outcome: 'Waste-aware cutting plans and project management in one tool.',
     stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
   },
   {
     name: 'Excel Cleaner Tool',
-    kind: 'Data processing, live',
+    kind: 'Data processing',
     url: 'https://excel-cleaner.azazshaikh.info/',
     image: '/work/excel-cleaner.webp',
-    text: 'A web application that processes raw XLSX files, stripping out hidden macros, objects and messy formatting to output clean, structured data.',
+    problem: 'Raw spreadsheets carry hidden objects, macros and inconsistent formatting.',
+    contribution: 'XLSX processing and a web interface for cleaning files.',
+    outcome: 'Clean, structured spreadsheet data ready for the next workflow.',
     stack: ['Next.js', 'Regex', 'Data processing'],
   },
   {
     name: 'ShamGym',
-    kind: 'Gym website, live',
+    kind: 'Gym website',
     url: 'https://shamgym.vercel.app/',
     image: '/work/shamgym.webp',
-    text: 'Website for a strength and conditioning gym, with classes, trainers, membership plans, a blog and free-trial booking.',
+    problem: 'Visitors need one place to discover the gym and find a way to get started.',
+    contribution: 'Responsive pages for classes, trainers, memberships and booking.',
+    outcome: 'A clear path from exploring the gym to booking a free trial.',
     stack: ['Next.js', 'Responsive UI'],
   },
   {
     name: 'FastShipment',
     kind: 'Logistics platform',
     image: '/work/fastshipment.webp',
-    text: 'A logistics platform with ordering, secure checkout, real-time shipment tracking with dynamic editing, and partner management tools.',
+    problem: 'Orders, shipment changes and partner operations need a shared workflow.',
+    contribution: 'Ordering, checkout, editable tracking and partner-management tools.',
+    outcome: 'Shipment operations brought together in a single platform.',
     stack: ['Python', 'Checkout', 'Tracking'],
   },
 ];
@@ -296,22 +304,7 @@ export default function Home() {
         <div className="scroll-progress-thumb" />
       </div>
 
-      <header className="site-header">
-        <div className="site-header-inner">
-          <a className="brand" href="#top"><span>Azaz</span> Shaikh</a>
-          <nav className="nav">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#work">Work</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
-          </nav>
-          <div className="header-actions">
-            <ThemeToggle />
-            <a className="header-cta" href="#contact">Let&apos;s Build</a>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main id="top">
         {/* ── Hero ── */}
@@ -380,12 +373,9 @@ export default function Home() {
 
         {/* ── About ── */}
         <section className="section" id="about">
-          <div className="section-heading section-heading-stable reveal">
+          <div className="section-heading reveal">
             <p className="eyebrow">About</p>
-            <h2>
-              I engineer software solutions that{' '}
-              <TypewriterText phrases={['eliminate inefficiencies', 'automate workflows', 'drive business growth', 'scale effortlessly']} />.
-            </h2>
+            <h2>Software that removes operational bottlenecks.</h2>
           </div>
           <div className="about-lede reveal">
             <p className="about-intro">
@@ -429,38 +419,52 @@ export default function Home() {
         <section className="section" id="work">
           <div className="section-heading reveal">
             <p className="eyebrow">Featured Work</p>
-            <h2>Deployed applications and software solutions engineered to eliminate friction and drive business efficiency.</h2>
+            <h2>Projects built around real workflows.</h2>
           </div>
           <div className="work-featured">
-            {featuredWork.map((w) => (
-              <article className="work-item reveal" key={w.name}>
-                <a
-                  className="work-shot"
-                  href={w.url || undefined}
-                  target={w.url ? '_blank' : undefined}
-                  rel={w.url ? 'noreferrer' : undefined}
-                  tabIndex={w.url ? undefined : -1}
-                >
-                  <span className="work-shot-bar" aria-hidden="true">
-                    <i /><i /><i />
-                    <span>{w.url ? new URL(w.url).host : 'Private build'}</span>
-                  </span>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={w.image} alt={`${w.name} screenshot`} loading="lazy" decoding="async" />
-                </a>
-                <div className="work-body">
-                  <p className="work-kind">{w.kind}</p>
-                  <h3>{w.name}</h3>
-                  <p>{w.text}</p>
-                  <p className="work-stack">{w.stack.join(', ')}</p>
-                  {w.url && (
-                    <a className="work-link" href={w.url} target="_blank" rel="noreferrer">
-                      Open live app <span aria-hidden="true">↗</span>
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
+            {featuredWork.map((w) => {
+              const Preview = w.url ? 'a' : 'div';
+              return (
+                <article className="work-item reveal" key={w.name}>
+                  <Preview
+                    className="work-shot"
+                    href={w.url}
+                    target={w.url ? '_blank' : undefined}
+                    rel={w.url ? 'noreferrer' : undefined}
+                    aria-label={w.url ? `View ${w.name} live (opens in a new tab)` : undefined}
+                  >
+                    <span className="work-shot-bar" aria-hidden="true">
+                      <i /><i /><i />
+                      <span>{w.url ? new URL(w.url).host : 'Private build'}</span>
+                    </span>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={w.image} alt={`${w.name} screenshot`} width="1440" height="900" loading="lazy" decoding="async" />
+                  </Preview>
+                  <div className="work-body">
+                    <div className="work-meta">
+                      <p className="work-kind">{w.kind}</p>
+                      <span className={`work-status${w.url ? ' work-status--live' : ''}`}>
+                        {w.url ? 'Live app' : 'Private build'}
+                      </span>
+                    </div>
+                    <h3>{w.name}</h3>
+                    <dl className="work-details">
+                      <div><dt>The problem</dt><dd>{w.problem}</dd></div>
+                      <div><dt>What I built</dt><dd>{w.contribution}</dd></div>
+                      <div><dt>The result</dt><dd>{w.outcome}</dd></div>
+                    </dl>
+                    <ul className="work-stack" aria-label={`${w.name} technologies`}>
+                      {w.stack.map((tool) => <li key={tool}>{tool}</li>)}
+                    </ul>
+                    {w.url && (
+                      <a className="work-link" href={w.url} target="_blank" rel="noreferrer" aria-label={`Open ${w.name} live (opens in a new tab)`}>
+                        Explore live app <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
           </div>
 
           <OtherBuilds />
@@ -502,12 +506,9 @@ export default function Home() {
         {/* ── Services ── */}
 
         <section className="section" id="services">
-          <div className="section-heading section-heading-stable section-heading-services-stable reveal">
+          <div className="section-heading reveal">
             <p className="eyebrow">Services</p>
-            <h2>
-              From core infrastructure to user-facing flows, I build technical solutions mapped to{' '}
-              <TypewriterText phrases={['business growth', 'operational efficiency', 'faster workflows', 'market success']} />.
-            </h2>
+            <h2>Practical systems for the way your business works.</h2>
           </div>
           <div className="service-grid">
             <IntegrationCard />
@@ -534,13 +535,15 @@ export default function Home() {
         <section className="section" id="contact">
           <div className="contact-panel reveal">
             <p className="eyebrow">Contact</p>
-            <h2>
-              Looking to{' '}
-              <TypewriterText phrases={['automate a process', 'build a reliable software product ?', 'scale your operations ?', 'optimize your backend ?']} />
-            </h2>
-            <p>I partner with forward-thinking teams to engineer robust, high-performance web systems.</p>
+            <h2>Let&apos;s build a system that works for you.</h2>
+            <p>Have a web app, automation workflow or AI system in mind? Tell me what you need to build and where the current process gets stuck.</p>
+            <ul className="contact-engagements" aria-label="Available engagements">
+              <li>Freelance projects</li>
+              <li>Remote roles</li>
+              <li>Business automation</li>
+            </ul>
             <div className="contact-actions">
-              <a className="button button-primary" href="mailto:azazshaikh2703@gmail.com">Email Me</a>
+              <a className="button button-primary" href="mailto:azazshaikh2703@gmail.com">Discuss a project</a>
               <a
                 className="button button-secondary"
                 href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322"
@@ -549,12 +552,13 @@ export default function Home() {
               >
                 LinkedIn
               </a>
-              <a className="button button-secondary" href="#top" style={{ flex: 'none', minWidth: 'auto', padding: '0.95rem 1.15rem' }}>
-                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <a className="button button-secondary contact-back-top" href="#top" aria-label="Back to top" title="Back to top">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M8 12V4m0 0l-3 3m3-3l3 3" />
                 </svg>
               </a>
             </div>
+            <ContactEmail email="azazshaikh2703@gmail.com" />
           </div>
         </section>
       </main>
@@ -585,10 +589,10 @@ export default function Home() {
           <div className="footer-links-col">
             <h4>SERVICES</h4>
             <ul>
-              <li><a href="#services">Business Websites</a></li>
-              <li><a href="#services">Web Applications</a></li>
-              <li><a href="#services">Local SEO &amp; Speed</a></li>
-              <li><a href="#services">UI / UX Implementations</a></li>
+              <li><a href="#services">Enterprise Applications</a></li>
+              <li><a href="#services">Algorithm Development</a></li>
+              <li><a href="#services">E-Commerce &amp; Logistics</a></li>
+              <li><a href="#services">SaaS Architectures</a></li>
             </ul>
           </div>
 
@@ -596,7 +600,7 @@ export default function Home() {
             <h4>PORTFOLIO</h4>
             <ul>
               <li><a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">POC Waste Optimizer</a></li>
-              <li><a href="https://excel-cleaner-one.vercel.app/" target="_blank" rel="noreferrer">Excel Cleaner Tool</a></li>
+              <li><a href="https://excel-cleaner.azazshaikh.info/" target="_blank" rel="noreferrer">Excel Cleaner Tool</a></li>
               <li><a href="https://shamgym.vercel.app/" target="_blank" rel="noreferrer">ShamGym</a></li>
               <li><a href="#work">FastShipment</a></li>
               <li><a href="#work">Gym Flow Platform</a></li>

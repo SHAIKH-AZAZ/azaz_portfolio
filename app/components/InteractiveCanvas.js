@@ -49,8 +49,9 @@ export default function InteractiveCanvas() {
         const heroStage = document.querySelector('.hero-stage');
         const regularReveal = revealElements.filter((el) => el !== heroCopy && el !== heroStage);
 
-        // Delay initial hide slightly to let React hydrate client components first
-        gsap.set(revealElements, { autoAlpha: 0, y: 32 });
+        // Hero copy holds the LCP text: keep it visible, only the title words animate in
+        gsap.set(revealElements.filter((el) => el !== heroCopy), { autoAlpha: 0, y: 32 });
+        gsap.set(heroCopy, { autoAlpha: 1 });
         gsap.set(titleWords, {
           autoAlpha: 0,
           filter: 'blur(6px)',
@@ -59,14 +60,8 @@ export default function InteractiveCanvas() {
           transformOrigin: 'left bottom',
         });
 
-        // Small delay before hero reveal to ensure TypewriterText is hydrated
         const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.15 });
         heroTimeline
-          .to(heroCopy, {
-            autoAlpha: 1,
-            duration: 0.35,
-            y: 0,
-          })
           .to(titleWords, {
             autoAlpha: 1,
             duration: 0.8,
@@ -75,7 +70,7 @@ export default function InteractiveCanvas() {
             stagger: 0.08,
             yPercent: 0,
             onComplete: () => heroCopy?.classList.add('is-visible'),
-          }, '-=0.1')
+          })
           .to(heroStage, {
             autoAlpha: 1,
             duration: 0.85,
@@ -221,6 +216,7 @@ export default function InteractiveCanvas() {
     let animId = 0;
     let canvasObs = null;
     let resizeCanvas = null;
+    let onResize = null;
     let beforeUnload = null;
     let themeObs = null;
 
@@ -237,7 +233,7 @@ export default function InteractiveCanvas() {
         gridAlpha = parseFloat(rootStyle.getPropertyValue('--grid-alpha')) || 0.02;
       };
       readPalette();
-      themeObs = new MutationObserver(readPalette);
+      themeObs = new MutationObserver(() => { readPalette(); kick(); });
       themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       let width = 0, height = 0, isCanvasVisible = true;
       let targetMouseX = -1000;
@@ -245,10 +241,18 @@ export default function InteractiveCanvas() {
       let mouseX = -1000;
       let mouseY = -1000;
       let pulseAlpha = 0;
+      // Loop only while the pointer glow is on screen; idle = one static frame (no 60fps redraw on mobile)
+      let looping = false;
+      const kick = () => {
+        if (looping) return;
+        looping = true;
+        animId = requestAnimationFrame(render);
+      };
 
       const onPointerMove = (e) => {
         targetMouseX = e.clientX;
         targetMouseY = e.clientY;
+        kick();
       };
 
       const onPointerLeave = () => {
@@ -276,7 +280,7 @@ export default function InteractiveCanvas() {
 
       const render = () => {
         if (!isCanvasVisible) {
-          animId = requestAnimationFrame(render);
+          looping = false;
           return;
         }
 
@@ -386,17 +390,20 @@ export default function InteractiveCanvas() {
           ctx.stroke();
         }
 
-        animId = requestAnimationFrame(render);
+        if (mouseX > -1000 || targetMouseX > -1000) animId = requestAnimationFrame(render);
+        else looping = false;
       };
 
       canvasObs = new IntersectionObserver((entries) => {
         isCanvasVisible = entries[0].isIntersecting;
+        if (isCanvasVisible) kick();
       }, { threshold: 0.01 });
       canvasObs.observe(canvas);
 
       resizeCanvas();
-      render();
-      window.addEventListener('resize', resizeCanvas, { passive: true });
+      kick();
+      onResize = () => { resizeCanvas(); kick(); };
+      window.addEventListener('resize', onResize, { passive: true });
       beforeUnload = () => {
         cancelAnimationFrame(animId);
         cancelAnimationFrame(rafId);
@@ -414,7 +421,7 @@ export default function InteractiveCanvas() {
       cancelAnimationFrame(animId);
       canvasObs?.disconnect();
       themeObs?.disconnect();
-      if (resizeCanvas) window.removeEventListener('resize', resizeCanvas);
+      if (resizeCanvas) window.removeEventListener('resize', onResize);
       if (beforeUnload) window.removeEventListener('beforeunload', beforeUnload);
       document.body.classList.remove('has-motion');
     };

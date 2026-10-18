@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Azaz Shaikh Portfolio
 
-## Getting Started
+Single-page portfolio built with Next.js 16.2.1, React 19 and GSAP. JavaScript components and plain CSS; Inter and JetBrains Mono are loaded through `next/font`.
 
-First, run the development server:
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+bun run build
+bun run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure
 
-## Learn More
+- `app/page.js`: server-rendered page sections, skills, featured project content and project structured data.
+- `app/layout.js`: fonts, SEO metadata, structured data and pre-paint theme initialization.
+- `app/components/`: navigation, diagrams, timeline and interactive presentation components.
+- `app/styles/`: theme tokens and component/section styles, imported in cascade order by `app/globals.css`.
+- `public/work/` and `public/logos/`: project screenshots and shared technology logos.
+- `_old_static/`: historical implementation, not part of the active app.
 
-To learn more about Next.js, take a look at the following resources:
+## Responsive UI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- The active `Header` uses desktop links above 820px and a native modal navigation dialog at smaller widths. The menu contains keyboard focus, closes on Escape/backdrop/section navigation, restores scroll settings, and closes when resized to desktop.
+- `Timeline` renders its seven records once in chronological order. Its default layout is vertical, including before hydration. Normal-motion desktop enhances it into a horizontal scroll timeline; mobile, tablet and reduced-motion users retain the static vertical layout.
+- About, Services and Contact headings are static. Featured cards separate the problem, what was built and the qualitative result; live apps have links, while private work is informational.
+- The theme toggle announces whether dark mode is active and persists the choice in `localStorage`. Light is the initial default.
+- Contact includes a selectable email address, mail link and clipboard control. Copy success is announced only after the browser resolves the write; unavailable or denied clipboard access shows manual-copy guidance.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The hero JSON display, portfolio console and business-impact animation are illustrative presentations, not backend execution or live measurements. Contact links open email or LinkedIn; there is no contact-submission API.
 
-## Deploy on Vercel
+## Content maintenance
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Project capabilities and results should remain grounded in the actual work. Do not add performance numbers without supporting measurements. When changing delivery steps or project descriptions, also review the corresponding JSON-LD in `app/layout.js` and `app/page.js`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+After UI changes, check desktop and 320px mobile views, both themes, keyboard navigation, reduced motion, timeline breakpoint transitions and clipboard success/error feedback.
+

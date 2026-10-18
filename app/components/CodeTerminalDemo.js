@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const TYPE_START_DELAY = 120;
 const TYPE_CHAR_SPEED = 12;
@@ -166,6 +166,20 @@ export default function CodeTerminalDemo() {
   const [codeVisibleChars, setCodeVisibleChars] = useState(0);
   const [outputVisibleChars, setOutputVisibleChars] = useState(0);
   const [scrambleTick, setScrambleTick] = useState(0);
+  // Type only once scrolled into view, so the per-char re-renders don't compete with page load
+  const [inView, setInView] = useState(false);
+  const shellRef = useRef(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setInView(true);
+        obs.disconnect();
+      }
+    }, { rootMargin: '200px' });
+    obs.observe(shellRef.current);
+    return () => obs.disconnect();
+  }, []);
 
   const handleTabClick = (idx) => {
     if (idx === activeIdx) {
@@ -188,6 +202,7 @@ export default function CodeTerminalDemo() {
       setOutputVisibleChars(outputCharCount);
       return undefined;
     }
+    if (!inView) return undefined;
 
     let codeIntervalId = null;
     let outputIntervalId = null;
@@ -228,10 +243,10 @@ export default function CodeTerminalDemo() {
       if (codeIntervalId) window.clearInterval(codeIntervalId);
       if (outputIntervalId) window.clearInterval(outputIntervalId);
     };
-  }, [activeIdx, animKey, codeCharCount, outputCharCount]);
+  }, [activeIdx, animKey, codeCharCount, outputCharCount, inView]);
 
   useEffect(() => {
-    if (codeVisibleChars >= codeCharCount && outputVisibleChars >= outputCharCount) {
+    if (!inView || (codeVisibleChars >= codeCharCount && outputVisibleChars >= outputCharCount)) {
       return undefined;
     }
 
@@ -240,10 +255,10 @@ export default function CodeTerminalDemo() {
     }, 45);
 
     return () => window.clearInterval(intervalId);
-  }, [codeCharCount, codeVisibleChars, outputCharCount, outputVisibleChars]);
+  }, [codeCharCount, codeVisibleChars, outputCharCount, outputVisibleChars, inView]);
 
   return (
-    <div className="ctd-shell">
+    <div className="ctd-shell" ref={shellRef}>
       {/* Window chrome + Tab bar */}
       <div className="ctd-chrome">
         <div className="ctd-dots" aria-hidden="true">

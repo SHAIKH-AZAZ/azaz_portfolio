@@ -209,7 +209,7 @@ export default function RootLayout({ children }) {
     ],
   };
 
-  // ── WebSite schema with SearchAction ─────────────────────────────────────
+  // ── WebSite schema ─────────────────────────────────────────────────
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -220,14 +220,6 @@ export default function RootLayout({ children }) {
       "Portfolio of Azaz Shaikh — full-stack engineer building scalable web systems and business automation tools.",
     author: { "@id": `${BASE_URL}/#person` },
     inLanguage: "en-US",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${BASE_URL}/?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 
   // ── ProfilePage schema ────────────────────────────────────────────────────
@@ -244,68 +236,6 @@ export default function RootLayout({ children }) {
     inLanguage: "en-US",
     isPartOf: { "@id": `${BASE_URL}/#website` },
     mainEntity: { "@id": `${BASE_URL}/#person` },
-  };
-
-  // ── BreadcrumbList schema ─────────────────────────────────────────────────
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
-      { "@type": "ListItem", position: 2, name: "About", item: `${BASE_URL}/#about` },
-      { "@type": "ListItem", position: 3, name: "Experience", item: `${BASE_URL}/#experience` },
-      { "@type": "ListItem", position: 4, name: "Work", item: `${BASE_URL}/#work` },
-      { "@type": "ListItem", position: 5, name: "Services", item: `${BASE_URL}/#services` },
-      { "@type": "ListItem", position: 6, name: "Contact", item: `${BASE_URL}/#contact` },
-    ],
-  };
-
-  // ── FAQPage schema ────────────────────────────────────────────────────────
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What full-stack development services does Azaz Shaikh offer?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Azaz Shaikh offers full-stack web development services including enterprise applications, internal dashboards, CRM extensions, SaaS architecture design, e-commerce platforms, logistics tracking systems, and custom algorithm development. He builds with React, Next.js, Node.js, Python, MongoDB, and PostgreSQL.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What business automation solutions does Azaz Shaikh build?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Azaz Shaikh specializes in Python ETL data pipelines, logistics shipment tracking platforms, bar-cutting optimization algorithms to minimize material waste, AI-powered RAG systems using LangChain, and stateful multi-step AI agents built on LangGraph.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is Azaz Shaikh available for freelance or remote projects?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, Azaz Shaikh is available for freelance and remote software development engagements. Contact via email at azazshaikh2703@gmail.com or LinkedIn to discuss project requirements, timelines, and deliverables.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What AI and machine learning technologies does Azaz Shaikh work with?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Azaz Shaikh works with LangChain for Retrieval-Augmented Generation (RAG) systems, LangGraph for stateful multi-step AI agent orchestration, OpenAI APIs, vector databases, and Python data libraries including Pandas for large-scale ETL processing.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How does Azaz Shaikh approach software development projects?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Azaz Shaikh follows a structured three-phase methodology: (1) Discovery & Scope — analyzing business bottlenecks, mapping user journeys, and defining a systems requirement document; (2) Architect & Build — constructing scalable databases, wireframing the UI, and writing core algorithms; (3) Test & Deploy — rigorous QA automation, security validation, and seamless production deployment.",
-        },
-      },
-    ],
   };
 
   // ── HowTo schema (Process section) ───────────────────────────────────────
@@ -370,25 +300,11 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c"),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
             __html: JSON.stringify(howToSchema).replace(/</g, "\\u003c"),
           }}
         />
 
         {/* ── Resource hints ── */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://poc-waste-proper.vercel.app" />
         <link rel="dns-prefetch" href="https://excel-cleaner.azazshaikh.info" />
         <link rel="dns-prefetch" href="https://github.com" />
