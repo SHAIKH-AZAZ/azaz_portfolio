@@ -1,10 +1,26 @@
 'use client';
 
-// Initial theme is set before paint by the inline script in layout.js; this only flips it.
+import { useSyncExternalStore } from 'react';
+
+function subscribeToTheme(onChange) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+  return () => observer.disconnect();
+}
+
+const getDarkTheme = () => document.documentElement.dataset.theme === 'dark';
+const getServerDarkTheme = () => false;
+
+// The pre-paint layout script owns initialization; observe its DOM theme after hydration.
 export default function ThemeToggle() {
+  const isDark = useSyncExternalStore(subscribeToTheme, getDarkTheme, getServerDarkTheme);
+
   const toggle = () => {
     const root = document.documentElement;
-    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
     const apply = () => {
       root.dataset.theme = next;
       // browser UI color follows the page background token
@@ -22,8 +38,9 @@ export default function ThemeToggle() {
       type="button"
       className="theme-toggle"
       onClick={toggle}
-      aria-label="Switch between light and dark theme"
-      title="Switch theme"
+      aria-label="Dark theme"
+      aria-pressed={isDark}
+      title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
     >
       <svg className="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
         <circle cx="12" cy="12" r="4" />
