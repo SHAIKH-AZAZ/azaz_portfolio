@@ -27,7 +27,10 @@ const ICONS = {
 export default function OtherBuilds() {
   return (
     <div className="work-more reveal">
-      <h3>Other builds</h3>
+      <div className="work-more-head">
+        <h3>Other builds</h3>
+        <span>Schedule B — {String(BUILDS.length).padStart(2, '0')} entries</span>
+      </div>
       <ul>
         {BUILDS.map((b) => (
           <li key={b.name}>
