@@ -177,7 +177,7 @@
         position: absolute;
         top: 50%;
         margin-top: 2vw;
-        font-size: clamp(1rem, 1.65vw, 1.75rem);
+        font-size: 1.05rem;
     }
 
     .timeline--animated .tl-axis {
@@ -277,12 +277,12 @@
     }
 
     .timeline--animated .tl-title {
-        font-size: clamp(1.35rem, 2.5vw, 3rem);
-        line-height: 1.08;
+        font-size: clamp(1.25rem, 1.8vw, 1.65rem);
+        line-height: 1.15;
     }
 
     .timeline--animated .tl-text {
-        font-size: clamp(1rem, 1.5vw, 1.5rem);
-        line-height: 1.4;
+        font-size: 1.05rem;
+        line-height: 1.6;
     }
 }

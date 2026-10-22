@@ -156,6 +156,19 @@
     height: 1.1rem;
 }
 
+.footer-brand .footer-brand-name {
+    color: var(--text);
+}
+
+.footer-top-link {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.footer-top-link:hover {
+    color: var(--accent-ink);
+}
+
 .footer-bottom {
     width: var(--container);
     margin: 0 auto;

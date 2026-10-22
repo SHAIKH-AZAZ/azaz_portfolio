@@ -101,17 +101,23 @@ function renderScrapeOutput(text) {
 export default function HeroScraperAnimation() {
   const [activeMode, setActiveMode] = useState('PROFILE');
   const [isScraping, setIsScraping] = useState(false);
-  const [typedUrl, setTypedUrl] = useState('');
-  const [typedJson, setTypedJson] = useState('');
+  // First mode renders fully typed, so the card is never an empty panel on load
+  const [typedUrl, setTypedUrl] = useState(MODES.PROFILE.url);
+  const [typedJson, setTypedJson] = useState(MODES.PROFILE.json);
   const [typedStatus, setTypedStatus] = useState('');
   const timerRef = useRef(null);
   const listRef = useRef(null);
   const tabRefs = useRef({});
 
   const currentMode = MODES[activeMode];
+  const shownMode = useRef(activeMode);
 
   // Handle coordinated interactive sequence (URL Typing -> Scanning -> JSON Typing)
   useEffect(() => {
+    // Animate only on a mode change, not on mount
+    if (shownMode.current === activeMode) return undefined;
+    shownMode.current = activeMode;
+
     let active = true;
     let urlInterval = null;
     let jsonInterval = null;

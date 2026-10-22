@@ -232,6 +232,23 @@
     overflow: hidden;
 }
 
+/* Phones: wrap long lines instead of clipping, and give the tabs the full bar */
+@media (max-width: 600px) {
+    .ctd-code {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    .ctd-linenum {
+        width: 2.2rem;
+        padding-right: 0.7rem;
+    }
+
+    .ctd-status-pill {
+        display: none;
+    }
+}
+
 /* Token types */
 .ctd-token-normal {
     color: var(--text);
