@@ -118,7 +118,7 @@ export default function Timeline() {
           <div className="tl-body">
             <div className="tl-lead">
               <h2 id="experience-heading">My professional journey</h2>
-              <p>Experience &amp; builds</p>
+              <p>Roles I&apos;ve held and systems I&apos;ve shipped.</p>
             </div>
 
             <div className="tl-axis" aria-hidden="true">

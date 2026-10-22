@@ -59,7 +59,7 @@ const featuredWork = [
     problem: 'Manual cutting plans make it difficult to use raw material efficiently.',
     contribution: 'Bar-cutting algorithms and a project-management interface.',
     outcome: 'Waste-aware cutting plans and project management in one tool.',
-    stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
+    stack: ['Next.js', 'PostgreSQL'],
   },
   {
     name: 'Excel Cleaner Tool',
@@ -69,7 +69,7 @@ const featuredWork = [
     problem: 'Raw spreadsheets carry hidden objects, macros and inconsistent formatting.',
     contribution: 'XLSX processing and a web interface for cleaning files.',
     outcome: 'Clean, structured spreadsheet data ready for the next workflow.',
-    stack: ['Next.js', 'Regex', 'Data processing'],
+    stack: ['Next.js', 'Regex'],
   },
   {
     name: 'ShamGym',
@@ -79,7 +79,7 @@ const featuredWork = [
     problem: 'Visitors need one place to discover the gym and find a way to get started.',
     contribution: 'Responsive pages for classes, trainers, memberships and booking.',
     outcome: 'A clear path from exploring the gym to booking a free trial.',
-    stack: ['Next.js', 'Responsive UI'],
+    stack: ['Next.js'],
   },
   {
     name: 'FastShipment',
@@ -88,7 +88,7 @@ const featuredWork = [
     problem: 'Orders, shipment changes and partner operations need a shared workflow.',
     contribution: 'Ordering, checkout, editable tracking and partner-management tools.',
     outcome: 'Shipment operations brought together in a single platform.',
-    stack: ['Python', 'Checkout', 'Tracking'],
+    stack: ['Python'],
   },
 ];
 
@@ -552,11 +552,6 @@ export default function Home() {
               >
                 LinkedIn
               </a>
-              <a className="button button-secondary contact-back-top" href="#top" aria-label="Back to top" title="Back to top">
-                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M8 12V4m0 0l-3 3m3-3l3 3" />
-                </svg>
-              </a>
             </div>
             <ContactEmail email="azazshaikh2703@gmail.com" />
           </div>
@@ -568,7 +563,7 @@ export default function Home() {
           <div className="footer-brand-col">
             <a className="brand footer-brand" href="#top">
               <span className="brand-icon">AS</span>
-              <span>Azaz</span>.dev
+              <span className="footer-brand-name"><span>azazshaikh</span>.info</span>
             </a>
             <p className="footer-bio">
               Building production-ready web systems for growing brands. From concept to deployment.
@@ -615,17 +610,18 @@ export default function Home() {
             <p className="contact-prompt">Ready to build something great? Let&apos;s talk about your vision.</p>
             <div className="footer-email-link">
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
-              <a href="mailto:azazshaikh2703@gmail.com">Contact Us</a>
+              <a href="mailto:azazshaikh2703@gmail.com">azazshaikh2703@gmail.com</a>
             </div>
             <a className="button footer-cta-btn" href="mailto:azazshaikh2703@gmail.com">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cta-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              <span>Email Consult</span>
+              <span>Email me</span>
             </a>
           </div>
         </div>
 
         <div className="footer-bottom">
           <p className="copyright">&copy; {new Date().getFullYear()} Azaz Shaikh. All rights reserved.</p>
+          <a className="footer-top-link" href="#top">Back to top ↑</a>
           <p className="credit">Built with <span style={{ color: '#ef4444', margin: '0 0.1rem' }}>❤</span> using Next.js &amp; CSS</p>
         </div>
       </footer>
