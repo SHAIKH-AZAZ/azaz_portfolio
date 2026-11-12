@@ -91,7 +91,7 @@
     background: var(--accent);
     color: var(--on-accent);
     font-size: clamp(0.85rem, 4cqi, 1.15rem);
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: 0.02em;
 }
 

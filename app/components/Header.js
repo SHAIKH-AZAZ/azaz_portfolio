@@ -1,37 +1,48 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const menuButton = useRef(null);
 
   const close = () => setOpen(false);
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e) => { if (e.key === 'Escape') close(); };
-    document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        close();
+        menuButton.current?.focus();
+      }
     };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [open]);
 
   return (
-    <>
-      <header className="site-header">
-        <div className="site-header-inner">
-          <a className="brand" href="#top" onClick={close}><span>Azaz</span> Shaikh</a>
-          <nav className="nav" aria-label="Primary navigation">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#work">Work</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
-          </nav>
-          <a className="header-cta" href="#contact">Let&apos;s Build</a>
+    <header className="site-header" onBlur={(e) => {
+      if (!e.currentTarget.contains(e.relatedTarget)) close();
+    }}>
+      <div className="site-header-inner">
+        <a className="brand" href="#top" onClick={close} aria-label="Azaz Shaikh, back to top">
+          <span className="brand-mark" aria-hidden="true">AS</span>
+          Azaz Shaikh
+        </a>
+        <nav className="nav" aria-label="Primary navigation">
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#work">Work</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div className="header-actions">
+          <ThemeToggle />
+          <a className="header-cta" href="#contact" onClick={close}>Start a project</a>
           <button
+            ref={menuButton}
+            type="button"
             className={`mobile-menu-btn${open ? ' is-open' : ''}`}
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? 'Close navigation' : 'Open navigation'}
@@ -43,13 +54,12 @@ export default function Header() {
             <span aria-hidden="true" />
           </button>
         </div>
-      </header>
+      </div>
 
       <div
         id="mobile-nav"
-        className={`mobile-nav${open ? ' is-open' : ''}`}
-        aria-hidden={!open}
-        inert={!open}
+        className="mobile-nav"
+        hidden={!open}
       >
         <nav className="mobile-nav-links" aria-label="Mobile navigation">
           <a href="#about" onClick={close}>About</a>
@@ -58,9 +68,6 @@ export default function Header() {
           <a href="#services" onClick={close}>Services</a>
           <a href="#contact" onClick={close}>Contact</a>
         </nav>
-        <a className="button button-primary mobile-nav-cta" href="#contact" onClick={close}>
-          Let&apos;s Build Together
-        </a>
         <div className="mobile-nav-footer">
           <a href="https://github.com/SHAIKH-AZAZ/" target="_blank" rel="noreferrer">GitHub</a>
           <span aria-hidden="true">·</span>
@@ -69,6 +76,6 @@ export default function Header() {
           <a href="mailto:azazshaikh2703@gmail.com">Email</a>
         </div>
       </div>
-    </>
+    </header>
   );
 }

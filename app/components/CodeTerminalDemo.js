@@ -272,7 +272,7 @@ export default function CodeTerminalDemo() {
         </div>
         <div className="ctd-status-pill">
           <span className="ctd-status-glow" />
-          <span>RUNNING</span>
+          <span>Running</span>
         </div>
       </div>
 
@@ -309,7 +309,7 @@ export default function CodeTerminalDemo() {
         {/* RIGHT — Markdown output panel */}
         <div className="ctd-output-panel">
           <div className="ctd-output-chrome">
-            <span className="ctd-output-badge">● TERMINAL OUTPUT</span>
+            <span className="ctd-output-badge">● Terminal output</span>
           </div>
           <div className="ctd-output-body">
             {(() => {

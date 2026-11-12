@@ -1,15 +1,16 @@
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-plex-sans",
   display: "swap",
 });
 
-const jetBrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -17,7 +18,7 @@ const BASE_URL = "https://azazshaikh.info";
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
-  themeColor: "#e4eaf0",
+  themeColor: "#f5f7fa",
   colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
@@ -138,7 +139,7 @@ export const metadata = {
   other: {
     "geo.region": "IN",
     "geo.placename": "India",
-    "msapplication-TileColor": "#0f345c",
+    "msapplication-TileColor": "#0b1524",
     "msapplication-config": "none",
     rating: "general",
   },
@@ -339,13 +340,13 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${plexSans.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Theme before first paint: saved choice, else light. #0f345c = dark --bg (globals.css) */}
+        {/* Theme before first paint: saved choice, else light. #0b1524 = dark --bg (tokens.css) */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var t=localStorage.getItem('theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#0f345c'}catch(e){}",
+              "try{var t=localStorage.getItem('theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#0b1524'}catch(e){}",
           }}
         />
         {/* ── JSON-LD Structured Data ── */}
@@ -387,8 +388,6 @@ export default function RootLayout({ children }) {
         />
 
         {/* ── Resource hints ── */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://poc-waste-proper.vercel.app" />
         <link rel="dns-prefetch" href="https://excel-cleaner.azazshaikh.info" />
         <link rel="dns-prefetch" href="https://github.com" />

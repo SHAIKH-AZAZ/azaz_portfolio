@@ -1,16 +1,13 @@
-import InteractiveCanvas from './components/InteractiveCanvas';
+import SiteMotion from './components/SiteMotion';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
-import TypewriterText from './components/TypewriterText';
 import IntegrationCard from './components/IntegrationCard';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
-import ScrambleText from './components/ScrambleText';
 import DeliveryPipeline from './components/DeliveryPipeline';
 import OtherBuilds, { BUILDS } from './components/OtherBuilds';
 import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
-import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
-import ThemeToggle from './components/ThemeToggle';
+import Header from './components/Header';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -91,6 +88,19 @@ const featuredWork = [
   },
 ];
 const liveCount = featuredWork.filter((w) => w.url).length;
+
+const capabilities = [
+  ['Capability', 'Workflow automation'],
+  ['Capability', 'AI agents'],
+  ['Capability', 'System integration'],
+  ['Capability', 'Database optimization'],
+  ['Capability', 'Scalable architecture'],
+  ['Domain', 'Logistics algorithms'],
+  ['Domain', 'Business solutions'],
+  ['Stack', 'LangChain & LangGraph'],
+  ['Stack', 'Python automation'],
+  ['Stack', 'Full-stack engineering'],
+];
 
 const BASE_URL = "https://azazshaikh.info";
 const authorRef = { "@type": "Person", "@id": `${BASE_URL}/#person`, name: "Azaz Shaikh" };
@@ -290,36 +300,9 @@ export default function Home() {
           __html: JSON.stringify(projectsSchema).replace(/</g, "\\u003c"),
         }}
       />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: "try{sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
-        }}
-      />
-      <IntroOverlay />
-      <InteractiveCanvas />
-      <div className="noise" aria-hidden="true" />
+      <SiteMotion />
 
-      <div className="scroll-progress-container" aria-hidden="true">
-        <div className="scroll-progress-track" />
-        <div className="scroll-progress-thumb" />
-      </div>
-
-      <header className="site-header">
-        <div className="site-header-inner">
-          <a className="brand" href="#top"><span>Azaz</span> Shaikh</a>
-          <nav className="nav">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#work">Work</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
-          </nav>
-          <div className="header-actions">
-            <ThemeToggle />
-            <a className="header-cta" href="#contact">Let&apos;s Build</a>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main id="top">
         {/* ── Hero ── */}
@@ -329,12 +312,7 @@ export default function Home() {
               <span className="hero-status-dot" aria-hidden="true" />
               Open to freelance and remote roles
             </p>
-            <h1>
-              <span className="title-line"><span className="title-word">I turn manual</span></span>
-              <span className="title-line"><span className="title-word">operations into</span></span>
-              <span className="title-line"><span className="title-word">software that</span></span>
-              <span className="title-line"><span className="title-word">runs itself.</span></span>
-            </h1>
+            <h1>I turn manual operations into software that runs itself.</h1>
             <p className="lead">
               I&apos;m Azaz Shaikh, a full-stack engineer. I build web apps and automation tools that
               replace spreadsheets and copy-paste, from steel cutting plans to live shipment tracking.
@@ -343,20 +321,6 @@ export default function Home() {
               <a className="button button-primary" href="#work">View projects</a>
               <a className="button button-secondary" href="#contact">Start a project</a>
             </div>
-            <div className="hero-metrics">
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="1+" />
-                <span className="metric-label">Year of full-stack engineering experience</span>
-              </article>
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="15+" delay={120} />
-                <span className="metric-label">Business operations optimized through code</span>
-              </article>
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="98%" delay={240} />
-                <span className="metric-label">Performance &amp; efficiency increase on core systems</span>
-              </article>
-            </div>
           </div>
 
           <div className="hero-stage reveal">
@@ -364,14 +328,35 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Marquee ── */}
-        <section className="marquee-shell" aria-label="Core skills">
-          <div className="marquee-track">
-            {['Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering',
-              'Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering'].map((s, i) => (
-                <span key={i}>{s}</span>
-              ))}
-          </div>
+        {/* ── Proof strip: three facts in ruled cells ── */}
+        <section className="proof-strip" aria-label="At a glance">
+          <dl className="proof-grid">
+            <div className="proof-cell">
+              <dt>1+ year</dt>
+              <dd>of full-stack engineering</dd>
+            </div>
+            <div className="proof-cell">
+              <dt>15+</dt>
+              <dd>business operations moved into code</dd>
+            </div>
+            <div className="proof-cell">
+              <dt>98%</dt>
+              <dd>efficiency gain on core systems</dd>
+            </div>
+          </dl>
+        </section>
+
+        {/* ── Capabilities: ruled grid, each cell tagged by kind ── */}
+        <section className="section capability-section" aria-labelledby="capability-title">
+          <h2 className="capability-title" id="capability-title">What I build with</h2>
+          <ul className="capability-grid">
+            {capabilities.map(([kind, name]) => (
+              <li key={name}>
+                <span className="capability-kind">{kind}</span>
+                <span className="capability-name">{name}</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* ── Stack orbit: tools and live work around the numbers ── */}
@@ -388,11 +373,10 @@ export default function Home() {
 
         {/* ── About ── */}
         <section className="section" id="about">
-          <div className="section-heading section-heading-stable reveal">
+          <div className="section-heading reveal">
             <p className="eyebrow">About</p>
             <h2>
-              I engineer software solutions that{' '}
-              <TypewriterText phrases={['eliminate inefficiencies', 'automate workflows', 'drive business growth', 'scale effortlessly']} />.
+              I find the bottleneck, then build the software that removes it.
             </h2>
           </div>
           <div className="about-lede reveal">
@@ -435,7 +419,7 @@ export default function Home() {
         <section className="section" id="experience">
           <div className="section-heading reveal">
             <p className="eyebrow">Experience</p>
-            <h2>My professional journey and hands-on industry experience.</h2>
+            <h2>Where I&apos;ve worked</h2>
           </div>
           <div className="experience-list">
             <article className="experience-card glass reveal">
@@ -445,9 +429,8 @@ export default function Home() {
               </div>
               <p>
                 Developed and shipped{' '}
-                <a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer"
-                  style={{ color: 'var(--accent-ink)', textDecoration: 'underline', textUnderlineOffset: '4px', fontWeight: 700 }}>
-                  POC Waste ↗
+                <a className="inline-link" href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">
+                  POC Waste
                 </a>
                 , a high-performance Bar Cutting Optimization web application. Engineered custom cutting stock
                 algorithms to minimize raw material waste and built a complete project management interface.
@@ -470,8 +453,9 @@ export default function Home() {
         <section className="section" id="work">
           <div className="work-head">
             <div className="section-heading reveal">
-              <p className="eyebrow">Featured Work</p>
-              <h2>Deployed applications and software solutions engineered to eliminate friction and drive business efficiency.</h2>
+              <p className="eyebrow">Work</p>
+              <h2>Selected work</h2>
+              <p className="section-sub">Tools that replaced spreadsheets, manual planning and copy-paste for real businesses.</p>
               <p className="work-meta">
                 {featuredWork.length} systems · {liveCount} live · {BUILDS.length} other builds
               </p>
@@ -554,7 +538,7 @@ export default function Home() {
         {/* ── Why Choose Me: automation run + measured outcomes ── */}
         <section className="section bi-section" id="features">
           <div className="section-heading reveal">
-            <p className="eyebrow">Why Choose Me</p>
+            <p className="eyebrow">Why work with me</p>
             <h2>Systems that pay for themselves.</h2>
           </div>
           <div className="reveal">
@@ -565,8 +549,8 @@ export default function Home() {
         {/* ── How It Works / Workflow Diagram ── */}
         <section className="section" id="how-it-works">
           <div className="section-heading reveal">
-            <p className="eyebrow">How It Works</p>
-            <h2>A clear pipeline from your idea to a live, running system.</h2>
+            <p className="eyebrow">How it works</p>
+            <h2>From first call to a running system.</h2>
           </div>
           <div className="reveal">
             <DeliveryPipeline />
@@ -576,7 +560,7 @@ export default function Home() {
         {/* ── Code Terminal Demo ── */}
         <section className="section" id="integration">
           <div className="section-heading reveal">
-            <p className="eyebrow">Portfolio Console</p>
+            <p className="eyebrow">Portfolio console</p>
             <h2>Explore the systems I build.</h2>
           </div>
           <div className="reveal">
@@ -587,11 +571,10 @@ export default function Home() {
         {/* ── Services ── */}
 
         <section className="section" id="services">
-          <div className="section-heading section-heading-stable section-heading-services-stable reveal">
+          <div className="section-heading reveal">
             <p className="eyebrow">Services</p>
             <h2>
-              From core infrastructure to user-facing flows, I build technical solutions mapped to{' '}
-              <TypewriterText phrases={['business growth', 'operational efficiency', 'faster workflows', 'market success']} />.
+              From core infrastructure to user-facing flows, built around how your business runs.
             </h2>
           </div>
           <div className="service-grid">
@@ -620,12 +603,11 @@ export default function Home() {
           <div className="contact-panel reveal">
             <p className="eyebrow">Contact</p>
             <h2>
-              Looking to{' '}
-              <TypewriterText phrases={['automate a process', 'build a reliable software product ?', 'scale your operations ?', 'optimize your backend ?']} />
+              Have a process that should run itself?
             </h2>
-            <p>I partner with forward-thinking teams to engineer robust, high-performance web systems.</p>
+            <p>Tell me what your team does by hand today, and I&apos;ll show you how I&apos;d automate it.</p>
             <div className="contact-actions">
-              <a className="button button-primary" href="mailto:azazshaikh2703@gmail.com">Email Me</a>
+              <a className="button button-primary" href="mailto:azazshaikh2703@gmail.com">Email me</a>
               <a
                 className="button button-secondary"
                 href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322"
@@ -634,8 +616,8 @@ export default function Home() {
               >
                 LinkedIn
               </a>
-              <a className="button button-secondary" href="#top" style={{ flex: 'none', minWidth: 'auto', padding: '0.95rem 1.15rem' }}>
-                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <a className="button button-secondary button-icon" href="#top" aria-label="Back to top">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M8 12V4m0 0l-3 3m3-3l3 3" />
                 </svg>
               </a>
@@ -648,8 +630,8 @@ export default function Home() {
         <div className="footer-top">
           <div className="footer-brand-col">
             <a className="brand footer-brand" href="#top">
-              <span className="brand-icon">AS</span>
-              <span>Azaz</span>.dev
+              <span className="brand-mark" aria-hidden="true">AS</span>
+              Azaz Shaikh
             </a>
             <p className="footer-bio">
               Building production-ready web systems for growing brands. From concept to deployment.
@@ -668,7 +650,7 @@ export default function Home() {
           </div>
 
           <div className="footer-links-col">
-            <h4>SERVICES</h4>
+            <h4>Services</h4>
             <ul>
               <li><a href="#services">Business Websites</a></li>
               <li><a href="#services">Web Applications</a></li>
@@ -678,10 +660,10 @@ export default function Home() {
           </div>
 
           <div className="footer-links-col">
-            <h4>PORTFOLIO</h4>
+            <h4>Portfolio</h4>
             <ul>
               <li><a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">POC Waste Optimizer</a></li>
-              <li><a href="https://excel-cleaner-one.vercel.app/" target="_blank" rel="noreferrer">Excel Cleaner Tool</a></li>
+              <li><a href="https://excel-cleaner.azazshaikh.info/" target="_blank" rel="noreferrer">Excel Cleaner Tool</a></li>
               <li><a href="https://shamgym.vercel.app/" target="_blank" rel="noreferrer">ShamGym</a></li>
               <li><a href="#work">FastShipment</a></li>
               <li><a href="#work">Gym Flow Platform</a></li>
@@ -692,11 +674,11 @@ export default function Home() {
           </div>
 
           <div className="footer-contact-col">
-            <h4>START A PROJECT</h4>
+            <h4>Start a project</h4>
             <p className="contact-prompt">Ready to build something great? Let&apos;s talk about your vision.</p>
             <div className="footer-email-link">
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
-              <a href="mailto:azazshaikh2703@gmail.com">Contact Us</a>
+              <a href="mailto:azazshaikh2703@gmail.com">azazshaikh2703@gmail.com</a>
             </div>
             <a className="button footer-cta-btn" href="mailto:azazshaikh2703@gmail.com">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cta-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
@@ -707,7 +689,7 @@ export default function Home() {
 
         <div className="footer-bottom">
           <p className="copyright">&copy; {new Date().getFullYear()} Azaz Shaikh. All rights reserved.</p>
-          <p className="credit">Built with <span style={{ color: '#ef4444', margin: '0 0.1rem' }}>❤</span> using Next.js &amp; CSS</p>
+          <p className="credit">Built with Next.js</p>
         </div>
       </footer>
     </>

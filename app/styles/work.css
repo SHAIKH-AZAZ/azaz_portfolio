@@ -36,8 +36,7 @@
     padding: 0.75rem 1rem;
     font-family: var(--font-space-mono);
     font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--muted);
 }
 
@@ -118,8 +117,7 @@
     margin: 0;
     font-family: var(--font-space-mono);
     font-size: 0.75rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--muted);
 }
 
@@ -226,8 +224,7 @@ a.work-shot[href]:hover {
     font-family: var(--font-space-mono);
     font-size: 0.7rem;
     line-height: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--muted);
 }
 
@@ -248,7 +245,7 @@ a.work-shot[href]:hover {
 .work-body h3 {
     margin: 0;
     font-size: clamp(1.6rem, 3vw, 2.3rem);
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.1;
 }
@@ -284,8 +281,7 @@ a.work-shot[href]:hover {
     padding-top: 0.8rem;
     font-family: var(--font-space-mono);
     font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--muted);
 }
 
@@ -365,8 +361,7 @@ a.work-shot[href]:hover {
 .work-more-head span {
     font-family: var(--font-space-mono);
     font-size: 0.75rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--muted);
 }
 

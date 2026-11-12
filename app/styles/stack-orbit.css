@@ -168,7 +168,7 @@
     background: var(--accent);
     color: var(--on-accent);
     font-size: 1.15rem;
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: 0.02em;
     box-shadow: 0 0 0 1px var(--line-strong), 0 6px 18px rgba(var(--shadow-rgb), calc(0.35 * var(--shadow-k)));
 }

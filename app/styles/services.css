@@ -13,8 +13,8 @@
     margin: 0 0 0.35rem;
     font-family: var(--font-bricolage);
     font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: -0.025em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     color: var(--text);
 }
 
@@ -27,22 +27,17 @@
     background: var(--panel);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
-    transition:
-        transform 240ms ease,
-        box-shadow 240ms ease,
-        border-color 240ms ease;
+    transition: border-color 150ms ease;
 }
 
 .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-    border-color: rgba(var(--accent-ink-rgb), 0.3);
+    border-color: var(--line-strong);
 }
 
 .service-card h3 {
     font-family: var(--font-bricolage);
-    font-size: 1.2rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text);
     margin: 0 0 0.6rem;
 }
@@ -76,7 +71,7 @@
 
 @media (max-width: 640px) {
     .service-card {
-        border-radius: 1.25rem;
+
         padding: 1.25rem;
     }
 }
