@@ -280,6 +280,20 @@ const projectsSchema = {
   ],
 };
 
+// Top-right corner cutout for a service card, with a numbered chip sitting in it. One SVG draws
+// both the cutout (page colour) and the border that follows its curve, so it needs no masking.
+function Notch({ n }) {
+  return (
+    <span className="notch" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="64" height="64">
+        <path className="notch-fill" d="M0 0A16 16 0 0 1 16 16V32A16 16 0 0 0 32 48H48A16 16 0 0 1 64 64V0Z" />
+        <path className="notch-line" d="M0 .5A15.5 15.5 0 0 1 15.5 16V32A16.5 16.5 0 0 0 32 48.5H48A15.5 15.5 0 0 1 63.5 64" />
+      </svg>
+      <i>{n}</i>
+    </span>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -597,18 +611,22 @@ export default function Home() {
           <div className="service-grid">
             <IntegrationCard />
             <article className="service-card glass reveal">
+              <Notch n="01" />
               <h3>Enterprise Applications</h3>
               <p>Internal tools, dashboards, and CRM extensions built to unify operations and data management.</p>
             </article>
             <article className="service-card glass reveal">
+              <Notch n="02" />
               <h3>Algorithm Development</h3>
               <p>Custom logic engineering for complex challenges, routing, scheduling, and resource optimization.</p>
             </article>
             <article className="service-card glass reveal">
+              <Notch n="03" />
               <h3>E-Commerce &amp; Logistics</h3>
               <p>End-to-end checkout paths, shipping engines, and partner management portal integrations.</p>
             </article>
             <article className="service-card glass reveal">
+              <Notch n="04" />
               <h3>SaaS Architectures</h3>
               <p>Scalable software foundations with robust authentication, role-based access, and fast response times.</p>
             </article>

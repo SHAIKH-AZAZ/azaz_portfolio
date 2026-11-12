@@ -17,7 +17,7 @@ const BASE_URL = "https://azazshaikh.info";
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
-  themeColor: "#e4eaf0",
+  themeColor: "#070709",
   colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
@@ -138,7 +138,7 @@ export const metadata = {
   other: {
     "geo.region": "IN",
     "geo.placename": "India",
-    "msapplication-TileColor": "#0f345c",
+    "msapplication-TileColor": "#070709",
     "msapplication-config": "none",
     rating: "general",
   },
@@ -341,11 +341,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Theme before first paint: saved choice, else light. #0f345c = dark --bg (globals.css) */}
+        {/* Theme before first paint: saved choice, else dark. #ffffff = light --bg (tokens.css) */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var t=localStorage.getItem('theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#0f345c'}catch(e){}",
+              "try{var t=localStorage.getItem('theme');if(t!=='light')t='dark';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='light')m.content='#ffffff'}catch(e){}",
           }}
         />
         {/* ── JSON-LD Structured Data ── */}

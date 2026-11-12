@@ -52,6 +52,113 @@
     margin: 0;
 }
 
+/* ── Notched card + colour flood ──
+   The four service cards are filled blocks with the top-right corner cut out and a numbered chip in the
+   cutout. On hover the accent pours in from the bottom-left and the text flips to its paired colour. */
+.service-card {
+    position: relative;
+    isolation: isolate;
+    border: 0;
+    box-shadow: inset 0 0 0 1px var(--line);
+    padding-right: 4.6rem;
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--accent);
+    clip-path: circle(0% at 0% 100%);
+    transition: clip-path 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.service-card:hover::before {
+    clip-path: circle(142% at 0% 100%);
+}
+
+.service-card:hover {
+    box-shadow: inset 0 0 0 1px transparent;
+}
+
+.service-card h3,
+.service-card p {
+    transition: color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-card:hover h3 {
+    color: var(--on-accent);
+}
+
+.service-card:hover p {
+    color: color-mix(in srgb, var(--on-accent) 86%, var(--accent));
+}
+
+.notch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 64px;
+    height: 64px;
+}
+
+.notch svg {
+    display: block;
+}
+
+.notch-fill {
+    fill: var(--bg);
+}
+
+.notch-line {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1;
+    transition: stroke 0.5s ease;
+}
+
+.service-card:hover .notch-line {
+    stroke: transparent;
+}
+
+.notch i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--panel-strong);
+    box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--muted);
+    font: 600 0.72rem var(--font-space-mono);
+    font-style: normal;
+    letter-spacing: 0.04em;
+    transition:
+        background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        color 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.5s ease;
+}
+
+.service-card:hover .notch i {
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: inset 0 0 0 1px transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .service-card::before,
+    .service-card h3,
+    .service-card p,
+    .notch i {
+        transition: none;
+    }
+}
+
 /* the integration card leads: its own column on wide screens, a full row below that */
 .service-grid .int-card {
     grid-column: 1 / -1;
