@@ -1,32 +1,35 @@
-/* Two themes from one drawing: Vellum (light, the default) is blue-grey tracing paper with
-   navy ink; Blueprint (dark) is blue paper with pale-blue linework. --accent fills (buttons,
-   dots); --accent-ink draws (text, lines, bars). Every color on the site derives from these
-   tokens; the canvases read them at runtime. */
+/* Two themes, one rule: neutrals carry the page, one accent carries the emphasis.
+   Paper (light): white page, slate ink, one green accent — the same family as the product pages
+   (#00801c fills, 5.0:1 under white text; #006b18 draws, 6.7:1 on white).
+   Ink (dark, the default): near-achromatic black stepped by lightness (bg → panel → sheet), white as the accent, so emphasis
+   comes from lightness, not hue. In Ink, green (--ok) is the only colour and means one thing: live / done.
+   --accent fills (buttons, dots); --accent-ink draws (text, lines, bars). Every color on the site derives from
+   these tokens; the canvases read them at runtime. */
 :root {
     color-scheme: light;
-    --bg: #e4eaf0;
-    --bg-soft: #d9e1ea;
-    --sunken-rgb: 246, 248, 250;
-    --panel: rgba(246, 248, 250, 0.82);
-    --panel-strong: rgba(248, 250, 252, 0.97);
-    --line: rgba(16, 42, 67, 0.14);
-    --line-strong: rgba(16, 42, 67, 0.26);
-    --text: #102a43;
-    --text-soft: #243b53;
-    --muted: #435d7a;
-    --accent: #0b5cad;
-    --accent-strong: #084a8c;
-    --accent-rgb: 11, 92, 173;
+    --bg: #ffffff;
+    --bg-soft: #f2f6fa;
+    --sunken-rgb: 242, 246, 250;
+    --panel: rgba(248, 250, 252, 0.9);
+    --panel-strong: rgba(255, 255, 255, 0.98);
+    --line: rgba(42, 53, 71, 0.12);
+    --line-strong: rgba(42, 53, 71, 0.24);
+    --text: #2a3547;
+    --text-soft: #3d4a60;
+    --muted: #5a6a85;
+    --accent: #00801c;
+    --accent-strong: #006b18;
+    --accent-rgb: 0, 128, 28;
     --on-accent: #ffffff;
-    --accent-ink: #0b5cad;
-    --accent-ink-strong: #084a8c;
-    --accent-ink-rgb: 11, 92, 173;
-    --ink-rgb: 16, 42, 67;
+    --accent-ink: #006b18;
+    --accent-ink-strong: #00520f;
+    --accent-ink-rgb: 0, 107, 24;
+    --ink-rgb: 42, 53, 71;
     --sheet: #ffffff;
     --ok: #0f7b53;
     --ok-rgb: 15, 123, 83;
-    --grid-alpha: 0.08;
-    --shadow-rgb: 16, 42, 67;
+    --grid-alpha: 0.045;
+    --shadow-rgb: 42, 53, 71;
     --shadow-k: 0.18;
     --shadow: 0 4px 30px rgba(var(--shadow-rgb), calc(0.45 * var(--shadow-k)));
     --shadow-hover: 0 12px 50px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
@@ -43,28 +46,28 @@
 
 :root[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #0f345c;
-    --bg-soft: #133e6a;
-    --sunken-rgb: 11, 40, 71;
-    --panel: rgba(11, 40, 71, 0.72);
-    --panel-strong: rgba(12, 44, 78, 0.96);
+    --bg: #070709;
+    --bg-soft: #0e0f12;
+    --sunken-rgb: 20, 21, 24;
+    --panel: rgba(20, 21, 24, 0.78);
+    --panel-strong: rgba(17, 18, 21, 0.97);
     --line: rgba(255, 255, 255, 0.1);
     --line-strong: rgba(255, 255, 255, 0.2);
-    --text: #f3f6f9;
-    --text-soft: #d3e0ec;
-    --muted: #a3bcd6;
-    --accent: #8cc8ff;
-    --accent-strong: #b3dbff;
-    --accent-rgb: 140, 200, 255;
-    --on-accent: #0f2e52;
-    --accent-ink: #8cc8ff;
-    --accent-ink-strong: #b3dbff;
-    --accent-ink-rgb: 140, 200, 255;
+    --text: #edeef0;
+    --text-soft: #c9ccd1;
+    --muted: #92959d;
+    --accent: #ffffff;
+    --accent-strong: #d9dbdf;
+    --accent-rgb: 255, 255, 255;
+    --on-accent: #070709;
+    --accent-ink: #ffffff;
+    --accent-ink-strong: #d9dbdf;
+    --accent-ink-rgb: 255, 255, 255;
     --ink-rgb: 255, 255, 255;
-    --sheet: #133e6a;
+    --sheet: #17181b;
     --ok: #34d399;
     --ok-rgb: 52, 211, 153;
     --grid-alpha: 0.06;
-    --shadow-rgb: 4, 18, 36;
+    --shadow-rgb: 0, 0, 0;
     --shadow-k: 1;
 }
