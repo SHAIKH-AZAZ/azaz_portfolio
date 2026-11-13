@@ -216,192 +216,115 @@ export default function InteractiveCanvas() {
       }, 100);
     }
 
-    // ── Glowing grid canvas ──
+    // ── Dot field background: rings spread every few seconds and from wherever you click ──
+    // Ported from heroDots (newPortfolio frameworks/shared/effects.js), stretched to the viewport.
     const canvas = canvasRef.current;
     let animId = 0;
-    let canvasObs = null;
-    let resizeCanvas = null;
-    let beforeUnload = null;
+    let dotTimer = 0;
     let themeObs = null;
 
-    if (canvas && !prefersReducedMotion) {
+    if (canvas) {
       const ctx = canvas.getContext('2d');
+      const SP = 26, R = 1.2, SPEED = 220, RING = 90, AMP = 1.8, EVERY = 2600, MAX = 6, TAU = Math.PI * 2;
+      let W = 0, H = 0, rings = [], next = performance.now() + 600;
+      let dotColor = '', hotRgb = '', base = 0.2;
+
       // Palette comes from the CSS tokens; re-read whenever the theme toggles
-      let accentRgb = '';
-      let inkRgb = '';
-      let gridAlpha = 0.02;
       const readPalette = () => {
-        const rootStyle = getComputedStyle(document.documentElement);
-        accentRgb = rootStyle.getPropertyValue('--accent-ink-rgb').trim();
-        inkRgb = rootStyle.getPropertyValue('--ink-rgb').trim();
-        gridAlpha = parseFloat(rootStyle.getPropertyValue('--grid-alpha')) || 0.02;
+        const css = getComputedStyle(document.documentElement);
+        dotColor = `rgb(${css.getPropertyValue('--ink-rgb').trim()})`;
+        hotRgb = css.getPropertyValue('--accent-ink-rgb').trim();
+        base = parseFloat(css.getPropertyValue('--dot-alpha')) || 0.2;
       };
+
+      const draw = (now) => {
+        const life = (Math.hypot(W, H) + RING) / SPEED;
+        rings = rings.filter((r) => (now - r.born) / 1000 < life);
+        const live = rings.map((r) => {
+          const age = (now - r.born) / 1000;
+          return { x: r.x, y: r.y, rad: age * SPEED, fade: 1 - age / life };
+        });
+        const cols = Math.ceil(W / SP) + 1, rows = Math.ceil(H / SP) + 1;
+        const ox = (W - (cols - 1) * SP) / 2, oy = (H - (rows - 1) * SP) / 2;
+        const hot = [];
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = dotColor;
+        ctx.globalAlpha = base;
+        ctx.beginPath();
+        for (let i = 0; i < cols; i++) {
+          for (let j = 0; j < rows; j++) {
+            const x = ox + i * SP, y = oy + j * SP;
+            let e = 0;
+            for (let k = 0; k < live.length; k++) {
+              const d = Math.abs(Math.hypot(x - live[k].x, y - live[k].y) - live[k].rad);
+              if (d >= RING) continue;
+              const t = 1 - d / RING, v = t * t * (3 - 2 * t) * live[k].fade; // smoothstep across the ring
+              if (v > e) e = v;
+            }
+            if (e < 0.01) { ctx.moveTo(x + R, y); ctx.arc(x, y, R, 0, TAU); } else hot.push(x, y, e);
+          }
+        }
+        ctx.fill();
+        ctx.fillStyle = `rgb(${hotRgb})`;
+        for (let h = 0; h < hot.length; h += 3) {
+          ctx.globalAlpha = base + (1 - base) * hot[h + 2];
+          ctx.beginPath();
+          ctx.arc(hot[h], hot[h + 1], R * (1 + AMP * hot[h + 2]), 0, TAU);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      };
+
+      const tick = () => {
+        animId = 0;
+        if (document.hidden) return;
+        const now = performance.now();
+        if (prefersReducedMotion) { rings = []; draw(now); return; }
+        if (now >= next) {
+          rings.push({ x: W * (0.15 + Math.random() * 0.7), y: H * (0.15 + Math.random() * 0.7), born: now });
+          next = now + EVERY;
+        }
+        draw(now);
+        // between rings nothing moves: sleep until the next one instead of drawing every frame
+        if (rings.length) animId = requestAnimationFrame(tick);
+        else { clearTimeout(dotTimer); dotTimer = setTimeout(wake, Math.max(16, next - now)); }
+      };
+      const wake = () => { if (!animId) { clearTimeout(dotTimer); animId = requestAnimationFrame(tick); } };
+
+      const resize = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = Math.floor(W * dpr);
+        canvas.height = Math.floor(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw(performance.now());
+      };
+
+      const onPointerDown = (e) => {
+        if (prefersReducedMotion) return;
+        rings.push({ x: e.clientX, y: e.clientY, born: performance.now() });
+        while (rings.length > MAX) rings.shift();
+        wake();
+      };
+      const onTheme = () => { readPalette(); draw(performance.now()); };
+
       readPalette();
-      themeObs = new MutationObserver(readPalette);
+      themeObs = new MutationObserver(onTheme);
       themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-      let width = 0, height = 0, isCanvasVisible = true;
-      let targetMouseX = -1000;
-      let targetMouseY = -1000;
-      let mouseX = -1000;
-      let mouseY = -1000;
-      let pulseAlpha = 0;
-
-      const onPointerMove = (e) => {
-        targetMouseX = e.clientX;
-        targetMouseY = e.clientY;
-      };
-
-      const onPointerLeave = () => {
-        targetMouseX = -1000;
-        targetMouseY = -1000;
-      };
-
-      window.addEventListener('pointermove', onPointerMove, { passive: true });
-      window.addEventListener('pointerleave', onPointerLeave, { passive: true });
+      window.addEventListener('pointerdown', onPointerDown, { passive: true });
+      window.addEventListener('resize', resize, { passive: true });
+      document.addEventListener('visibilitychange', wake);
       cleanupFns.push(() => {
-        window.removeEventListener('pointermove', onPointerMove);
-        window.removeEventListener('pointerleave', onPointerLeave);
+        window.removeEventListener('pointerdown', onPointerDown);
+        window.removeEventListener('resize', resize);
+        document.removeEventListener('visibilitychange', wake);
+        clearTimeout(dotTimer);
       });
 
-      resizeCanvas = () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      };
-
-      const render = () => {
-        if (!isCanvasVisible) {
-          animId = requestAnimationFrame(render);
-          return;
-        }
-
-        ctx.clearRect(0, 0, width, height);
-
-        // Smoothly interpolate mouse coordinates for elegant inertia
-        if (targetMouseX > -1000) {
-          if (mouseX === -1000) {
-            mouseX = targetMouseX;
-            mouseY = targetMouseY;
-          } else {
-            mouseX += (targetMouseX - mouseX) * 0.08;
-            mouseY += (targetMouseY - mouseY) * 0.08;
-          }
-        } else {
-          if (mouseX > -1000) {
-            mouseX += (-1000 - mouseX) * 0.08;
-            mouseY += (-1000 - mouseY) * 0.08;
-            if (mouseX < -950) {
-              mouseX = -1000;
-              mouseY = -1000;
-            }
-          }
-        }
-
-        pulseAlpha += 0.012;
-        const gridSpacing = 72;
-        const plusSize = 4;
-
-        // 1. Draw static background grid with subtle breathing effect
-        ctx.strokeStyle = `rgba(${inkRgb}, ${gridAlpha * (0.6 + Math.sin(pulseAlpha) * 0.15)})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (let x = 0; x < width; x += gridSpacing) {
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, height);
-        }
-        for (let y = 0; y < height; y += gridSpacing) {
-          ctx.moveTo(0, y);
-          ctx.lineTo(width, y);
-        }
-        ctx.stroke();
-
-        // 2. Draw static plus intersection markers
-        ctx.strokeStyle = `rgba(${inkRgb}, ${gridAlpha * (2 + Math.sin(pulseAlpha) * 0.5)})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (let x = 0; x < width; x += gridSpacing) {
-          for (let y = 0; y < height; y += gridSpacing) {
-            ctx.moveTo(x - plusSize, y);
-            ctx.lineTo(x + plusSize, y);
-            ctx.moveTo(x, y - plusSize);
-            ctx.lineTo(x, y + plusSize);
-          }
-        }
-        ctx.stroke();
-
-        // 3. Render dynamic, glowing coordinate grid centered on mouse pointer position
-        if (mouseX > -1000) {
-          const glowRadius = 260;
-          const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, glowRadius);
-          grad.addColorStop(0, `rgba(${accentRgb}, 0.32)`);
-          grad.addColorStop(0.35, `rgba(${accentRgb}, 0.12)`);
-          grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.25;
-          ctx.beginPath();
-
-          // Optimize performance by only stroking lines in bounding box around the cursor
-          const startX = Math.floor((mouseX - glowRadius) / gridSpacing) * gridSpacing;
-          const endX = Math.ceil((mouseX + glowRadius) / gridSpacing) * gridSpacing;
-          const startY = Math.floor((mouseY - glowRadius) / gridSpacing) * gridSpacing;
-          const endY = Math.ceil((mouseY + glowRadius) / gridSpacing) * gridSpacing;
-
-          for (let x = startX; x <= endX; x += gridSpacing) {
-            if (x >= 0 && x <= width) {
-              ctx.moveTo(x, Math.max(0, mouseY - glowRadius));
-              ctx.lineTo(x, Math.min(height, mouseY + glowRadius));
-            }
-          }
-          for (let y = startY; y <= endY; y += gridSpacing) {
-            if (y >= 0 && y <= height) {
-              ctx.moveTo(Math.max(0, mouseX - glowRadius), y);
-              ctx.lineTo(Math.min(width, mouseX + glowRadius), y);
-            }
-          }
-          ctx.stroke();
-
-          // Stroke glowing plus intersection markers near the mouse
-          ctx.beginPath();
-          for (let x = startX; x <= endX; x += gridSpacing) {
-            for (let y = startY; y <= endY; y += gridSpacing) {
-              if (x >= 0 && x <= width && y >= 0 && y <= height) {
-                const dx = x - mouseX;
-                const dy = y - mouseY;
-                const dist = Math.hypot(dx, dy);
-                if (dist < glowRadius) {
-                  ctx.moveTo(x - plusSize - 1, y);
-                  ctx.lineTo(x + plusSize + 1, y);
-                  ctx.moveTo(x, y - plusSize - 1);
-                  ctx.lineTo(x, y + plusSize + 1);
-                }
-              }
-            }
-          }
-          ctx.stroke();
-        }
-
-        animId = requestAnimationFrame(render);
-      };
-
-      canvasObs = new IntersectionObserver((entries) => {
-        isCanvasVisible = entries[0].isIntersecting;
-      }, { threshold: 0.01 });
-      canvasObs.observe(canvas);
-
-      resizeCanvas();
-      render();
-      window.addEventListener('resize', resizeCanvas, { passive: true });
-      beforeUnload = () => {
-        cancelAnimationFrame(animId);
-        cancelAnimationFrame(rafId);
-      };
-      window.addEventListener('beforeunload', beforeUnload, { once: true });
+      resize();
+      wake();
     }
 
     return () => {
@@ -412,10 +335,7 @@ export default function InteractiveCanvas() {
       lenis?.destroy();
       cancelAnimationFrame(rafId);
       cancelAnimationFrame(animId);
-      canvasObs?.disconnect();
       themeObs?.disconnect();
-      if (resizeCanvas) window.removeEventListener('resize', resizeCanvas);
-      if (beforeUnload) window.removeEventListener('beforeunload', beforeUnload);
       document.body.classList.remove('has-motion');
     };
   }, []);

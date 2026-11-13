@@ -30,7 +30,7 @@
     --ok-rgb: 15, 123, 83;
     /* light tile behind brand-coloured logos; same in both themes so the logos stay legible */
     --logo-tile: #f6f8fa;
-    --grid-alpha: 0.045;
+    --dot-alpha: 0.3; /* background dot field (InteractiveCanvas) */
     --shadow-rgb: 42, 53, 71;
     --shadow-k: 0.18;
     --shadow: 0 4px 30px rgba(var(--shadow-rgb), calc(0.45 * var(--shadow-k)));
@@ -65,7 +65,7 @@
     --sheet: #17181b;
     --ok: #34d399;
     --ok-rgb: 52, 211, 153;
-    --grid-alpha: 0.06;
+    --dot-alpha: 0.28;
     --shadow-rgb: 0, 0, 0;
     --shadow-k: 1;
 }
