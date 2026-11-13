@@ -1,5 +1,4 @@
-// How a project moves from brief to production. Step names and texts mirror the
-// HowTo schema in layout.js, so keep them in sync. A light beam runs along each
+// How a project moves from brief to production. A light beam runs along each
 // connector in turn (CSS only), and each node pulses as the beam reaches it.
 const STEPS = [
   {

@@ -11,6 +11,7 @@ import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
+import JsonLd from './components/JsonLd';
 import { skills, featuredWork, BUILDS } from './data';
 import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from './site';
 
@@ -24,191 +25,41 @@ export const metadata = {
 
 const liveCount = featuredWork.filter((w) => w.url).length;
 
-const authorRef = { "@type": "Person", "@id": `${BASE_URL}/#person`, name: "Azaz Shaikh" };
+// Structured data, generated from the same arrays the page renders so the two can't drift.
+const person = { "@id": `${BASE_URL}/#person` };
+const projects = [...featuredWork, ...BUILDS];
 
-// Projects ItemList schema for rich Google results
 const projectsSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Projects by Azaz Shaikh",
-  description: "Deployed applications and software solutions by Azaz Shaikh",
-  numberOfItems: 9,
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "POC Waste Optimizer",
-        url: "https://poc-waste-proper.vercel.app/",
-        applicationCategory: "BusinessApplication",
-        applicationSubCategory: "Industrial Optimization",
-        operatingSystem: "Web",
-        description:
-          "Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.",
-        featureList: [
-          "Bar-cutting stock algorithm",
-          "Material waste minimization",
-          "Project management interface",
-          "Real-time optimization reports",
-        ],
-        author: authorRef,
-      },
+  numberOfItems: projects.length,
+  itemListElement: projects.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "CreativeWork",
+      name: p.name,
+      genre: p.kind,
+      description: p.text,
+      keywords: p.stack.join(", "),
+      ...(p.url && { url: p.url }),
+      author: person,
     },
-    {
-      "@type": "ListItem",
-      position: 2,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Excel Cleaner Tool",
-        url: "https://excel-cleaner.azazshaikh.info/",
-        applicationCategory: "UtilitiesApplication",
-        applicationSubCategory: "Data Cleaning",
-        operatingSystem: "Web",
-        description:
-          "Web application that processes XLSX files, stripping hidden macros, objects, and messy formatting to output clean structured data.",
-        featureList: [
-          "XLSX file processing",
-          "Macro and object removal",
-          "Structured data output",
-          "Batch file support",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "FastShipment",
-        applicationCategory: "BusinessApplication",
-        applicationSubCategory: "Logistics & Shipping",
-        operatingSystem: "Web",
-        description:
-          "Comprehensive logistics platform with ordering, secure checkout, real-time shipment tracking, and partner management tools.",
-        featureList: [
-          "Order management",
-          "Secure checkout",
-          "Real-time shipment tracking",
-          "Partner management portal",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 4,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Nova Control",
-        applicationCategory: "BusinessApplication",
-        applicationSubCategory: "Dashboard & Analytics",
-        operatingSystem: "Web",
-        description:
-          "Futuristic data visualization platform with modular component architecture and streamlined information hierarchy.",
-        featureList: [
-          "Modular dashboard components",
-          "Real-time data visualization",
-          "Scalable architecture",
-          "Analytics reporting",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 5,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Gym Flow Platform",
-        applicationCategory: "HealthApplication",
-        applicationSubCategory: "Fitness Management",
-        operatingSystem: "Web",
-        description:
-          "Comprehensive fitness tracking and gym management platform with customized workout routines and analytics.",
-        featureList: [
-          "Workout routine builder",
-          "Fitness progress tracking",
-          "Gym member management",
-          "Performance analytics",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 6,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Python Data Pipeline",
-        applicationCategory: "DeveloperApplication",
-        applicationSubCategory: "ETL & Data Engineering",
-        operatingSystem: "Cross-platform",
-        description:
-          "High-performance Python data pipeline for ETL workflows, automated reporting, and batch processing of large-scale structured datasets.",
-        featureList: [
-          "ETL workflow automation",
-          "Automated reporting",
-          "Large-scale batch processing",
-          "Pandas-based data transformation",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 7,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "LangChain RAG System",
-        applicationCategory: "DeveloperApplication",
-        applicationSubCategory: "AI & Machine Learning",
-        operatingSystem: "Cross-platform",
-        description:
-          "Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge bases.",
-        featureList: [
-          "LangChain integration",
-          "Vector database retrieval",
-          "Custom knowledge base support",
-          "Context-aware AI responses",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 8,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "LangGraph AI Agent",
-        applicationCategory: "DeveloperApplication",
-        applicationSubCategory: "AI Agents & Orchestration",
-        operatingSystem: "Cross-platform",
-        description:
-          "Stateful multi-step AI agent orchestration built on LangGraph, capable of tool use, conditional branching, memory, and autonomous task completion.",
-        featureList: [
-          "LangGraph orchestration",
-          "Stateful multi-step reasoning",
-          "Tool use and conditional branching",
-          "Autonomous task completion",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 9,
-      item: {
-        "@type": "WebSite",
-        name: "ShamGym",
-        url: "https://shamgym.vercel.app/",
-        description:
-          "Website for a strength and conditioning gym, with classes, trainers, membership plans, a blog and free-trial booking.",
-        author: authorRef,
-      },
-    },
-  ],
+  })),
+};
+
+const profilePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": `${BASE_URL}/#profilepage`,
+  dateCreated: "2024-01-01T00:00:00.000Z",
+  dateModified: new Date().toISOString(),
+  url: BASE_URL,
+  name: "Azaz Shaikh — Full-Stack Engineer Portfolio",
+  inLanguage: "en-US",
+  isPartOf: { "@id": `${BASE_URL}/#website` },
+  mainEntity: person,
 };
 
 // Top-right corner cutout for a service card, with a numbered chip sitting in it. One SVG draws
@@ -228,13 +79,8 @@ function Notch({ n }) {
 export default function Home() {
   return (
     <>
-      {/* Projects JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(projectsSchema).replace(/</g, "\\u003c"),
-        }}
-      />
+      <JsonLd data={profilePageSchema} />
+      <JsonLd data={projectsSchema} />
       <script
         dangerouslySetInnerHTML={{
           __html: "try{sessionStorage.getItem('intro-seen')!=='1'&&document.documentElement.classList.add('intro-play')}catch(e){}",
