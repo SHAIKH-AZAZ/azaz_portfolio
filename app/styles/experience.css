@@ -151,3 +151,10 @@
     color: var(--text-soft);
     line-height: 1.45;
 }
+
+.exp-link {
+    color: var(--accent-ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}

@@ -97,7 +97,7 @@
     height: 3.4rem;
     border-radius: 14px;
     border: 1px solid var(--line);
-    background: #f6f8fa;
+    background: var(--logo-tile);
     box-shadow: 0 2px 8px rgba(var(--shadow-rgb), calc(0.3 * var(--shadow-k)));
 }
 

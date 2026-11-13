@@ -81,6 +81,13 @@
     box-shadow: var(--shadow);
 }
 
+/* square icon-only button, e.g. back to top */
+.button-icon {
+    flex: none;
+    min-width: 0;
+    padding: 0.95rem 1.15rem;
+}
+
 .button-secondary:hover {
     border-color: var(--accent-ink);
     color: var(--accent-ink);
