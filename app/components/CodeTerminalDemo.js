@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { scrambleChar } from '../lib/motion';
 
 const TYPE_START_DELAY = 120;
 const TYPE_CHAR_SPEED = 12;
@@ -11,10 +12,6 @@ const SCRAMBLE_TRAIL = 4;
 const getLineLength = (line) => line.reduce((sum, token) => sum + token.t.length, 0);
 const getCodeLength = (lines) => lines.reduce((sum, line) => sum + getLineLength(line), 0);
 const getOutputLength = (lines) => lines.reduce((sum, line) => sum + line.t.length, 0);
-
-function getScrambleChar(index, tick) {
-  return SCRAMBLE_CHARS[(index * 17 + tick * 7) % SCRAMBLE_CHARS.length];
-}
 
 function shouldScrambleChar(index, visibleChars, totalChars) {
   return visibleChars < totalChars && index >= visibleChars - SCRAMBLE_TRAIL && index < visibleChars;
@@ -32,7 +29,7 @@ function renderTokenLine(line, visibleChars, lineStart, globalVisibleChars, tota
       .map((char, charIdx) => {
         const absoluteIndex = lineStart + tokenStart + charIdx;
         if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
-        return getScrambleChar(absoluteIndex, scrambleTick);
+        return scrambleChar(SCRAMBLE_CHARS, absoluteIndex, scrambleTick);
       })
       .join('');
 
@@ -53,7 +50,7 @@ function renderOutputText(text, visibleChars, lineStart, globalVisibleChars, tot
     .map((char, charIdx) => {
       const absoluteIndex = lineStart + charIdx;
       if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
-      return getScrambleChar(absoluteIndex, scrambleTick);
+      return scrambleChar(SCRAMBLE_CHARS, absoluteIndex, scrambleTick);
     })
     .join('');
 }

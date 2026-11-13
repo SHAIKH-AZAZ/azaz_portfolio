@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { useInView, useProgress } from '../lib/motion';
 
 /* Orbit hero: tools, live projects and status chips float on two arcs around the
  * stats. Laid out on a fixed 1200x490 stage that is scaled down to fit (never below
@@ -13,6 +14,8 @@ const CENTER = { x: 600, y: 620 };
 const RADIUS = { outer: 492, inner: 404 };
 const MIN_SCALE = 0.6;
 const COUNT_MS = 1600;
+const COUNT_START = 900;
+const COUNT_STAGGER = 120;
 
 const ITEMS = [
   // outer ring, left to right
@@ -96,8 +99,7 @@ export default function StackOrbit({ stats, headline }) {
   const frameRef = useRef(null);
   // scale of the stage, and how far from the centre (in stage px) is still on screen
   const [fit, setFit] = useState({ scale: 1, half: STAGE_W / 2 });
-  const [visible, setVisible] = useState(false);
-  const [progress, setProgress] = useState(stats.map(() => 0));
+  const visible = useInView(rootRef, { threshold: 0.25, once: true });
 
   // fit the fixed stage into the frame
   useLayoutEffect(() => {
@@ -114,40 +116,13 @@ export default function StackOrbit({ stats, headline }) {
     return () => ro.disconnect();
   }, []);
 
-  // start everything once the section scrolls into view
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return undefined;
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setVisible(true);
-        obs.disconnect();
-      }
-    }, { threshold: 0.25 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  // count the stats up, staggered like their reveal
-  useEffect(() => {
-    if (!visible) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setProgress(stats.map(() => 1));
-      return undefined;
-    }
-    let raf = 0;
-    const start = performance.now();
-    const tick = (now) => {
-      const next = stats.map((_, i) => {
-        const t = Math.min(Math.max((now - start - (900 + i * 120)) / COUNT_MS, 0), 1);
-        return 1 - Math.pow(1 - t, 4);
-      });
-      setProgress(next);
-      if (next.some((p) => p < 1)) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [visible, stats]);
+  // stats count up after the arcs draw, staggered like their reveal
+  const total = COUNT_START + (stats.length - 1) * COUNT_STAGGER + COUNT_MS;
+  const t = useProgress(visible, total);
+  const progress = stats.map((_, i) => {
+    const local = Math.min(Math.max((t * total - (COUNT_START + i * COUNT_STAGGER)) / COUNT_MS, 0), 1);
+    return 1 - Math.pow(1 - local, 4);
+  });
 
   return (
     <div ref={rootRef} className={`orbit${visible ? ' is-visible' : ''}`}>

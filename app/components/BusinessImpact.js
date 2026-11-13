@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useInView, useProgress } from '../lib/motion';
 
 /* ── Timing ──────────────────────────────────────────────────────────
  * The left card loops through the 4 steps of an example run. The running
@@ -41,22 +42,15 @@ function CheckIcon() {
 
 export default function BusinessImpact() {
   const [reduced, setReduced] = useState(false);
-  const [visible, setVisible] = useState(false);
   const [step, setStep] = useState(0);
-  const [count, setCount] = useState(0);
-
   const shellRef = useRef(null);
-  const rafRef = useRef(0);
-  const countedRef = useRef(false);
+  // two-way, so the step loop pauses offscreen
+  const visible = useInView(shellRef, { threshold: 0.2 });
+  // one-shot: the "after" bars shrink from the "before" length and the numbers count down
+  const count = easeOut(useProgress(visible, COUNT_MS));
 
-  /* Reduced motion + two-way visibility, so the loop pauses offscreen. */
   useEffect(() => {
     setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    const el = shellRef.current;
-    if (!el) return undefined;
-    const obs = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.2 });
-    obs.observe(el);
-    return () => obs.disconnect();
   }, []);
 
   /* Step loop. step === STEPS.length means "finished", held before restarting. */
@@ -78,26 +72,6 @@ export default function BusinessImpact() {
     setStep(0);
     run(0);
     return () => clearTimeout(timer);
-  }, [reduced, visible]);
-
-  /* One-shot: the "after" bars shrink from the "before" length and the numbers count down. */
-  useEffect(() => {
-    if (reduced) {
-      setCount(1);
-      return undefined;
-    }
-    if (!visible || countedRef.current) return undefined;
-    countedRef.current = true;
-
-    let start = null;
-    const tick = (now) => {
-      if (start === null) start = now;
-      const progress = Math.min((now - start) / COUNT_MS, 1);
-      setCount(easeOut(progress));
-      if (progress < 1) rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
   }, [reduced, visible]);
 
   const finished = step >= STEPS.length;
