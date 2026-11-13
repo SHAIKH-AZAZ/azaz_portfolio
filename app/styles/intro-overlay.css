@@ -3,16 +3,24 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    display: grid;
+    display: none;
     place-items: center;
     background: var(--bg);
     clip-path: inset(0 0 0 0);
     cursor: pointer;
 }
 
-/* chisle: pre-hydration guard so repeat visitors never see a flash */
-html.intro-seen .intro {
-    display: none;
+/* Hidden unless the pre-paint script in page.js opts in (first visit, JS on).
+   Failsafe: if the JS bundle never takes over, get out of the way after 6s. */
+html.intro-play .intro {
+    display: grid;
+    animation: intro-failsafe 0s 6s forwards;
+}
+
+@keyframes intro-failsafe {
+    to {
+        visibility: hidden;
+    }
 }
 
 .intro-center {

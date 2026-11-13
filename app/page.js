@@ -306,7 +306,7 @@ export default function Home() {
       />
       <script
         dangerouslySetInnerHTML={{
-          __html: "try{sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
+          __html: "try{sessionStorage.getItem('intro-seen')!=='1'&&document.documentElement.classList.add('intro-play')}catch(e){}",
         }}
       />
       <IntroOverlay />
