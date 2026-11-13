@@ -32,7 +32,7 @@
 }
 
 .brand {
-    font-family: var(--font-bricolage);
+    font-family: var(--font-display);
     font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -229,7 +229,7 @@ body:has(.mobile-nav.is-open) .scroll-progress-container {
 .mobile-nav-links a {
     padding: 0.6rem 0;
     border-bottom: 1px solid var(--line);
-    font-family: var(--font-bricolage);
+    font-family: var(--font-display);
     font-size: 1.6rem;
     font-weight: 700;
     color: var(--text);

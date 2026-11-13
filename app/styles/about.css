@@ -81,7 +81,7 @@
     border: 1.5px solid var(--accent-ink);
     background: var(--bg);
     color: var(--text);
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: 0.85rem;
     box-shadow: 0 0 0 6px var(--bg);
 }
@@ -175,7 +175,7 @@
         border-radius: 50%;
         border: 1.5px solid var(--accent-ink);
         background: var(--bg);
-        font-family: var(--font-space-mono);
+        font-family: var(--font-mono);
         font-size: 0.75rem;
     }
 }

@@ -37,11 +37,7 @@
     --radius-lg: 16px;
     --radius-md: 12px;
     --container: min(1120px, calc(100% - 2rem));
-    --font-bricolage: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-    --font-manrope: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-    --font-space-mono:
-        var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, monospace;
+    /* fonts: --font-display / --font-body / --font-mono come from app/fonts.js */
 }
 
 :root[data-theme="dark"] {
