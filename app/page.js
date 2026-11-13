@@ -10,7 +10,7 @@ import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
-import ThemeToggle from './components/ThemeToggle';
+import Header from './components/Header';
 
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -318,22 +318,7 @@ export default function Home() {
         <div className="scroll-progress-thumb" />
       </div>
 
-      <header className="site-header">
-        <div className="site-header-inner">
-          <a className="brand" href="#top"><span>Azaz</span> Shaikh</a>
-          <nav className="nav">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#work">Work</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
-          </nav>
-          <div className="header-actions">
-            <ThemeToggle />
-            <a className="header-cta" href="#contact">Let&apos;s Build</a>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main id="top">
         {/* ── Hero ── */}
