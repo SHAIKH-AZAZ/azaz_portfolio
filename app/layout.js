@@ -2,6 +2,7 @@ import "./globals.css";
 import { fontVariables } from "./fonts";
 import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from "./site";
 import JsonLd from "./components/JsonLd";
+import SelectionHighlight from "./components/SelectionHighlight";
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
@@ -223,7 +224,10 @@ export default function RootLayout({ children }) {
         <JsonLd data={personSchema} />
         <JsonLd data={websiteSchema} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <SelectionHighlight />
+      </body>
     </html>
   );
 }

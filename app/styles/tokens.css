@@ -31,6 +31,7 @@
     --ok-rgb: 15, 123, 83;
     --electric: #0062e6; /* 5.2:1 on the light panel; white on it 5.4:1 */
     --on-electric: #ffffff;
+    --selection-pill: #9fd2ff; /* multiplied: slate text on it 8.9:1 */
     /* light tile behind brand-coloured logos; same in both themes so the logos stay legible */
     --logo-tile: #f6f8fa;
     --dot-alpha: 0.3; /* background dot field (InteractiveCanvas) */
@@ -70,6 +71,7 @@
     --ok-rgb: 52, 211, 153;
     --electric: #1fb6ff; /* 8.2:1 on the dark panel; near-black on it 8.8:1 */
     --on-electric: #070709;
+    --selection-pill: #0057ff; /* screened: white text on it 5.5:1 */
     --dot-alpha: 0.28;
     --shadow-rgb: 0, 0, 0;
     --shadow-k: 1;

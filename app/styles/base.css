@@ -1,6 +1,35 @@
-::selection {
+/* Native highlight: the fallback when JS is off. With JS, SelectionHighlight.js draws rounded
+   pills (.sel-layer) and the native one goes transparent, except in fields it can't measure. */
+:root:not(.sel-rounded) ::selection,
+.sel-rounded input::selection,
+.sel-rounded textarea::selection {
     background: var(--electric);
     color: var(--on-electric);
+}
+
+.sel-rounded ::selection {
+    background: transparent;
+}
+
+/* Blended over the page so the text stays visible: screen keeps light text light on the dark
+   theme, multiply keeps dark text dark on the light theme. Under the header (z 40). */
+.sel-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 35;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+}
+
+:root[data-theme="dark"] .sel-layer {
+    mix-blend-mode: screen;
+}
+
+.sel-layer span {
+    position: absolute;
+    border-radius: 6px;
+    background: var(--selection-pill);
 }
 
 *,
