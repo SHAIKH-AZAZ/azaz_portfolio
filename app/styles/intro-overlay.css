@@ -97,9 +97,3 @@ html.intro-play .intro {
         display: none;
     }
 }
-
-@media (prefers-reduced-motion: reduce) {
-    .intro {
-        display: none;
-    }
-}

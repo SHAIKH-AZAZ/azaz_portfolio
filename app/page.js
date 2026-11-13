@@ -16,11 +16,11 @@ import { IntroScript } from './components/intro';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
 import JsonLd from './components/JsonLd';
-import { skills, services, featuredWork, BUILDS, liveCount, heroMetrics, marquee } from './data';
-import { BASE_URL, EMAIL, LINKEDIN } from './site';
+import { skills, services, featuredWork, BUILDS, liveCount, heroMetrics, marquee, pocWaste } from './data';
+import { BASE_URL, EMAIL, LINKEDIN, PERSON_ID, WEBSITE_ID } from './site';
 
 // Structured data, generated from the same arrays the page renders so the two can't drift.
-const person = { "@id": `${BASE_URL}/#person` };
+const person = { "@id": PERSON_ID };
 const projects = [...featuredWork, ...BUILDS];
 
 const projectsSchema = {
@@ -52,7 +52,7 @@ const profilePageSchema = {
   url: BASE_URL,
   name: "Azaz Shaikh — Full-Stack Engineer Portfolio",
   inLanguage: "en-US",
-  isPartOf: { "@id": `${BASE_URL}/#website` },
+  isPartOf: { "@id": WEBSITE_ID },
   mainEntity: person,
 };
 
@@ -196,7 +196,7 @@ export default function Home() {
               </div>
               <p>
                 Developed and shipped{' '}
-                <a className="exp-link" href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">
+                <a className="exp-link" href={pocWaste.url} target="_blank" rel="noreferrer">
                   POC Waste ↗
                 </a>
                 , a high-performance Bar Cutting Optimization web application. Engineered custom cutting stock

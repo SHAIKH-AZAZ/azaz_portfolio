@@ -28,7 +28,7 @@ export default function Header() {
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-    // drawer only exists below 820px; close it if the viewport grows past that
+    // drawer only exists at max-width 820px (header.css); close it if the viewport grows past that
     const wide = window.matchMedia('(min-width: 821px)');
     const onWide = (e) => { if (e.matches) setOpen(false); };
     document.addEventListener('keydown', onKey);

@@ -13,46 +13,29 @@ const getLineLength = (line) => line.reduce((sum, token) => sum + token.t.length
 const getCodeLength = (lines) => lines.reduce((sum, line) => sum + getLineLength(line), 0);
 const getOutputLength = (lines) => lines.reduce((sum, line) => sum + line.t.length, 0);
 
-function shouldScrambleChar(index, visibleChars, totalChars) {
-  return visibleChars < totalChars && index >= visibleChars - SCRAMBLE_TRAIL && index < visibleChars;
+// The typed part of `text`, which starts at char offset `start` of the panel. While typing,
+// the last few typed chars show as stand-in glyphs.
+function typed(text, start, visible, total, tick) {
+  return [...text.slice(0, Math.max(0, visible - start))]
+    .map((c, i) => {
+      const at = start + i;
+      const trailing = visible < total && at >= visible - SCRAMBLE_TRAIL;
+      return c === ' ' || !trailing ? c : scrambleChar(SCRAMBLE_CHARS, at, tick);
+    })
+    .join('');
 }
 
-function renderTokenLine(line, visibleChars, lineStart, globalVisibleChars, totalChars, scrambleTick) {
-  let remaining = visibleChars;
-  let tokenStart = 0;
-
+function renderTokenLine(line, lineStart, visible, total, tick) {
+  let at = lineStart;
   return line.map((token, ti) => {
-    const tokenText = token.t.slice(0, Math.max(0, Math.min(token.t.length, remaining)));
-    remaining -= token.t.length;
-    const renderedText = tokenText
-      .split('')
-      .map((char, charIdx) => {
-        const absoluteIndex = lineStart + tokenStart + charIdx;
-        if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
-        return scrambleChar(SCRAMBLE_CHARS, absoluteIndex, scrambleTick);
-      })
-      .join('');
-
-    tokenStart += token.t.length;
-
+    const start = at;
+    at += token.t.length;
     return (
       <span key={`${ti}-${token.t}`} className={`ctd-token ctd-token-${token.c}`}>
-        {renderedText}
+        {typed(token.t, start, visible, total, tick)}
       </span>
     );
   });
-}
-
-function renderOutputText(text, visibleChars, lineStart, globalVisibleChars, totalChars, scrambleTick) {
-  return text
-    .slice(0, visibleChars)
-    .split('')
-    .map((char, charIdx) => {
-      const absoluteIndex = lineStart + charIdx;
-      if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
-      return scrambleChar(SCRAMBLE_CHARS, absoluteIndex, scrambleTick);
-    })
-    .join('');
 }
 
 // Each line = array of tokens: { t: text, c: token class }
@@ -275,19 +258,18 @@ export default function CodeTerminalDemo() {
         </div>
       </div>
 
-      <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel">
+      <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel" aria-labelledby={`ctd-tab-${activeTab.id}`}>
         <div className="ctd-code-panel">
           {activeTab.lines.map((line, lineIdx) => {
               const lineStart = lineStarts[lineIdx];
               const lineLength = getLineLength(line);
-              const visibleInLine = Math.max(0, Math.min(lineLength, codeVisibleChars - lineStart));
               const showCaret = lineLength > 0 && codeVisibleChars >= lineStart && codeVisibleChars < lineStart + lineLength;
 
               return (
                 <div key={`${animKey}-${lineIdx}`} className="ctd-line">
                   <span className="ctd-linenum">{lineIdx + 1}</span>
                   <span className="ctd-code">
-                    {line.length === 0 ? <span>&nbsp;</span> : renderTokenLine(line, visibleInLine, lineStart, codeVisibleChars, codeCharCount, scrambleTick)}
+                    {line.length === 0 ? <span>&nbsp;</span> : renderTokenLine(line, lineStart, codeVisibleChars, codeCharCount, scrambleTick)}
                     {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
                   </span>
                 </div>
@@ -303,12 +285,11 @@ export default function CodeTerminalDemo() {
             {OUTPUT_LINES.map((line, idx) => {
                 const lineStart = outputStarts[idx];
                 const lineLength = line.t.length;
-                const visibleInLine = Math.max(0, Math.min(lineLength, outputVisibleChars - lineStart));
                 const showCaret = outputVisibleChars > 0 && lineLength > 0 && outputVisibleChars >= lineStart && outputVisibleChars < lineStart + lineLength;
 
                 return (
                   <div key={`${animKey}-out-${idx}`} className={`ctd-output-line ctd-out-${line.c}`}>
-                    {line.t ? renderOutputText(line.t, visibleInLine, lineStart, outputVisibleChars, outputCharCount, scrambleTick) : <span>&nbsp;</span>}
+                    {line.t ? typed(line.t, lineStart, outputVisibleChars, outputCharCount, scrambleTick) : <span>&nbsp;</span>}
                     {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
                   </div>
                 );

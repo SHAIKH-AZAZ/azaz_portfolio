@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { INTRO_KEY } from './intro';
+import { INTRO_KEY, INTRO_CLASS } from './intro';
 
 const NAME = 'Azaz Shaikh';
 
@@ -12,10 +12,7 @@ export default function IntroOverlay() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    let seen = false;
-    try { seen = sessionStorage.getItem(INTRO_KEY) === '1'; } catch {}
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (seen || reduced) {
+    if (!document.documentElement.classList.contains(INTRO_CLASS)) {
       setDone(true);
       return;
     }

@@ -14,6 +14,7 @@ const CENTER = { x: 600, y: 620 };
 const RADIUS = { outer: 492, inner: 404 };
 const MIN_SCALE = 0.6;
 const COUNT_MS = 1600;
+// the stats fade in (stack-orbit.css) and count up on the same schedule
 const COUNT_START = 900;
 const COUNT_STAGGER = 120;
 
@@ -122,7 +123,11 @@ export default function StackOrbit({ stats, headline }) {
   });
 
   return (
-    <div ref={rootRef} className={`orbit${visible ? ' is-visible' : ''}`}>
+    <div
+      ref={rootRef}
+      className={`orbit${visible ? ' is-visible' : ''}`}
+      style={{ '--stat-start': `${COUNT_START}ms`, '--stat-stagger': `${COUNT_STAGGER}ms` }}
+    >
       <div ref={frameRef} className="orbit-frame" style={{ height: STAGE_H * fit.scale }}>
         <div className="orbit-stage" style={{ width: STAGE_W, height: STAGE_H, transform: `translateX(-50%) scale(${fit.scale})`, '--orbit-scale': String(fit.scale) }}>
           <svg className="orbit-arcs" width={STAGE_W} height={STAGE_H} viewBox={`0 0 ${STAGE_W} ${STAGE_H}`} fill="none" aria-hidden="true">
@@ -154,7 +159,7 @@ export default function StackOrbit({ stats, headline }) {
             {stats.map((s, i) => (
               <div key={s.label} className="orbit-stat" style={{ '--i': String(i) }}>
                 <dt>{s.label}</dt>
-                <dd>{Math.round(s.value * progress[i])}{s.suffix}</dd>
+                <dd>{Math.round(s.value * progress[i])}</dd>
               </div>
             ))}
           </dl>

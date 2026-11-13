@@ -56,6 +56,7 @@ const MODES = {
 };
 
 const STATUS_WORDS = ['Thinking', 'Designing', 'Programming', 'Deploying'];
+const SCAN_MS = 1400;
 
 function renderScrapeOutput(text) {
   const tokenPattern = /("(?:\\.|[^"\\])*"(?=\s*:))|("(?:\\.|[^"\\])*")|(\b\d+(?:\.\d+)?\b)|([{}\[\],:])/g;
@@ -96,6 +97,8 @@ export default function HeroScraperAnimation() {
   const [isScraping, setIsScraping] = useState(false);
   const [typedUrl, setTypedUrl] = useState('');
   const [typedJson, setTypedJson] = useState('');
+  // bumped by the run button to replay the current mode
+  const [runs, setRuns] = useState(0);
   const timerRef = useRef(null);
   const listRef = useRef(null);
   const tabRefs = useRef({});
@@ -143,7 +146,7 @@ export default function HeroScraperAnimation() {
             }
           }, 12);
           
-        }, 1400);
+        }, SCAN_MS);
       }
     }, 25);
 
@@ -153,7 +156,7 @@ export default function HeroScraperAnimation() {
       if (jsonInterval) clearInterval(jsonInterval);
       if (scanTimeout) clearTimeout(scanTimeout);
     };
-  }, [activeMode, currentMode]);
+  }, [activeMode, currentMode, runs]);
 
   useEffect(() => {
     const startAutoplay = () => {
@@ -291,8 +294,7 @@ export default function HeroScraperAnimation() {
             <button 
               className={`action-run-btn ${isScraping ? 'is-running' : ''}`}
               onClick={() => {
-                setIsScraping(true);
-                setTimeout(() => setIsScraping(false), 1500);
+                setRuns((n) => n + 1);
               }}
               aria-label="Run automated process"
             >

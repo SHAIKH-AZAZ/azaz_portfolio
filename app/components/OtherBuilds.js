@@ -1,14 +1,8 @@
-import { BUILDS } from '../data';
+import { BUILDS, skills } from '../data';
 
 // Smaller builds without a live link or screenshot: one row each, with a category icon
 // and a stack that reuses the skill logos where one exists.
-const LOGOS = {
-  'Next.js': 'nextjs.svg',
-  Python: 'python.svg',
-  Pandas: 'pandas.svg',
-  LangChain: 'langchain.svg',
-  LangGraph: 'langgraph.svg',
-};
+const LOGOS = Object.fromEntries(skills.flatMap((g) => g.tools));
 
 const ICONS = {
   dashboard: <><rect x="3" y="3" width="7" height="9" rx="1" /><rect x="14" y="3" width="7" height="5" rx="1" /><rect x="14" y="12" width="7" height="9" rx="1" /><rect x="3" y="16" width="7" height="5" rx="1" /></>,

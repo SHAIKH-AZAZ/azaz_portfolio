@@ -19,14 +19,13 @@ const STEPS = [
 ];
 
 const METRICS = [
-  { label: 'Time spent on manual data work', before: 40, after: 3, unit: 'h a week' },
+  { label: 'Time spent on manual data work', before: 40, after: 3, unit: ' h a week' },
   { label: 'Errors that slip through', before: 9, after: 1, unit: '% of records' },
-  { label: 'Wait for a report', before: 45, after: 2, unit: 'min' },
+  { label: 'Wait for a report', before: 45, after: 2, unit: ' min' },
 ];
 
 const STATE_TEXT = { 'is-done': 'Done', 'is-active': 'Running', 'is-idle': 'Waiting' };
 
-const withUnit = (value, unit) => (unit.startsWith('%') ? `${value}${unit}` : `${value} ${unit}`);
 
 function CheckIcon() {
   return (
@@ -142,12 +141,12 @@ export default function BusinessImpact() {
                 <div className="bi-bar-row">
                   <span className="bi-bar-name">Before</span>
                   <span className="bi-bar bi-bar-before" style={{ width: '100%' }} aria-hidden="true" />
-                  <span className="bi-bar-value">{withUnit(m.before, m.unit)}</span>
+                  <span className="bi-bar-value">{`${m.before}${m.unit}`}</span>
                 </div>
                 <div className="bi-bar-row">
                   <span className="bi-bar-name">After</span>
                   <span className="bi-bar bi-bar-after" style={{ width: `${afterWidth}%` }} aria-hidden="true" />
-                  <span className="bi-bar-value">{withUnit(after, m.unit)}</span>
+                  <span className="bi-bar-value">{`${after}${m.unit}`}</span>
                 </div>
               </li>
             );

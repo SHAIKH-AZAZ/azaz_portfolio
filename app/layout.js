@@ -1,6 +1,6 @@
 import "./globals.css";
 import { fontVariables } from "./fonts";
-import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from "./site";
+import { BASE_URL, EMAIL, GITHUB, LINKEDIN, PERSON_ID, WEBSITE_ID } from "./site";
 import JsonLd from "./components/JsonLd";
 import { ThemeScript, THEME_COLOR } from "./components/theme";
 import SelectionHighlight from "./components/SelectionHighlight";
@@ -130,7 +130,7 @@ export default function RootLayout({ children }) {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "@id": `${BASE_URL}/#person`,
+    "@id": PERSON_ID,
     name: "Azaz Shaikh",
     alternateName: "Mohammad Azaz Shaikh",
     url: BASE_URL,
@@ -191,12 +191,12 @@ export default function RootLayout({ children }) {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${BASE_URL}/#website`,
+    "@id": WEBSITE_ID,
     name: "Azaz Shaikh Portfolio",
     url: BASE_URL,
     description:
       "Portfolio of Azaz Shaikh — full-stack engineer building scalable web systems and business automation tools.",
-    author: { "@id": `${BASE_URL}/#person` },
+    author: { "@id": PERSON_ID },
     inLanguage: "en-US",
   };
 

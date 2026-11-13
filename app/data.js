@@ -29,15 +29,18 @@ export const skills = [
   },
 ];
 
+// also linked from the Experience section
+export const pocWaste = {
+  name: 'POC Waste Optimizer',
+  kind: 'Industrial optimization',
+  url: 'https://poc-waste-proper.vercel.app/',
+  image: '/work/poc-waste.webp',
+  text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
+  stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
+};
+
 export const featuredWork = [
-  {
-    name: 'POC Waste Optimizer',
-    kind: 'Industrial optimization',
-    url: 'https://poc-waste-proper.vercel.app/',
-    image: '/work/poc-waste.webp',
-    text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
-    stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
-  },
+  pocWaste,
   {
     name: 'Excel Cleaner Tool',
     kind: 'Data processing',

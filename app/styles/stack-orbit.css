@@ -295,7 +295,7 @@
 }
 
 .orbit.is-visible .orbit-stat {
-    animation-delay: calc(0.9s + var(--i) * 0.12s);
+    animation-delay: calc(var(--stat-start) + var(--i) * var(--stat-stagger));
 }
 
 .orbit.is-visible .orbit-headline {
