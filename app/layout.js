@@ -385,14 +385,6 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify(howToSchema).replace(/</g, "\\u003c"),
           }}
         />
-
-        {/* ── Resource hints ── */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://poc-waste-proper.vercel.app" />
-        <link rel="dns-prefetch" href="https://excel-cleaner.azazshaikh.info" />
-        <link rel="dns-prefetch" href="https://github.com" />
-        <link rel="dns-prefetch" href="https://www.linkedin.com" />
       </head>
       <body>{children}</body>
     </html>
