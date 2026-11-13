@@ -1,4 +1,3 @@
-/* ── Delivery pipeline: numbered steps joined by arrows, ending in the live system ── */
 .dp {
     --dp-node: 2.6rem;
     --dp-gap: 2rem;

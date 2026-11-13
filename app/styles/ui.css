@@ -94,7 +94,6 @@
     background: rgba(var(--accent-rgb), 0.05);
 }
 
-/* ── Section headings ── */
 .section-heading {
     max-width: 56rem;
     margin-bottom: 2.35rem;

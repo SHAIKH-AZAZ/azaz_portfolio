@@ -103,19 +103,16 @@ export default function HeroScraperAnimation() {
 
   const currentMode = MODES[activeMode];
 
-  // Handle coordinated interactive sequence (URL Typing -> Scanning -> JSON Typing)
   useEffect(() => {
     let active = true;
     let urlInterval = null;
     let jsonInterval = null;
     let scanTimeout = null;
 
-    // Reset all interactive states
     setTypedUrl('');
     setTypedJson('');
     setIsScraping(false);
 
-    // 1. Type the URL
     const targetUrl = currentMode.url;
     let urlIdx = 0;
     
@@ -127,10 +124,8 @@ export default function HeroScraperAnimation() {
       } else {
         clearInterval(urlInterval);
         
-        // 2. Once URL is fully typed, start scanning sweep
         setIsScraping(true);
         
-        // 3. Scan for 1.4s, then type the JSON
         scanTimeout = setTimeout(() => {
           if (!active) return;
           setIsScraping(false);
@@ -146,11 +141,11 @@ export default function HeroScraperAnimation() {
             } else {
               clearInterval(jsonInterval);
             }
-          }, 12); // fast JSON typing speed
+          }, 12);
           
         }, 1400);
       }
-    }, 25); // fast typing speed for the URL
+    }, 25);
 
     return () => {
       active = false;
@@ -160,7 +155,6 @@ export default function HeroScraperAnimation() {
     };
   }, [activeMode, currentMode]);
 
-  // Autoplay loop (runs through modes when user is idle)
   useEffect(() => {
     const startAutoplay = () => {
       timerRef.current = setInterval(() => {
@@ -179,7 +173,7 @@ export default function HeroScraperAnimation() {
     };
   }, []);
 
-  // tilt toward the pointer (mouse/trackpad only); the easing back is a CSS transition
+  // the easing back to flat is a CSS transition (hero-scraper-animation.css)
   useEffect(() => {
     const shell = shellRef.current;
     const fine = window.matchMedia('(pointer: fine)').matches;
@@ -204,7 +198,6 @@ export default function HeroScraperAnimation() {
     };
   }, []);
 
-  // Sliding pill: place the indicator under the active tab (and keep it there on resize).
   useLayoutEffect(() => {
     const list = listRef.current;
     if (!list) return undefined;
@@ -229,7 +222,6 @@ export default function HeroScraperAnimation() {
 
   const modeKeys = Object.keys(MODES);
 
-  // arrow keys / Home / End move between tabs, like a native tablist
   const handleTabKeyDown = (event) => {
     const i = modeKeys.indexOf(activeMode);
     const next = {
@@ -251,7 +243,6 @@ export default function HeroScraperAnimation() {
 
   return (
     <div ref={shellRef} className="scraper-animation-shell">
-      {/* Chrome Shell */}
       <div className="window-chrome">
         <span /><span /><span />
         <div className="tab-pill">azaz.json</div>
@@ -259,7 +250,6 @@ export default function HeroScraperAnimation() {
 
       <div className="scraper-stage-content">
         
-        {/* Top bar: URL Search Box & Control tabs */}
         <div className="scraper-bar-container">
           <div className="scraper-url-input">
             <svg className="url-lock-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

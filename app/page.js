@@ -84,7 +84,6 @@ export default function Home() {
       <Header />
 
       <main id="top">
-        {/* ── Hero ── */}
         <section className="section hero">
           <div className="hero-copy reveal">
             <p className="hero-status">
@@ -120,7 +119,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Marquee ── */}
         <section className="marquee-shell" aria-label="Core skills">
           <div className="marquee-track">
             {/* the list twice, so the CSS loop has no gap; the copy is hidden from screen readers */}
@@ -130,7 +128,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Stack orbit: tools and live work around the numbers ── */}
         <section className="section orbit-section" aria-label="Stack and results">
           <StackOrbit
             stats={[
@@ -142,7 +139,6 @@ export default function Home() {
           />
         </section>
 
-        {/* ── About ── */}
         <section className="section" id="about">
           <div className="section-heading section-heading-stable reveal">
             <p className="eyebrow">About</p>
@@ -187,7 +183,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Experience ── */}
         <section className="section" id="experience">
           <div className="section-heading reveal">
             <p className="eyebrow">Experience</p>
@@ -223,7 +218,6 @@ export default function Home() {
 
         <Work />
 
-        {/* ── Why Choose Me: automation run + measured outcomes ── */}
         <section className="section bi-section" id="features">
           <div className="section-heading reveal">
             <p className="eyebrow">Why Choose Me</p>
@@ -234,7 +228,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── How It Works / Workflow Diagram ── */}
         <section className="section" id="how-it-works">
           <div className="section-heading reveal">
             <p className="eyebrow">How It Works</p>
@@ -245,7 +238,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Code Terminal Demo ── */}
         <section className="section" id="integration">
           <div className="section-heading reveal">
             <p className="eyebrow">Portfolio Console</p>
@@ -255,8 +247,6 @@ export default function Home() {
             <CodeTerminalDemo />
           </div>
         </section>
-
-        {/* ── Services ── */}
 
         <section className="section" id="services">
           <div className="section-heading section-heading-stable section-heading-services-stable reveal">
@@ -278,7 +268,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Contact ── */}
         <section className="section" id="contact">
           <div className="contact-panel reveal">
             <p className="eyebrow">Contact</p>

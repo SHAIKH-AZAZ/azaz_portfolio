@@ -5,7 +5,7 @@ import JsonLd from "./components/JsonLd";
 import { ThemeScript, THEME_COLOR } from "./components/theme";
 import SelectionHighlight from "./components/SelectionHighlight";
 
-// ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
+// Next.js requires viewport as its own export, not inside metadata
 export const viewport = {
   themeColor: THEME_COLOR.dark,
   colorScheme: "light dark",
@@ -13,7 +13,6 @@ export const viewport = {
   initialScale: 1,
 };
 
-// ── Metadata ─────────────────────────────────────────────────────────────────
 const TITLE = "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist";
 
 export const metadata = {
@@ -56,10 +55,8 @@ export const metadata = {
   creator: "Azaz Shaikh",
   publisher: "Azaz Shaikh",
 
-  // ── Canonical & alternates ───────────────────────────────────────────────
   alternates: { canonical: "/" },
 
-  // ── Open Graph ───────────────────────────────────────────────────────────
   openGraph: {
     type: "profile",
     firstName: "Azaz",
@@ -83,7 +80,6 @@ export const metadata = {
     ],
   },
 
-  // ── Twitter / X Card ─────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
     title: TITLE,
@@ -94,7 +90,6 @@ export const metadata = {
     site: "@azazshaikh",
   },
 
-  // ── Robots ───────────────────────────────────────────────────────────────
   robots: {
     index: true,
     follow: true,
@@ -107,23 +102,19 @@ export const metadata = {
     },
   },
 
-  // ── Icons ────────────────────────────────────────────────────────────────
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: "/icon.svg",
   },
 
-  // ── Manifest ─────────────────────────────────────────────────────────────
   manifest: "/manifest.json",
 
-  // ── Format detection ─────────────────────────────────────────────────────
   formatDetection: {
     telephone: false,
     email: false,
     address: false,
   },
 
-  // ── Custom meta tags ─────────────────────────────────────────────────────
   other: {
     "geo.region": "IN",
     "geo.placename": "India",
@@ -136,7 +127,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  // ── Person schema ─────────────────────────────────────────────────────────
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -198,7 +188,6 @@ export default function RootLayout({ children }) {
     ],
   };
 
-  // ── WebSite schema ─────────────────────────────────────────────────────
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",

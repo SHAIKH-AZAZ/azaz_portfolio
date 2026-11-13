@@ -23,5 +23,4 @@ const mono = JetBrains_Mono({
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
 });
 
-// Put on <html> so the variables reach every element.
 export const fontVariables = `${display.variable} ${body.variable} ${mono.variable}`;

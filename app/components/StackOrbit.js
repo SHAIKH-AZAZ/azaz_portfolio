@@ -18,14 +18,12 @@ const COUNT_START = 900;
 const COUNT_STAGGER = 120;
 
 const ITEMS = [
-  // outer ring, left to right
   { kind: 'status', ring: 'outer', angle: 132, label: 'Shipped to production' },
   { kind: 'logo', ring: 'outer', angle: 112.6, logo: 'nextjs.svg', alt: 'Next.js' },
   { kind: 'pill', ring: 'outer', angle: 90, label: 'POC Waste Optimizer' },
   { kind: 'pill', ring: 'outer', angle: 67.6, label: 'Excel Cleaner' },
   { kind: 'logo', ring: 'outer', angle: 50.9, logo: 'python.svg', alt: 'Python' },
   { kind: 'pill', ring: 'outer', angle: 35.2, label: 'ShamGym' },
-  // inner ring, left to right
   { kind: 'logo', ring: 'inner', angle: 137.2, logo: 'react.svg', alt: 'React' },
   { kind: 'pill', ring: 'inner', angle: 116.6, label: 'CI/CD', logo: 'githubactions.svg' },
   { kind: 'monogram', ring: 'inner', angle: 90, label: 'AS' },
@@ -101,7 +99,6 @@ export default function StackOrbit({ stats, headline }) {
   const [fit, setFit] = useState({ scale: 1, half: STAGE_W / 2 });
   const visible = useInView(rootRef, { threshold: 0.25, once: true });
 
-  // fit the fixed stage into the frame
   useLayoutEffect(() => {
     const frame = frameRef.current;
     if (!frame) return undefined;

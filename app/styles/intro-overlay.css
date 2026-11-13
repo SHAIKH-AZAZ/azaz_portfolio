@@ -1,4 +1,3 @@
-/* ── Intro overlay ── */
 .intro {
     position: fixed;
     inset: 0;
@@ -10,7 +9,7 @@
     cursor: pointer;
 }
 
-/* Hidden unless the pre-paint script in page.js opts in (first visit, JS on).
+/* Hidden unless the pre-paint script in components/intro.js opts in (first visit, JS on).
    Failsafe: if the JS bundle never takes over, get out of the way after 6s. */
 html.intro-play .intro {
     display: grid;

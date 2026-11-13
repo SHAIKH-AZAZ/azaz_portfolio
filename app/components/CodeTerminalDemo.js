@@ -55,7 +55,6 @@ function renderOutputText(text, visibleChars, lineStart, globalVisibleChars, tot
     .join('');
 }
 
-/* ── Tab Content ─────────────────────────────────────────────────── */
 // Each line = array of tokens: { t: text, c: token class }
 // Empty array = blank line
 const TABS = [
@@ -131,7 +130,6 @@ const OUTPUT_LINES = [
   { t: '✓ End-to-end data pipelines & LangGraph AI agents', c: 'li' },
 ];
 
-/* ── Tab Icon SVGs ───────────────────────────────────────────────── */
 function PythonIcon() {
   return (
     <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
@@ -166,7 +164,6 @@ function BracesIcon() {
   );
 }
 
-/* ── Component ───────────────────────────────────────────────────── */
 export default function CodeTerminalDemo() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [animKey, setAnimKey] = useState(0);
@@ -250,7 +247,6 @@ export default function CodeTerminalDemo() {
 
   return (
     <div className="ctd-shell">
-      {/* Window chrome + Tab bar */}
       <div className="ctd-chrome">
         <div className="ctd-dots" aria-hidden="true">
           <span className="ctd-dot ctd-dot-red" />
@@ -279,9 +275,7 @@ export default function CodeTerminalDemo() {
         </div>
       </div>
 
-      {/* Two-panel layout */}
       <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel">
-        {/* LEFT — Code panel */}
         <div className="ctd-code-panel">
           {activeTab.lines.map((line, lineIdx) => {
               const lineStart = lineStarts[lineIdx];
@@ -301,7 +295,6 @@ export default function CodeTerminalDemo() {
             })}
         </div>
 
-        {/* RIGHT — Markdown output panel */}
         <div className="ctd-output-panel">
           <div className="ctd-output-chrome">
             <span className="ctd-output-badge">● TERMINAL OUTPUT</span>

@@ -1,11 +1,10 @@
 /* Hub diagram: the tools a client already runs, each wired into the system in the
  * middle. Drawn on a 564x410 viewBox; icons are placed in % of it so they track the
  * lines at any width. Beams and the icon pop-in are CSS (the pop-in waits for the
- * card's `is-visible` from the page reveal). Adapted from 21st.dev's integration card. */
+ * card's `is-visible` from Motion.js). Adapted from 21st.dev's integration card. */
 const W = 564;
 const H = 410;
 
-// center is 282, 205
 const TOOLS = [
   { logo: 'python.svg', alt: 'Python', x: 110, y: 90, path: 'M 270 205 V 105 Q 270 90 255 90 H 110' },
   { logo: 'mongodb.svg', alt: 'MongoDB', x: 360, y: 70, path: 'M 294 205 V 85 Q 294 70 309 70 H 360' },

@@ -1,4 +1,3 @@
-/* ── About ── */
 .about-intro {
     margin-top: 0;
     color: var(--text);
@@ -25,7 +24,6 @@
     color: var(--text);
 }
 
-/* ── About flow diagram ── */
 .flow-graphic {
     position: relative;
     height: 140px;
@@ -131,7 +129,7 @@
         display: none;
     }
 
-    /* chisle: mobile swaps the horizontal diagram for a vertical rail */
+    /* mobile swaps the horizontal diagram for a vertical rail */
     .flow-steps {
         grid-template-columns: 1fr;
         gap: 0;
