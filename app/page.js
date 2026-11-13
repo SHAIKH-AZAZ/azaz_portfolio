@@ -19,14 +19,6 @@ import JsonLd from './components/JsonLd';
 import { skills, services, featuredWork, BUILDS, liveCount } from './data';
 import { BASE_URL, EMAIL, LINKEDIN } from './site';
 
-// Page-level metadata (supplements layout.js root metadata)
-export const metadata = {
-  title: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
-  description:
-    "Azaz Shaikh is a full-stack software engineer specialising in scalable web systems, business automation workflows, logistics algorithms, and data-driven platforms. Available for freelance and remote roles.",
-  alternates: { canonical: "/" },
-};
-
 // Structured data, generated from the same arrays the page renders so the two can't drift.
 const person = { "@id": `${BASE_URL}/#person` };
 const projects = [...featuredWork, ...BUILDS];

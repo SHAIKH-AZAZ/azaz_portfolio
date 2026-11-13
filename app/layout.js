@@ -14,15 +14,17 @@ export const viewport = {
 };
 
 // ── Metadata ─────────────────────────────────────────────────────────────────
+const TITLE = "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist";
+
 export const metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+    default: TITLE,
     template: "%s | Azaz Shaikh",
   },
   description:
-    "Azaz Shaikh is a full-stack software engineer based in India who builds scalable web systems, automation workflows, and data-driven platforms for growing businesses. Available for freelance & remote roles.",
+    "Azaz Shaikh is a full-stack software engineer specialising in scalable web systems, business automation workflows, logistics algorithms, and data-driven platforms. Available for freelance and remote roles.",
   keywords: [
     "Azaz Shaikh",
     "Mohammad Azaz Shaikh",
@@ -55,10 +57,7 @@ export const metadata = {
   publisher: "Azaz Shaikh",
 
   // ── Canonical & alternates ───────────────────────────────────────────────
-  alternates: {
-    canonical: "/",
-    languages: { "en-US": "/" },
-  },
+  alternates: { canonical: "/" },
 
   // ── Open Graph ───────────────────────────────────────────────────────────
   openGraph: {
@@ -70,7 +69,7 @@ export const metadata = {
     locale: "en_US",
     url: BASE_URL,
     siteName: "Azaz Shaikh — Full-Stack Engineer",
-    title: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+    title: TITLE,
     description:
       "I engineer scalable web systems, automation workflows, and custom algorithms that eliminate inefficiencies and drive business growth. View my portfolio.",
     images: [
@@ -78,7 +77,7 @@ export const metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+        alt: TITLE,
         type: "image/png",
       },
     ],
@@ -87,7 +86,7 @@ export const metadata = {
   // ── Twitter / X Card ─────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    title: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+    title: TITLE,
     description:
       "I engineer scalable web systems, automation workflows, and custom algorithms that eliminate inefficiencies and drive business growth.",
     images: ["/og-image.png"],
