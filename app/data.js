@@ -70,6 +70,17 @@ export const featuredWork = [
     stack: ['Python', 'Checkout', 'Tracking'],
   },
 ];
+export const heroMetrics = [
+  { value: '1+', label: 'Year of full-stack engineering experience' },
+  { value: '15+', label: 'Business operations optimized through code' },
+  { value: '98%', label: 'Performance & efficiency increase on core systems' },
+];
+
+export const marquee = [
+  'Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph',
+  'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering',
+];
+
 export const services = [
   { name: 'Enterprise Applications', text: 'Internal tools, dashboards, and CRM extensions built to unify operations and data management.' },
   { name: 'Algorithm Development', text: 'Custom logic engineering for complex challenges, routing, scheduling, and resource optimization.' },

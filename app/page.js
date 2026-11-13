@@ -16,7 +16,7 @@ import { IntroScript } from './components/intro';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
 import JsonLd from './components/JsonLd';
-import { skills, services, featuredWork, BUILDS, liveCount } from './data';
+import { skills, services, featuredWork, BUILDS, liveCount, heroMetrics, marquee } from './data';
 import { BASE_URL, EMAIL, LINKEDIN } from './site';
 
 // Structured data, generated from the same arrays the page renders so the two can't drift.
@@ -106,18 +106,12 @@ export default function Home() {
               <a className="button button-secondary" href="#contact">Start a project</a>
             </div>
             <div className="hero-metrics">
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="1+" />
-                <span className="metric-label">Year of full-stack engineering experience</span>
-              </article>
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="15+" delay={120} />
-                <span className="metric-label">Business operations optimized through code</span>
-              </article>
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="98%" delay={240} />
-                <span className="metric-label">Performance &amp; efficiency increase on core systems</span>
-              </article>
+              {heroMetrics.map((m, i) => (
+                <article className="metric-card reveal" key={m.label}>
+                  <ScrambleText className="metric-value" text={m.value} delay={i * 120} />
+                  <span className="metric-label">{m.label}</span>
+                </article>
+              ))}
             </div>
           </div>
 
@@ -129,10 +123,10 @@ export default function Home() {
         {/* ── Marquee ── */}
         <section className="marquee-shell" aria-label="Core skills">
           <div className="marquee-track">
-            {['Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering',
-              'Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering'].map((s, i) => (
-                <span key={i}>{s}</span>
-              ))}
+            {/* the list twice, so the CSS loop has no gap; the copy is hidden from screen readers */}
+            {[...marquee, ...marquee].map((s, i) => (
+              <span key={i} aria-hidden={i >= marquee.length || undefined}>{s}</span>
+            ))}
           </div>
         </section>
 
