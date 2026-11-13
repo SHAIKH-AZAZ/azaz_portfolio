@@ -1,18 +1,6 @@
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { fontVariables } from "./fonts";
 import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from "./site";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-});
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
@@ -338,7 +326,7 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
         {/* Theme before first paint: saved choice, else dark. #ffffff = light --bg (tokens.css) */}
         <script

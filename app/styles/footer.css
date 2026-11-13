@@ -27,7 +27,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    font-family: var(--font-bricolage);
+    font-family: var(--font-display);
     font-size: 1.35rem;
     font-weight: 700;
     color: var(--text);
@@ -82,7 +82,7 @@
 
 .footer-links-col h4,
 .footer-contact-col h4 {
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -133,7 +133,7 @@
     background: var(--accent);
     color: var(--on-accent);
     border: none;
-    font-family: var(--font-manrope);
+    font-family: var(--font-body);
     font-weight: 700;
     padding: 0.8rem 1.4rem;
     border-radius: 10px;
