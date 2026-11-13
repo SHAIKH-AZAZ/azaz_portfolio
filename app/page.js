@@ -5,13 +5,14 @@ import IntegrationCard from './components/IntegrationCard';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
 import DeliveryPipeline from './components/DeliveryPipeline';
-import OtherBuilds, { BUILDS } from './components/OtherBuilds';
+import OtherBuilds from './components/OtherBuilds';
 import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
-
+import { skills, featuredWork, BUILDS } from './data';
+import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from './site';
 
 // Page-level metadata (supplements layout.js root metadata)
 export const metadata = {
@@ -21,78 +22,8 @@ export const metadata = {
   alternates: { canonical: "/" },
 };
 
-const skills = [
-  {
-    group: 'Frontend',
-    tools: [['React', 'react.svg'], ['Next.js', 'nextjs.svg'], ['JavaScript', 'javascript.svg'], ['HTML5', 'html5.svg'], ['CSS', 'css3.svg'], ['Tailwind CSS', 'tailwindcss.svg']],
-    practices: ['Motion UI'],
-  },
-  {
-    group: 'Backend',
-    tools: [['Node.js', 'nodejs.svg'], ['Express', 'express.svg'], ['Python', 'python.svg'], ['MongoDB', 'mongodb.svg']],
-    practices: ['REST APIs', 'SQL', 'optimization algorithms'],
-  },
-  {
-    group: 'DevOps & cloud',
-    tools: [['Docker', 'docker.svg'], ['GitHub Actions', 'githubactions.svg'], ['AWS', 'aws.svg'], ['Linux', 'linux.webp'], ['Nginx', 'nginx.svg'], ['Vercel', 'vercel.svg']],
-    practices: ['CI/CD pipelines'],
-  },
-  {
-    group: 'Testing & tools',
-    tools: [['Selenium', 'selenium.svg'], ['Cypress', 'cypress.svg'], ['Postman', 'postman.svg'], ['Git', 'git.svg'], ['GitHub', 'github.svg']],
-    practices: ['Manual testing', 'test automation'],
-  },
-  {
-    group: 'AI & Python',
-    tools: [['LangChain', 'langchain.svg'], ['LangGraph', 'langgraph.svg'], ['Pandas', 'pandas.svg']],
-    practices: ['OpenAI API', 'RAG systems', 'AI agents'],
-  },
-];
-
-const featuredWork = [
-  {
-    name: 'POC Waste Optimizer',
-    kind: 'Industrial optimization',
-    url: 'https://poc-waste-proper.vercel.app/',
-    image: '/work/poc-waste.webp',
-    text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
-    stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
-  },
-  {
-    name: 'Excel Cleaner Tool',
-    kind: 'Data processing',
-    url: 'https://excel-cleaner.azazshaikh.info/',
-    image: '/work/excel-cleaner.webp',
-    text: 'A web application that processes raw XLSX files, stripping out hidden macros, objects and messy formatting to output clean, structured data.',
-    stack: ['Next.js', 'Regex', 'Data processing'],
-  },
-  {
-    name: 'ShamGym',
-    kind: 'Gym website',
-    url: 'https://shamgym.vercel.app/',
-    image: '/work/shamgym.webp',
-    text: 'Website for a strength and conditioning gym, with classes, trainers, membership plans, a blog and free-trial booking.',
-    stack: ['Next.js', 'Responsive UI'],
-  },
-  {
-    name: 'Safe & Secure Security Service',
-    kind: 'Security services website',
-    url: 'https://www.safeandsecuresecurityservice.com/',
-    image: '/work/safe-secure.webp',
-    text: 'Website for a Gujarat security agency covering executive protection, event security and site guarding, with a scenario-led request form that carries into a full quote.',
-    stack: ['Next.js', 'Quote forms', 'SEO'],
-  },
-  {
-    name: 'FastShipment',
-    kind: 'Logistics platform',
-    image: '/work/fastshipment.webp',
-    text: 'A logistics platform with ordering, secure checkout, real-time shipment tracking with dynamic editing, and partner management tools.',
-    stack: ['Python', 'Checkout', 'Tracking'],
-  },
-];
 const liveCount = featuredWork.filter((w) => w.url).length;
 
-const BASE_URL = "https://azazshaikh.info";
 const authorRef = { "@type": "Person", "@id": `${BASE_URL}/#person`, name: "Azaz Shaikh" };
 
 // Projects ItemList schema for rich Google results
@@ -628,10 +559,10 @@ export default function Home() {
             </h2>
             <p>I partner with forward-thinking teams to engineer robust, high-performance web systems.</p>
             <div className="contact-actions">
-              <a className="button button-primary" href="mailto:azazshaikh2703@gmail.com">Email Me</a>
+              <a className="button button-primary" href={`mailto:${EMAIL}`}>Email Me</a>
               <a
                 className="button button-secondary"
-                href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322"
+                href={LINKEDIN}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -658,13 +589,13 @@ export default function Home() {
               Building production-ready web systems for growing brands. From concept to deployment.
             </p>
             <div className="footer-socials">
-              <a href="https://github.com/SHAIKH-AZAZ/" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z" /></svg>
               </a>
-              <a href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
               </a>
-              <a href="mailto:azazshaikh2703@gmail.com" aria-label="Email">
+              <a href={`mailto:${EMAIL}`} aria-label="Email">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
               </a>
             </div>
@@ -699,9 +630,9 @@ export default function Home() {
             <p className="contact-prompt">Ready to build something great? Let&apos;s talk about your vision.</p>
             <div className="footer-email-link">
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
-              <a href="mailto:azazshaikh2703@gmail.com">Contact Us</a>
+              <a href={`mailto:${EMAIL}`}>Contact Us</a>
             </div>
-            <a className="button footer-cta-btn" href="mailto:azazshaikh2703@gmail.com">
+            <a className="button footer-cta-btn" href={`mailto:${EMAIL}`}>
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cta-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
               <span>Email Consult</span>
             </a>
