@@ -5,7 +5,6 @@ import TypewriterText from './TypewriterText';
 
 const MODES = {
   PROFILE: {
-    id: 'PROFILE',
     url: 'https://azazshaikh.info/profile',
     label: 'Profile',
     json: `[
@@ -16,11 +15,9 @@ const MODES = {
     "location": "Remote / India",
     "portfolio": "azazshaikh.info"
   }
-]`,
-    visualLayout: 'profile'
+]`
   },
   STACK: {
-    id: 'STACK',
     url: 'https://azazshaikh.info/stack',
     label: 'Stack',
     json: `[
@@ -30,11 +27,9 @@ const MODES = {
     "database": ["MongoDB", "SQL"],
     "automation": ["AI agents", "data pipelines", "workflows"]
   }
-]`,
-    visualLayout: 'stack'
+]`
   },
   PROJECTS: {
-    id: 'PROJECTS',
     url: 'https://azazshaikh.info/work',
     label: 'Work',
     json: `[
@@ -44,11 +39,9 @@ const MODES = {
     "impact": "reduced manual planning and material waste",
     "alsoBuilt": ["Excel Cleaner", "FastShipment", "AI RAG systems"]
   }
-]`,
-    visualLayout: 'projects'
+]`
   },
   CONTACT: {
-    id: 'CONTACT',
     url: 'https://azazshaikh.info/contact',
     label: 'Hire',
     json: `[
@@ -58,8 +51,7 @@ const MODES = {
     "response": "project discovery call",
     "cta": "Let's build a reliable software system"
   }
-]`,
-    visualLayout: 'contact'
+]`
   }
 };
 
@@ -288,18 +280,18 @@ export default function HeroScraperAnimation() {
               onKeyDown={handleTabKeyDown}
             >
               <span className="tab-indicator" aria-hidden="true" />
-              {Object.values(MODES).map((mode) => (
+              {Object.entries(MODES).map(([id, mode]) => (
                 <button
-                  key={mode.id}
-                  ref={(el) => { tabRefs.current[mode.id] = el; }}
-                  id={`hero-tab-${mode.id}`}
+                  key={id}
+                  ref={(el) => { tabRefs.current[id] = el; }}
+                  id={`hero-tab-${id}`}
                   type="button"
                   role="tab"
-                  aria-selected={activeMode === mode.id}
+                  aria-selected={activeMode === id}
                   aria-controls="hero-tabpanel"
-                  tabIndex={activeMode === mode.id ? 0 : -1}
-                  className={`tab-btn ${activeMode === mode.id ? 'is-active' : ''}`}
-                  onClick={() => handleTabClick(mode.id)}
+                  tabIndex={activeMode === id ? 0 : -1}
+                  className={`tab-btn ${activeMode === id ? 'is-active' : ''}`}
+                  onClick={() => handleTabClick(id)}
                 >
                   {mode.label}
                 </button>
