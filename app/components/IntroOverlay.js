@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { INTRO_KEY } from './intro';
 
 const NAME = 'Azaz Shaikh';
-const KEY = 'intro-seen';
 
 export default function IntroOverlay() {
   const root = useRef(null);
@@ -13,7 +13,7 @@ export default function IntroOverlay() {
 
   useEffect(() => {
     let seen = false;
-    try { seen = sessionStorage.getItem(KEY) === '1'; } catch {}
+    try { seen = sessionStorage.getItem(INTRO_KEY) === '1'; } catch {}
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (seen || reduced) {
       setDone(true);
@@ -26,7 +26,7 @@ export default function IntroOverlay() {
     document.documentElement.style.overflow = 'hidden';
 
     const finish = () => {
-      try { sessionStorage.setItem(KEY, '1'); } catch {}
+      try { sessionStorage.setItem(INTRO_KEY, '1'); } catch {}
       document.documentElement.style.overflow = '';
       setDone(true);
     };

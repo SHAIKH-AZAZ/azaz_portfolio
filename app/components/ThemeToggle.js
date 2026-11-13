@@ -1,16 +1,16 @@
 'use client';
 
-// Initial theme is set before paint by the inline script in layout.js; this only flips it.
+import { THEME_KEY, THEME_COLOR } from './theme';
+
+// ThemeScript sets the initial theme before paint; this only flips it.
 export default function ThemeToggle() {
   const toggle = () => {
     const root = document.documentElement;
     const next = root.dataset.theme === 'light' ? 'dark' : 'light';
     const apply = () => {
       root.dataset.theme = next;
-      // browser UI color follows the page background token
-      document.querySelector('meta[name="theme-color"]')
-        ?.setAttribute('content', getComputedStyle(root).getPropertyValue('--bg').trim());
-      try { localStorage.setItem('theme', next); } catch {}
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOR[next]);
+      try { localStorage.setItem(THEME_KEY, next); } catch {}
     };
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (document.startViewTransition && !reduced) document.startViewTransition(apply);

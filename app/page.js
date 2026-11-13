@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
+import { IntroScript } from './components/intro';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
 import JsonLd from './components/JsonLd';
@@ -82,11 +83,7 @@ export default function Home() {
     <>
       <JsonLd data={profilePageSchema} />
       <JsonLd data={projectsSchema} />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: "try{sessionStorage.getItem('intro-seen')!=='1'&&document.documentElement.classList.add('intro-play')}catch(e){}",
-        }}
-      />
+      <IntroScript />
       <IntroOverlay />
       <Motion />
       <DotField />

@@ -2,11 +2,12 @@ import "./globals.css";
 import { fontVariables } from "./fonts";
 import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from "./site";
 import JsonLd from "./components/JsonLd";
+import { ThemeScript, THEME_COLOR } from "./components/theme";
 import SelectionHighlight from "./components/SelectionHighlight";
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
-  themeColor: "#070709",
+  themeColor: THEME_COLOR.dark,
   colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
@@ -127,7 +128,7 @@ export const metadata = {
   other: {
     "geo.region": "IN",
     "geo.placename": "India",
-    "msapplication-TileColor": "#070709",
+    "msapplication-TileColor": THEME_COLOR.dark,
     "msapplication-config": "none",
     rating: "general",
   },
@@ -214,13 +215,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
-        {/* Theme before first paint: saved choice, else dark. #ffffff = light --bg (tokens.css) */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('theme');if(t!=='light')t='dark';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='light')m.content='#ffffff'}catch(e){}",
-          }}
-        />
+        <ThemeScript />
         <JsonLd data={personSchema} />
         <JsonLd data={websiteSchema} />
       </head>
