@@ -70,6 +70,13 @@ export const featuredWork = [
     stack: ['Python', 'Checkout', 'Tracking'],
   },
 ];
+export const services = [
+  { name: 'Enterprise Applications', text: 'Internal tools, dashboards, and CRM extensions built to unify operations and data management.' },
+  { name: 'Algorithm Development', text: 'Custom logic engineering for complex challenges, routing, scheduling, and resource optimization.' },
+  { name: 'E-Commerce & Logistics', text: 'End-to-end checkout paths, shipping engines, and partner management portal integrations.' },
+  { name: 'SaaS Architectures', text: 'Scalable software foundations with robust authentication, role-based access, and fast response times.' },
+];
+
 export const liveCount = featuredWork.filter((w) => w.url).length;
 
 // Smaller builds without a live link or screenshot (rendered by OtherBuilds).

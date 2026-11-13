@@ -13,7 +13,7 @@ import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
 import JsonLd from './components/JsonLd';
-import { skills, featuredWork, BUILDS, liveCount } from './data';
+import { skills, services, featuredWork, BUILDS, liveCount } from './data';
 import { BASE_URL, EMAIL, LINKEDIN } from './site';
 
 // Page-level metadata (supplements layout.js root metadata)
@@ -288,26 +288,13 @@ export default function Home() {
           </div>
           <div className="service-grid">
             <IntegrationCard />
-            <article className="service-card glass reveal">
-              <Notch n="01" />
-              <h3>Enterprise Applications</h3>
-              <p>Internal tools, dashboards, and CRM extensions built to unify operations and data management.</p>
-            </article>
-            <article className="service-card glass reveal">
-              <Notch n="02" />
-              <h3>Algorithm Development</h3>
-              <p>Custom logic engineering for complex challenges, routing, scheduling, and resource optimization.</p>
-            </article>
-            <article className="service-card glass reveal">
-              <Notch n="03" />
-              <h3>E-Commerce &amp; Logistics</h3>
-              <p>End-to-end checkout paths, shipping engines, and partner management portal integrations.</p>
-            </article>
-            <article className="service-card glass reveal">
-              <Notch n="04" />
-              <h3>SaaS Architectures</h3>
-              <p>Scalable software foundations with robust authentication, role-based access, and fast response times.</p>
-            </article>
+            {services.map((sv, i) => (
+              <article className="service-card glass reveal" key={sv.name}>
+                <Notch n={String(i + 1).padStart(2, '0')} />
+                <h3>{sv.name}</h3>
+                <p>{sv.text}</p>
+              </article>
+            ))}
           </div>
         </section>
 
