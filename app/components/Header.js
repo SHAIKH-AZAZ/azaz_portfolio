@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ThemeToggle from './ThemeToggle';
 import { EMAIL, GITHUB, LINKEDIN } from '../site';
 
@@ -14,7 +14,16 @@ const LINKS = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const headerRef = useRef(null);
   const close = () => setOpen(false);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 18);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -34,7 +43,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="site-header">
+      <header ref={headerRef} className="site-header">
         <div className="site-header-inner">
           <a className="brand" href="#top" onClick={close}><span>Azaz</span> Shaikh</a>
           <nav className="nav" aria-label="Primary">

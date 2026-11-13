@@ -1,4 +1,6 @@
-import InteractiveCanvas from './components/InteractiveCanvas';
+import Motion from './components/Motion';
+import DotField from './components/DotField';
+import ScrollProgress from './components/ScrollProgress';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
 import IntegrationCard from './components/IntegrationCard';
@@ -86,13 +88,9 @@ export default function Home() {
         }}
       />
       <IntroOverlay />
-      <InteractiveCanvas />
-      <div className="noise" aria-hidden="true" />
-
-      <div className="scroll-progress-container" aria-hidden="true">
-        <div className="scroll-progress-track" />
-        <div className="scroll-progress-thumb" />
-      </div>
+      <Motion />
+      <DotField />
+      <ScrollProgress />
 
       <Header />
 

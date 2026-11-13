@@ -107,6 +107,7 @@ export default function HeroScraperAnimation() {
   const timerRef = useRef(null);
   const listRef = useRef(null);
   const tabRefs = useRef({});
+  const shellRef = useRef(null);
 
   const currentMode = MODES[activeMode];
 
@@ -230,6 +231,31 @@ export default function HeroScraperAnimation() {
     };
   }, []);
 
+  // tilt toward the pointer (mouse/trackpad only); the easing back is a CSS transition
+  useEffect(() => {
+    const shell = shellRef.current;
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || reduced) return undefined;
+    const move = (e) => {
+      const r = shell.getBoundingClientRect();
+      shell.style.setProperty('--tilt-x', `${((0.5 - (e.clientY - r.top) / r.height) * 10).toFixed(2)}deg`);
+      shell.style.setProperty('--tilt-y', `${(((e.clientX - r.left) / r.width - 0.5) * 12).toFixed(2)}deg`);
+      shell.classList.add('is-tilting');
+    };
+    const leave = () => {
+      shell.style.removeProperty('--tilt-x');
+      shell.style.removeProperty('--tilt-y');
+      shell.classList.remove('is-tilting');
+    };
+    shell.addEventListener('pointermove', move);
+    shell.addEventListener('pointerleave', leave);
+    return () => {
+      shell.removeEventListener('pointermove', move);
+      shell.removeEventListener('pointerleave', leave);
+    };
+  }, []);
+
   // Sliding pill: place the indicator under the active tab (and keep it there on resize).
   useLayoutEffect(() => {
     const list = listRef.current;
@@ -276,7 +302,7 @@ export default function HeroScraperAnimation() {
   };
 
   return (
-    <div className="scraper-animation-shell" data-tilt>
+    <div ref={shellRef} className="scraper-animation-shell">
       {/* Chrome Shell */}
       <div className="window-chrome">
         <span /><span /><span />

@@ -15,6 +15,14 @@
     will-change: transform;
     overflow: hidden;
     margin: 0 auto;
+    /* tilt vars are set by HeroScraperAnimation; returning to flat overshoots slightly */
+    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition: transform 550ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scraper-animation-shell.is-tilting {
+    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-4px);
+    transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .window-chrome {

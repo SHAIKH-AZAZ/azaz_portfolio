@@ -102,6 +102,11 @@
     place-items: center;
 }
 
+/* the card follows the title words in */
+.has-motion .hero-stage.reveal {
+    transition-delay: 600ms;
+}
+
 .has-motion .hero-copy h1 .title-word {
     opacity: 0;
     filter: blur(6px);
