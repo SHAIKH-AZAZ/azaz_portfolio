@@ -62,6 +62,7 @@ const TABS = [
   {
     id: 'profile',
     label: 'Profile',
+    icon: PythonIcon,
     lines: [
       [{ t: '# Portfolio profile', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'developer', c: 'variable' }, { t: ' = ', c: 'operator' }, { t: '{', c: 'normal' }],
@@ -75,6 +76,7 @@ const TABS = [
   {
     id: 'projects',
     label: 'Projects',
+    icon: NodeIcon,
     lines: [
       [{ t: '# Selected production builds', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'ship', c: 'function' }, { t: ' = ', c: 'operator' }, { t: 'async ', c: 'keyword' }, { t: '(build) => ', c: 'operator' }, { t: 'deploy', c: 'accent' }, { t: '(build);', c: 'normal' }],
@@ -89,7 +91,8 @@ const TABS = [
   },
   {
     id: 'stack',
-    label: '{ } Stack',
+    label: 'Stack',
+    icon: BracesIcon,
     lines: [
       [{ t: '# Full-stack toolkit & AI tech', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'stack', c: 'variable' }, { t: ' = {', c: 'normal' }],
@@ -103,6 +106,7 @@ const TABS = [
   {
     id: 'contact',
     label: 'Contact',
+    icon: CLIIcon,
     lines: [
       [{ t: '# Initialize project discovery', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'inquiry', c: 'variable' }, { t: ' = ', c: 'operator' }, { t: 'await ', c: 'keyword' }, { t: 'contactAzaz', c: 'function' }, { t: '({', c: 'normal' }],
@@ -154,7 +158,13 @@ function CLIIcon() {
   );
 }
 
-const TAB_ICONS = [PythonIcon, NodeIcon, null, CLIIcon];
+function BracesIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M8 4H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1M16 4h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1" />
+    </svg>
+  );
+}
 
 /* ── Component ───────────────────────────────────────────────────── */
 export default function CodeTerminalDemo() {
@@ -164,12 +174,8 @@ export default function CodeTerminalDemo() {
   const [outputVisibleChars, setOutputVisibleChars] = useState(0);
   const [scrambleTick, setScrambleTick] = useState(0);
 
+  // re-clicking the active tab replays it
   const handleTabClick = (idx) => {
-    if (idx === activeIdx) {
-      setAnimKey((k) => k + 1);
-      return;
-    }
-
     setActiveIdx(idx);
     setAnimKey((k) => k + 1);
   };
@@ -251,24 +257,21 @@ export default function CodeTerminalDemo() {
           <span className="ctd-dot ctd-dot-yellow" />
           <span className="ctd-dot ctd-dot-green" />
         </div>
-        <div className="ctd-tabs" role="tablist" aria-label="Language selector">
-          {TABS.map((tab, idx) => {
-            const Icon = TAB_ICONS[idx];
-            return (
+        <div className="ctd-tabs" role="tablist" aria-label="Portfolio console">
+          {TABS.map(({ id, label, icon: Icon }, idx) => (
               <button
-                key={tab.id}
+                key={id}
                 role="tab"
-                id={`ctd-tab-${tab.id}`}
+                id={`ctd-tab-${id}`}
                 aria-selected={idx === activeIdx}
                 aria-controls="ctd-tabpanel"
                 className={`ctd-tab ${idx === activeIdx ? 'is-active' : ''}`}
                 onClick={() => handleTabClick(idx)}
               >
-                {Icon && <Icon />}
-                {tab.label}
+                <Icon />
+                {label}
               </button>
-            );
-          })}
+          ))}
         </div>
         <div className="ctd-status-pill">
           <span className="ctd-status-glow" />
