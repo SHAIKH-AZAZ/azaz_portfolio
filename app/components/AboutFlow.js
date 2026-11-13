@@ -6,14 +6,18 @@ const messy = [
   'M0,124 C70,128 80,90 130,112 S200,130 245,92 S285,70 300,70',
 ];
 const clean = [18, 52, 92, 124].map((y) => `M700,70 C780,70 800,${y} 880,${y} H1000`);
+// the straight core line in viewBox x units (of 1000); the messy lanes end and the clean ones start here
+const CORE = [300, 700];
 
-const columns = [
-  { title: 'Manual, scattered work', text: 'Spreadsheets, copy-paste and decisions made by hand.' },
-  { step: '1', title: 'Operational efficiency', text: 'Find the bottleneck and automate the manual tasks around it.' },
-  { step: '2', title: 'Algorithmic precision', text: 'Custom optimization logic for logistics, allocation and cutting.' },
-  { step: '3', title: 'Scalable architecture', text: 'Robust backends and resilient frontends that grow with the load.' },
-  { title: 'Runs on its own', text: 'Fewer errors, and hours saved every week.' },
+const before = { title: 'Manual, scattered work', text: 'Spreadsheets, copy-paste and decisions made by hand.' };
+const steps = [
+  { title: 'Operational efficiency', text: 'Find the bottleneck and automate the manual tasks around it.' },
+  { title: 'Algorithmic precision', text: 'Custom optimization logic for logistics, allocation and cutting.' },
+  { title: 'Scalable architecture', text: 'Robust backends and resilient frontends that grow with the load.' },
 ];
+const after = { title: 'Runs on its own', text: 'Fewer errors, and hours saved every week.' };
+// step i sits at an even spacing along the core line, as a % of the width
+const nodeLeft = (i) => `${(CORE[0] + (i * (CORE[1] - CORE[0])) / (steps.length - 1)) / 10}%`;
 
 export default function AboutFlow() {
   return (
@@ -23,7 +27,7 @@ export default function AboutFlow() {
           {messy.map((d, i) => (
             <path key={i} id={`flow-in-${i}`} d={d} className="flow-line flow-line-in" />
           ))}
-          <path id="flow-core" d="M300,70 H700" className="flow-line flow-line-core" />
+          <path id="flow-core" d={`M${CORE[0]},70 H${CORE[1]}`} className="flow-line flow-line-core" />
           {clean.map((d, i) => (
             <path key={i} id={`flow-out-${i}`} d={d} className="flow-line flow-line-out" />
           ))}
@@ -50,18 +54,26 @@ export default function AboutFlow() {
             </circle>
           ))}
         </svg>
-        {['30%', '50%', '70%'].map((left, i) => (
-          <span key={left} className="flow-node" style={{ left }}>{i + 1}</span>
+        {steps.map((s, i) => (
+          <span key={s.title} className="flow-node" style={{ left: nodeLeft(i) }}>{i + 1}</span>
         ))}
       </div>
 
       <ol className="flow-steps">
-        {columns.map(({ step, title, text }) => (
-          <li key={title} className={step ? 'is-step' : 'is-edge'}>
-            <h3>{step && <span className="flow-step-num">{step}</span>}{title}</h3>
-            <p>{text}</p>
+        <li className="is-edge">
+          <h3>{before.title}</h3>
+          <p>{before.text}</p>
+        </li>
+        {steps.map((s, i) => (
+          <li key={s.title} className="is-step">
+            <h3><span className="flow-step-num">{i + 1}</span>{s.title}</h3>
+            <p>{s.text}</p>
           </li>
         ))}
+        <li className="is-edge">
+          <h3>{after.title}</h3>
+          <p>{after.text}</p>
+        </li>
       </ol>
     </div>
   );
