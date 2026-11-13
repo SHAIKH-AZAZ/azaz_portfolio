@@ -70,6 +70,7 @@ export const featuredWork = [
     stack: ['Python', 'Checkout', 'Tracking'],
   },
 ];
+export const liveCount = featuredWork.filter((w) => w.url).length;
 
 // Smaller builds without a live link or screenshot (rendered by OtherBuilds).
 export const BUILDS = [
