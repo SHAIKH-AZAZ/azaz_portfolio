@@ -1,20 +1,14 @@
-const BASE_URL = "https://azazshaikh.info";
+import { BASE_URL } from "./site";
+import { featuredWork } from "./data";
 
 export default function sitemap() {
-  const lastModified = new Date();
-
   return [
     {
       url: BASE_URL,
-      lastModified,
+      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1.0,
-      images: [
-        `${BASE_URL}/og-image.png`,
-        `${BASE_URL}/work/poc-waste.webp`,
-        `${BASE_URL}/work/excel-cleaner.webp`,
-        `${BASE_URL}/work/fastshipment.webp`,
-      ],
+      images: [`${BASE_URL}/og-image.png`, ...featuredWork.map((w) => BASE_URL + w.image)],
     },
   ];
 }

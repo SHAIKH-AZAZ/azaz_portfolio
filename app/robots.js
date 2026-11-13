@@ -1,4 +1,4 @@
-const BASE_URL = "https://azazshaikh.info";
+import { BASE_URL } from "./site";
 
 export default function robots() {
   return {

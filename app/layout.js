@@ -1,5 +1,6 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from "./site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,8 +13,6 @@ const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
-
-const BASE_URL = "https://azazshaikh.info";
 
 // ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
 export const viewport = {
@@ -155,7 +154,7 @@ export default function RootLayout({ children }) {
     name: "Azaz Shaikh",
     alternateName: "Mohammad Azaz Shaikh",
     url: BASE_URL,
-    email: "azazshaikh2703@gmail.com",
+    email: EMAIL,
     jobTitle: "Full-Stack Software Engineer",
     description:
       "Full-stack software engineer specialising in business automation, logistics algorithms, and scalable web architectures.",
@@ -204,8 +203,8 @@ export default function RootLayout({ children }) {
       "Python ETL Pipelines",
     ],
     sameAs: [
-      "https://github.com/SHAIKH-AZAZ/",
-      "https://www.linkedin.com/in/mohammadazaz-shaikh-421937322",
+      GITHUB,
+      LINKEDIN,
     ],
   };
 
