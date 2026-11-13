@@ -179,7 +179,10 @@ export default function CodeTerminalDemo() {
 
   const activeTab = TABS[activeIdx];
   const codeCharCount = getCodeLength(activeTab.lines);
+  // char offset where each line starts; visible ranges don't overlap, so at most one line shows the caret
+  const lineStarts = activeTab.lines.map((_, i) => getCodeLength(activeTab.lines.slice(0, i)));
   const outputCharCount = getOutputLength(OUTPUT_LINES);
+  const outputStarts = OUTPUT_LINES.map((_, i) => getOutputLength(OUTPUT_LINES.slice(0, i)));
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -280,18 +283,11 @@ export default function CodeTerminalDemo() {
       <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel">
         {/* LEFT — Code panel */}
         <div className="ctd-code-panel">
-          {(() => {
-            let consumedChars = 0;
-            let caretPlaced = false;
-
-            return activeTab.lines.map((line, lineIdx) => {
-              const lineStart = consumedChars;
+          {activeTab.lines.map((line, lineIdx) => {
+              const lineStart = lineStarts[lineIdx];
               const lineLength = getLineLength(line);
               const visibleInLine = Math.max(0, Math.min(lineLength, codeVisibleChars - lineStart));
-              const showCaret = !caretPlaced && lineLength > 0 && codeVisibleChars >= lineStart && codeVisibleChars < lineStart + lineLength;
-
-              if (showCaret) caretPlaced = true;
-              consumedChars += lineLength;
+              const showCaret = lineLength > 0 && codeVisibleChars >= lineStart && codeVisibleChars < lineStart + lineLength;
 
               return (
                 <div key={`${animKey}-${lineIdx}`} className="ctd-line">
@@ -302,8 +298,7 @@ export default function CodeTerminalDemo() {
                   </span>
                 </div>
               );
-            });
-          })()}
+            })}
         </div>
 
         {/* RIGHT — Markdown output panel */}
@@ -312,18 +307,11 @@ export default function CodeTerminalDemo() {
             <span className="ctd-output-badge">● TERMINAL OUTPUT</span>
           </div>
           <div className="ctd-output-body">
-            {(() => {
-              let consumedChars = 0;
-              let caretPlaced = false;
-
-              return OUTPUT_LINES.map((line, idx) => {
-                const lineStart = consumedChars;
+            {OUTPUT_LINES.map((line, idx) => {
+                const lineStart = outputStarts[idx];
                 const lineLength = line.t.length;
                 const visibleInLine = Math.max(0, Math.min(lineLength, outputVisibleChars - lineStart));
-                const showCaret = !caretPlaced && outputVisibleChars > 0 && lineLength > 0 && outputVisibleChars >= lineStart && outputVisibleChars < lineStart + lineLength;
-
-                if (showCaret) caretPlaced = true;
-                consumedChars += lineLength;
+                const showCaret = outputVisibleChars > 0 && lineLength > 0 && outputVisibleChars >= lineStart && outputVisibleChars < lineStart + lineLength;
 
                 return (
                   <div key={`${animKey}-out-${idx}`} className={`ctd-output-line ctd-out-${line.c}`}>
@@ -331,8 +319,7 @@ export default function CodeTerminalDemo() {
                     {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
                   </div>
                 );
-              });
-            })()}
+              })}
           </div>
         </div>
 

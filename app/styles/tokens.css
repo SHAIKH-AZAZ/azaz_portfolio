@@ -28,6 +28,8 @@
     --sheet: #ffffff;
     --ok: #0f7b53;
     --ok-rgb: 15, 123, 83;
+    /* light tile behind brand-coloured logos; same in both themes so the logos stay legible */
+    --logo-tile: #f6f8fa;
     --grid-alpha: 0.045;
     --shadow-rgb: 42, 53, 71;
     --shadow-k: 0.18;
