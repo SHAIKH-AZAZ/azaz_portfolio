@@ -126,7 +126,7 @@
 
 .exp-header h3 {
     margin: 0;
-    font-family: var(--font-bricolage);
+    font-family: var(--font-display);
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: -0.025em;
@@ -135,7 +135,7 @@
 
 .exp-company {
     color: var(--accent-ink);
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -150,4 +150,11 @@
     margin: 0;
     color: var(--text-soft);
     line-height: 1.45;
+}
+
+.exp-link {
+    color: var(--accent-ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import ThemeToggle from './ThemeToggle';
+import { EMAIL, GITHUB, LINKEDIN } from '../site';
 
 const LINKS = [
   ['#about', 'About'],
@@ -66,11 +67,11 @@ export default function Header() {
           Let&apos;s Build Together
         </a>
         <div className="mobile-nav-footer">
-          <a href="https://github.com/SHAIKH-AZAZ/" target="_blank" rel="noreferrer">GitHub</a>
+          <a href={GITHUB} target="_blank" rel="noreferrer">GitHub</a>
           <span aria-hidden="true">·</span>
-          <a href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn</a>
           <span aria-hidden="true">·</span>
-          <a href="mailto:azazshaikh2703@gmail.com">Email</a>
+          <a href={`mailto:${EMAIL}`}>Email</a>
         </div>
       </div>
     </>

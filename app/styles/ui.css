@@ -1,7 +1,7 @@
 /* ── Shared type, buttons and section headings ── */
 .eyebrow {
     margin: 0 0 1rem;
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     color: var(--muted);
     font-size: 0.75rem;
     font-weight: 700;
@@ -81,6 +81,13 @@
     box-shadow: var(--shadow);
 }
 
+/* square icon-only button, e.g. back to top */
+.button-icon {
+    flex: none;
+    min-width: 0;
+    padding: 0.95rem 1.15rem;
+}
+
 .button-secondary:hover {
     border-color: var(--accent-ink);
     color: var(--accent-ink);
@@ -97,7 +104,7 @@
 
 .section-heading h2 {
     max-width: 20ch;
-    font-family: var(--font-bricolage);
+    font-family: var(--font-display);
     font-size: clamp(2rem, 3.2vw, 3rem);
     font-weight: 800;
     line-height: 1.06;

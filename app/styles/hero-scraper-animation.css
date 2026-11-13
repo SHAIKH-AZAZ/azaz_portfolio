@@ -44,7 +44,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: 0.74rem;
     color: var(--muted);
     white-space: nowrap;
@@ -89,7 +89,7 @@
 }
 
 .url-text {
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: 0.78rem;
     color: var(--muted);
     overflow: hidden;
@@ -145,7 +145,7 @@
     border: 0;
     border-radius: 7px;
     background: transparent;
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: 0.74rem;
     font-weight: 700;
     color: var(--muted);
@@ -243,7 +243,7 @@
     margin: 0;
     padding: 1.55rem 1.35rem 3.6rem;
     color: var(--muted);
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: clamp(0.68rem, 1.8vw, 0.88rem);
     font-weight: 500;
     line-height: 1.75;
@@ -321,7 +321,7 @@
     border-radius: 999px;
     background: var(--panel-strong);
     color: var(--text-soft);
-    font-family: var(--font-space-mono);
+    font-family: var(--font-mono);
     font-size: 0.78rem;
     font-weight: 800;
     letter-spacing: 0.01em;

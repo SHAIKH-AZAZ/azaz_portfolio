@@ -143,7 +143,7 @@
     height: 2rem;
     flex: none;
     border-radius: 8px;
-    background: #f6f8fa;
+    background: var(--logo-tile);
     border: 1px solid var(--line);
     transition: transform 200ms ease;
 }
