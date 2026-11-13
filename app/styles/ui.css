@@ -138,7 +138,7 @@
     }
 }
 
-/* text carets (code demo, scraper) */
+/* blinking text caret (typewriters, code demo, scraper) */
 @keyframes cursorBlink {
     0%,
     100% {

@@ -49,17 +49,6 @@
     white-space: nowrap;
 }
 
-.hero h1 .title-word.highlight-gradient {
-    background: linear-gradient(135deg, var(--accent-ink) 25%, var(--accent-ink) 85%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-    display: inline-block;
-    font-weight: 800;
-    filter: none;
-}
-
 /* ── Metric cards ── */
 .hero-metrics {
     display: grid;

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import TypewriterText from './TypewriterText';
 
 const MODES = {
   PROFILE: {
@@ -103,7 +104,6 @@ export default function HeroScraperAnimation() {
   const [isScraping, setIsScraping] = useState(false);
   const [typedUrl, setTypedUrl] = useState('');
   const [typedJson, setTypedJson] = useState('');
-  const [typedStatus, setTypedStatus] = useState('');
   const timerRef = useRef(null);
   const listRef = useRef(null);
   const tabRefs = useRef({});
@@ -184,50 +184,6 @@ export default function HeroScraperAnimation() {
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    let active = true;
-    let wordIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
-    let timeoutId = null;
-
-    const tick = () => {
-      if (!active) return;
-
-      const word = STATUS_WORDS[wordIndex];
-      setTypedStatus(word.slice(0, charIndex));
-
-      if (!deleting && charIndex < word.length) {
-        charIndex++;
-        timeoutId = setTimeout(tick, 85);
-        return;
-      }
-
-      if (!deleting && charIndex === word.length) {
-        deleting = true;
-        timeoutId = setTimeout(tick, 900);
-        return;
-      }
-
-      if (deleting && charIndex > 0) {
-        charIndex--;
-        timeoutId = setTimeout(tick, 45);
-        return;
-      }
-
-      deleting = false;
-      wordIndex = (wordIndex + 1) % STATUS_WORDS.length;
-      timeoutId = setTimeout(tick, 220);
-    };
-
-    tick();
-
-    return () => {
-      active = false;
-      if (timeoutId) clearTimeout(timeoutId);
     };
   }, []);
 
@@ -379,10 +335,7 @@ export default function HeroScraperAnimation() {
             <span className="status-grid" aria-hidden="true">
               <span /><span /><span /><span />
             </span>
-            <span className="status-typewriter">
-              {typedStatus}
-              <span className="status-typewriter-caret" />
-            </span>
+            <TypewriterText phrases={STATUS_WORDS} hold={900} className="status-typewriter" />
           </div>
         </div>
 

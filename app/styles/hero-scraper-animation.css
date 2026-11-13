@@ -343,7 +343,8 @@
     min-width: 5.9rem;
 }
 
-.status-typewriter-caret {
+.status-typewriter::after {
+    content: "";
     display: inline-block;
     width: 2px;
     height: 0.86rem;
