@@ -123,7 +123,7 @@
     width: clamp(2rem, 9.5cqi, 3.2rem);
     height: clamp(2rem, 9.5cqi, 3.2rem);
     border-radius: 10px;
-    background: #f6f8fa;
+    background: var(--logo-tile);
 }
 
 .int-tool img {

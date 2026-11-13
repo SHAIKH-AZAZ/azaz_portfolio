@@ -28,6 +28,8 @@
     --sheet: #ffffff;
     --ok: #0f7b53;
     --ok-rgb: 15, 123, 83;
+    /* light tile behind brand-coloured logos; same in both themes so the logos stay legible */
+    --logo-tile: #f6f8fa;
     --grid-alpha: 0.045;
     --shadow-rgb: 42, 53, 71;
     --shadow-k: 0.18;
@@ -37,11 +39,7 @@
     --radius-lg: 16px;
     --radius-md: 12px;
     --container: min(1120px, calc(100% - 2rem));
-    --font-bricolage: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-    --font-manrope: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-    --font-space-mono:
-        var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, monospace;
+    /* fonts: --font-display / --font-body / --font-mono come from app/fonts.js */
 }
 
 :root[data-theme="dark"] {

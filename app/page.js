@@ -5,13 +5,16 @@ import IntegrationCard from './components/IntegrationCard';
 import CodeTerminalDemo from './components/CodeTerminalDemo';
 import ScrambleText from './components/ScrambleText';
 import DeliveryPipeline from './components/DeliveryPipeline';
-import OtherBuilds, { BUILDS } from './components/OtherBuilds';
+import Work from './components/Work';
+import Footer from './components/Footer';
 import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
-
+import JsonLd from './components/JsonLd';
+import { skills, services, featuredWork, BUILDS, liveCount } from './data';
+import { BASE_URL, EMAIL, LINKEDIN } from './site';
 
 // Page-level metadata (supplements layout.js root metadata)
 export const metadata = {
@@ -21,263 +24,41 @@ export const metadata = {
   alternates: { canonical: "/" },
 };
 
-const skills = [
-  {
-    group: 'Frontend',
-    tools: [['React', 'react.svg'], ['Next.js', 'nextjs.svg'], ['JavaScript', 'javascript.svg'], ['HTML5', 'html5.svg'], ['CSS', 'css3.svg'], ['Tailwind CSS', 'tailwindcss.svg']],
-    practices: ['Motion UI'],
-  },
-  {
-    group: 'Backend',
-    tools: [['Node.js', 'nodejs.svg'], ['Express', 'express.svg'], ['Python', 'python.svg'], ['MongoDB', 'mongodb.svg']],
-    practices: ['REST APIs', 'SQL', 'optimization algorithms'],
-  },
-  {
-    group: 'DevOps & cloud',
-    tools: [['Docker', 'docker.svg'], ['GitHub Actions', 'githubactions.svg'], ['AWS', 'aws.svg'], ['Linux', 'linux.webp'], ['Nginx', 'nginx.svg'], ['Vercel', 'vercel.svg']],
-    practices: ['CI/CD pipelines'],
-  },
-  {
-    group: 'Testing & tools',
-    tools: [['Selenium', 'selenium.svg'], ['Cypress', 'cypress.svg'], ['Postman', 'postman.svg'], ['Git', 'git.svg'], ['GitHub', 'github.svg']],
-    practices: ['Manual testing', 'test automation'],
-  },
-  {
-    group: 'AI & Python',
-    tools: [['LangChain', 'langchain.svg'], ['LangGraph', 'langgraph.svg'], ['Pandas', 'pandas.svg']],
-    practices: ['OpenAI API', 'RAG systems', 'AI agents'],
-  },
-];
+// Structured data, generated from the same arrays the page renders so the two can't drift.
+const person = { "@id": `${BASE_URL}/#person` };
+const projects = [...featuredWork, ...BUILDS];
 
-const featuredWork = [
-  {
-    name: 'POC Waste Optimizer',
-    kind: 'Industrial optimization',
-    url: 'https://poc-waste-proper.vercel.app/',
-    image: '/work/poc-waste.webp',
-    text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
-    stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
-  },
-  {
-    name: 'Excel Cleaner Tool',
-    kind: 'Data processing',
-    url: 'https://excel-cleaner.azazshaikh.info/',
-    image: '/work/excel-cleaner.webp',
-    text: 'A web application that processes raw XLSX files, stripping out hidden macros, objects and messy formatting to output clean, structured data.',
-    stack: ['Next.js', 'Regex', 'Data processing'],
-  },
-  {
-    name: 'ShamGym',
-    kind: 'Gym website',
-    url: 'https://shamgym.vercel.app/',
-    image: '/work/shamgym.webp',
-    text: 'Website for a strength and conditioning gym, with classes, trainers, membership plans, a blog and free-trial booking.',
-    stack: ['Next.js', 'Responsive UI'],
-  },
-  {
-    name: 'Safe & Secure Security Service',
-    kind: 'Security services website',
-    url: 'https://www.safeandsecuresecurityservice.com/',
-    image: '/work/safe-secure.webp',
-    text: 'Website for a Gujarat security agency covering executive protection, event security and site guarding, with a scenario-led request form that carries into a full quote.',
-    stack: ['Next.js', 'Quote forms', 'SEO'],
-  },
-  {
-    name: 'FastShipment',
-    kind: 'Logistics platform',
-    image: '/work/fastshipment.webp',
-    text: 'A logistics platform with ordering, secure checkout, real-time shipment tracking with dynamic editing, and partner management tools.',
-    stack: ['Python', 'Checkout', 'Tracking'],
-  },
-];
-const liveCount = featuredWork.filter((w) => w.url).length;
-
-const BASE_URL = "https://azazshaikh.info";
-const authorRef = { "@type": "Person", "@id": `${BASE_URL}/#person`, name: "Azaz Shaikh" };
-
-// Projects ItemList schema for rich Google results
 const projectsSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Projects by Azaz Shaikh",
-  description: "Deployed applications and software solutions by Azaz Shaikh",
-  numberOfItems: 9,
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "POC Waste Optimizer",
-        url: "https://poc-waste-proper.vercel.app/",
-        applicationCategory: "BusinessApplication",
-        applicationSubCategory: "Industrial Optimization",
-        operatingSystem: "Web",
-        description:
-          "Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.",
-        featureList: [
-          "Bar-cutting stock algorithm",
-          "Material waste minimization",
-          "Project management interface",
-          "Real-time optimization reports",
-        ],
-        author: authorRef,
-      },
+  numberOfItems: projects.length,
+  itemListElement: projects.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "CreativeWork",
+      name: p.name,
+      genre: p.kind,
+      description: p.text,
+      keywords: p.stack.join(", "),
+      ...(p.url && { url: p.url }),
+      author: person,
     },
-    {
-      "@type": "ListItem",
-      position: 2,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Excel Cleaner Tool",
-        url: "https://excel-cleaner.azazshaikh.info/",
-        applicationCategory: "UtilitiesApplication",
-        applicationSubCategory: "Data Cleaning",
-        operatingSystem: "Web",
-        description:
-          "Web application that processes XLSX files, stripping hidden macros, objects, and messy formatting to output clean structured data.",
-        featureList: [
-          "XLSX file processing",
-          "Macro and object removal",
-          "Structured data output",
-          "Batch file support",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "FastShipment",
-        applicationCategory: "BusinessApplication",
-        applicationSubCategory: "Logistics & Shipping",
-        operatingSystem: "Web",
-        description:
-          "Comprehensive logistics platform with ordering, secure checkout, real-time shipment tracking, and partner management tools.",
-        featureList: [
-          "Order management",
-          "Secure checkout",
-          "Real-time shipment tracking",
-          "Partner management portal",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 4,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Nova Control",
-        applicationCategory: "BusinessApplication",
-        applicationSubCategory: "Dashboard & Analytics",
-        operatingSystem: "Web",
-        description:
-          "Futuristic data visualization platform with modular component architecture and streamlined information hierarchy.",
-        featureList: [
-          "Modular dashboard components",
-          "Real-time data visualization",
-          "Scalable architecture",
-          "Analytics reporting",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 5,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Gym Flow Platform",
-        applicationCategory: "HealthApplication",
-        applicationSubCategory: "Fitness Management",
-        operatingSystem: "Web",
-        description:
-          "Comprehensive fitness tracking and gym management platform with customized workout routines and analytics.",
-        featureList: [
-          "Workout routine builder",
-          "Fitness progress tracking",
-          "Gym member management",
-          "Performance analytics",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 6,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "Python Data Pipeline",
-        applicationCategory: "DeveloperApplication",
-        applicationSubCategory: "ETL & Data Engineering",
-        operatingSystem: "Cross-platform",
-        description:
-          "High-performance Python data pipeline for ETL workflows, automated reporting, and batch processing of large-scale structured datasets.",
-        featureList: [
-          "ETL workflow automation",
-          "Automated reporting",
-          "Large-scale batch processing",
-          "Pandas-based data transformation",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 7,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "LangChain RAG System",
-        applicationCategory: "DeveloperApplication",
-        applicationSubCategory: "AI & Machine Learning",
-        operatingSystem: "Cross-platform",
-        description:
-          "Retrieval-Augmented Generation system using LangChain and vector databases to build context-aware AI assistants grounded in custom knowledge bases.",
-        featureList: [
-          "LangChain integration",
-          "Vector database retrieval",
-          "Custom knowledge base support",
-          "Context-aware AI responses",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 8,
-      item: {
-        "@type": "SoftwareApplication",
-        name: "LangGraph AI Agent",
-        applicationCategory: "DeveloperApplication",
-        applicationSubCategory: "AI Agents & Orchestration",
-        operatingSystem: "Cross-platform",
-        description:
-          "Stateful multi-step AI agent orchestration built on LangGraph, capable of tool use, conditional branching, memory, and autonomous task completion.",
-        featureList: [
-          "LangGraph orchestration",
-          "Stateful multi-step reasoning",
-          "Tool use and conditional branching",
-          "Autonomous task completion",
-        ],
-        author: authorRef,
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 9,
-      item: {
-        "@type": "WebSite",
-        name: "ShamGym",
-        url: "https://shamgym.vercel.app/",
-        description:
-          "Website for a strength and conditioning gym, with classes, trainers, membership plans, a blog and free-trial booking.",
-        author: authorRef,
-      },
-    },
-  ],
+  })),
+};
+
+const profilePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": `${BASE_URL}/#profilepage`,
+  dateCreated: "2024-01-01T00:00:00.000Z",
+  dateModified: new Date().toISOString(),
+  url: BASE_URL,
+  name: "Azaz Shaikh — Full-Stack Engineer Portfolio",
+  inLanguage: "en-US",
+  isPartOf: { "@id": `${BASE_URL}/#website` },
+  mainEntity: person,
 };
 
 // Top-right corner cutout for a service card, with a numbered chip sitting in it. One SVG draws
@@ -297,16 +78,11 @@ function Notch({ n }) {
 export default function Home() {
   return (
     <>
-      {/* Projects JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(projectsSchema).replace(/</g, "\\u003c"),
-        }}
-      />
+      <JsonLd data={profilePageSchema} />
+      <JsonLd data={projectsSchema} />
       <script
         dangerouslySetInnerHTML={{
-          __html: "try{sessionStorage.getItem('intro-seen')==='1'&&document.documentElement.classList.add('intro-seen')}catch(e){}",
+          __html: "try{sessionStorage.getItem('intro-seen')!=='1'&&document.documentElement.classList.add('intro-play')}catch(e){}",
         }}
       />
       <IntroOverlay />
@@ -444,8 +220,7 @@ export default function Home() {
               </div>
               <p>
                 Developed and shipped{' '}
-                <a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer"
-                  style={{ color: 'var(--accent-ink)', textDecoration: 'underline', textUnderlineOffset: '4px', fontWeight: 700 }}>
+                <a className="exp-link" href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">
                   POC Waste ↗
                 </a>
                 , a high-performance Bar Cutting Optimization web application. Engineered custom cutting stock
@@ -465,90 +240,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Work ── */}
-        <section className="section" id="work">
-          <div className="work-head">
-            <div className="section-heading reveal">
-              <p className="eyebrow">Featured Work</p>
-              <h2>Deployed applications and software solutions engineered to eliminate friction and drive business efficiency.</h2>
-              <p className="work-meta">
-                {featuredWork.length} systems · {liveCount} live · {BUILDS.length} other builds
-              </p>
-            </div>
-            <nav className="work-index reveal" aria-label="Featured projects">
-              <p>Index</p>
-              {featuredWork.map((w, i) => (
-                <a href={`#work-${i + 1}`} key={w.name}>
-                  <span className="work-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="work-index-name">{w.name}</span>
-                  <span className={w.url ? 'work-status' : 'work-status is-private'}>{w.url ? 'Live' : 'Private'}</span>
-                </a>
-              ))}
-            </nav>
-          </div>
-          <div className="work-featured">
-            {featuredWork.map((w, i) => {
-              const n = String(i + 1).padStart(2, '0');
-              const host = w.url && new URL(w.url).host;
-              return (
-                <article className="work-item reveal" id={`work-${i + 1}`} key={w.name}>
-                  <p className="work-sheet">
-                    <span>Sheet {n} / {String(featuredWork.length).padStart(2, '0')} — {w.kind}</span>
-                    <span className={w.url ? 'work-status' : 'work-status is-private'}>{w.url ? 'Live' : 'Private build'}</span>
-                  </p>
-                  <div className="work-row">
-                    <figure className="work-fig">
-                      <div className="work-frame">
-                        <a
-                          className="work-shot"
-                          href={w.url || undefined}
-                          target={w.url ? '_blank' : undefined}
-                          rel={w.url ? 'noreferrer' : undefined}
-                          tabIndex={w.url ? undefined : -1}
-                        >
-                          <span className="work-shot-bar" aria-hidden="true">
-                            <i /><i /><i />
-                            <span>{host || 'Private build'}</span>
-                          </span>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={w.image} alt={`${w.name} screenshot`} loading="lazy" decoding="async" />
-                        </a>
-                      </div>
-                      <figcaption aria-hidden="true">Fig. {n} — 1440 × 900</figcaption>
-                    </figure>
-                    <div className="work-body">
-                      <h3>{w.name}</h3>
-                      <p>{w.text}</p>
-                      <dl className="work-spec">
-                        <dt>Domain</dt>
-                        <dd>{w.kind}</dd>
-                        <dt>Stack</dt>
-                        <dd>{w.stack.join(' · ')}</dd>
-                        <dt>Host</dt>
-                        <dd className={host ? 'work-host' : undefined}>{host || 'Private deployment'}</dd>
-                      </dl>
-                      {w.url ? (
-                        <a className="work-link" href={w.url} target="_blank" rel="noreferrer">
-                          Open live app <span aria-hidden="true">↗</span>
-                        </a>
-                      ) : (
-                        <p className="work-private">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <rect x="5" y="11" width="14" height="10" rx="2" />
-                            <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-                          </svg>
-                          Private build · no public link
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          <OtherBuilds />
-        </section>
+        <Work />
 
         {/* ── Why Choose Me: automation run + measured outcomes ── */}
         <section className="section bi-section" id="features">
@@ -595,26 +287,13 @@ export default function Home() {
           </div>
           <div className="service-grid">
             <IntegrationCard />
-            <article className="service-card glass reveal">
-              <Notch n="01" />
-              <h3>Enterprise Applications</h3>
-              <p>Internal tools, dashboards, and CRM extensions built to unify operations and data management.</p>
-            </article>
-            <article className="service-card glass reveal">
-              <Notch n="02" />
-              <h3>Algorithm Development</h3>
-              <p>Custom logic engineering for complex challenges, routing, scheduling, and resource optimization.</p>
-            </article>
-            <article className="service-card glass reveal">
-              <Notch n="03" />
-              <h3>E-Commerce &amp; Logistics</h3>
-              <p>End-to-end checkout paths, shipping engines, and partner management portal integrations.</p>
-            </article>
-            <article className="service-card glass reveal">
-              <Notch n="04" />
-              <h3>SaaS Architectures</h3>
-              <p>Scalable software foundations with robust authentication, role-based access, and fast response times.</p>
-            </article>
+            {services.map((sv, i) => (
+              <article className="service-card glass reveal" key={sv.name}>
+                <Notch n={String(i + 1).padStart(2, '0')} />
+                <h3>{sv.name}</h3>
+                <p>{sv.text}</p>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -628,17 +307,17 @@ export default function Home() {
             </h2>
             <p>I partner with forward-thinking teams to engineer robust, high-performance web systems.</p>
             <div className="contact-actions">
-              <a className="button button-primary" href="mailto:azazshaikh2703@gmail.com">Email Me</a>
+              <a className="button button-primary" href={`mailto:${EMAIL}`}>Email Me</a>
               <a
                 className="button button-secondary"
-                href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322"
+                href={LINKEDIN}
                 target="_blank"
                 rel="noreferrer"
               >
                 LinkedIn
               </a>
-              <a className="button button-secondary" href="#top" style={{ flex: 'none', minWidth: 'auto', padding: '0.95rem 1.15rem' }}>
-                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <a className="button button-secondary button-icon" href="#top" aria-label="Back to top">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M8 12V4m0 0l-3 3m3-3l3 3" />
                 </svg>
               </a>
@@ -647,72 +326,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-top">
-          <div className="footer-brand-col">
-            <a className="brand footer-brand" href="#top">
-              <span className="brand-icon">AS</span>
-              <span>Azaz</span>.dev
-            </a>
-            <p className="footer-bio">
-              Building production-ready web systems for growing brands. From concept to deployment.
-            </p>
-            <div className="footer-socials">
-              <a href="https://github.com/SHAIKH-AZAZ/" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z" /></svg>
-              </a>
-              <a href="https://www.linkedin.com/in/mohammadazaz-shaikh-421937322" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-              </a>
-              <a href="mailto:azazshaikh2703@gmail.com" aria-label="Email">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
-              </a>
-            </div>
-          </div>
-
-          <div className="footer-links-col">
-            <h4>SERVICES</h4>
-            <ul>
-              <li><a href="#services">Business Websites</a></li>
-              <li><a href="#services">Web Applications</a></li>
-              <li><a href="#services">Local SEO &amp; Speed</a></li>
-              <li><a href="#services">UI / UX Implementations</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-links-col">
-            <h4>PORTFOLIO</h4>
-            <ul>
-              <li><a href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">POC Waste Optimizer</a></li>
-              <li><a href="https://excel-cleaner-one.vercel.app/" target="_blank" rel="noreferrer">Excel Cleaner Tool</a></li>
-              <li><a href="https://shamgym.vercel.app/" target="_blank" rel="noreferrer">ShamGym</a></li>
-              <li><a href="#work">FastShipment</a></li>
-              <li><a href="#work">Gym Flow Platform</a></li>
-              <li><a href="#work">Python Data Pipeline</a></li>
-              <li><a href="#work">LangChain RAG System</a></li>
-              <li><a href="#work">LangGraph AI Agent</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-contact-col">
-            <h4>START A PROJECT</h4>
-            <p className="contact-prompt">Ready to build something great? Let&apos;s talk about your vision.</p>
-            <div className="footer-email-link">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
-              <a href="mailto:azazshaikh2703@gmail.com">Contact Us</a>
-            </div>
-            <a className="button footer-cta-btn" href="mailto:azazshaikh2703@gmail.com">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cta-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              <span>Email Consult</span>
-            </a>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <p className="copyright">&copy; {new Date().getFullYear()} Azaz Shaikh. All rights reserved.</p>
-          <p className="credit">Built with <span style={{ color: '#ef4444', margin: '0 0.1rem' }}>❤</span> using Next.js &amp; CSS</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
