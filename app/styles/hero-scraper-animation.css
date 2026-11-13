@@ -260,14 +260,8 @@
     font-weight: 700;
 }
 
-.json-token-string {
-    color: var(--accent-ink);
-    font-weight: 500;
-}
-
-.json-token-number {
-    color: var(--accent-ink-strong);
-}
+.json-token-string { color: var(--electric); font-weight: 500; }
+.json-token-number { color: var(--text-soft); }
 
 .json-token-punctuation {
     color: rgba(var(--ink-rgb), 0.35);

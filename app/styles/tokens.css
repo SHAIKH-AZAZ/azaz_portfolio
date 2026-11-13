@@ -4,7 +4,8 @@
    Ink (dark, the default): near-achromatic black stepped by lightness (bg → panel → sheet), white as the accent, so emphasis
    comes from lightness, not hue. In Ink, green (--ok) is the only colour and means one thing: live / done.
    --accent fills (buttons, dots); --accent-ink draws (text, lines, bars). Every color on the site derives from
-   these tokens; the canvases read them at runtime. */
+   these tokens; the canvases read them at runtime.
+   --electric is the code/selection blue: string values in the code panels and the text-selection highlight. */
 :root {
     color-scheme: light;
     --bg: #ffffff;
@@ -28,6 +29,8 @@
     --sheet: #ffffff;
     --ok: #0f7b53;
     --ok-rgb: 15, 123, 83;
+    --electric: #0062e6; /* 5.2:1 on the light panel; white on it 5.4:1 */
+    --on-electric: #ffffff;
     /* light tile behind brand-coloured logos; same in both themes so the logos stay legible */
     --logo-tile: #f6f8fa;
     --dot-alpha: 0.3; /* background dot field (InteractiveCanvas) */
@@ -65,6 +68,8 @@
     --sheet: #17181b;
     --ok: #34d399;
     --ok-rgb: 52, 211, 153;
+    --electric: #1fb6ff; /* 8.2:1 on the dark panel; near-black on it 8.8:1 */
+    --on-electric: #070709;
     --dot-alpha: 0.28;
     --shadow-rgb: 0, 0, 0;
     --shadow-k: 1;

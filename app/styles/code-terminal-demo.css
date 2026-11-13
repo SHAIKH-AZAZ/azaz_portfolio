@@ -252,7 +252,7 @@
     font-weight: 500;
 }
 .ctd-token-string {
-    color: var(--ok);
+    color: var(--electric);
 }
 .ctd-token-function {
     color: var(--accent-ink-strong);

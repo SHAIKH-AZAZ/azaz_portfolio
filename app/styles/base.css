@@ -1,6 +1,6 @@
 ::selection {
-    background: rgba(var(--accent-ink-rgb), 0.3);
-    color: var(--text);
+    background: var(--electric);
+    color: var(--on-electric);
 }
 
 *,
