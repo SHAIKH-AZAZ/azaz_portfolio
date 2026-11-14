@@ -153,7 +153,8 @@
     height: var(--cell);
     border: 1px solid var(--line);
     border-radius: 8px;
-    background: rgba(var(--ink-rgb), 0.03);
+    /* solid (tint mixed into the page colour) so the background dots don't show through */
+    background: color-mix(in srgb, rgb(var(--ink-rgb)) 3%, var(--bg));
 }
 
 /* light theme: logos keep their brand colours on the shared light tile, like the skills list */
@@ -163,10 +164,10 @@
     box-shadow: 0 1px 2px rgba(var(--shadow-rgb), calc(0.3 * var(--shadow-k)));
 }
 
-/* dark theme: glass tiles instead of white ones (which glared); mostly-black logos ('dark' in
+/* dark theme: dark tiles instead of white ones (which glared); mostly-black logos ('dark' in
    data.js) are inverted, and the hue turned back so their colour accents stay close to the brand */
 :root[data-theme="dark"] .stack-tile.has-logo {
-    background: rgba(var(--ink-rgb), 0.07);
+    background: color-mix(in srgb, rgb(var(--ink-rgb)) 7%, var(--bg));
     box-shadow: inset 0 1px 0 rgba(var(--ink-rgb), 0.06);
 }
 

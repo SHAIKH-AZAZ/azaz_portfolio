@@ -16,7 +16,7 @@ export const skills = [
   },
   {
     group: 'DevOps & cloud',
-    tools: [['Docker', 'docker.svg'], ['GitHub Actions', 'githubactions.svg'], ['AWS', 'aws.svg', 'dark'], ['Linux', 'linux.webp', 'dark'], ['Nginx', 'nginx.svg'], ['Vercel', 'vercel.svg', 'dark']],
+    tools: [['Docker', 'docker.svg'], ['GitHub Actions', 'githubactions.svg'], ['AWS', 'aws.svg', 'dark'], ['Linux', 'linux.webp'], ['Nginx', 'nginx.svg'], ['Vercel', 'vercel.svg', 'dark']],
     practices: ['CI/CD pipelines'],
   },
   {
