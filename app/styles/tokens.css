@@ -21,6 +21,9 @@
     --bg: #ffffff; /* copied in THEME_COLOR (components/theme.js) */
     --bg-soft: #f2f6fa;
     --sunken-rgb: 242, 246, 250;
+    /* the dotted cards (cards.css): base fill and the colour of the glow at their top */
+    --card-bg: rgba(var(--sunken-rgb), 0.9);
+    --card-glow-rgb: var(--accent-ink-rgb);
     --panel: rgba(248, 250, 252, 0.9);
     --panel-strong: rgba(255, 255, 255, 0.98);
     --line: rgba(42, 53, 71, 0.12);
@@ -80,6 +83,9 @@
     --ok: #34d399;
     --ok-rgb: 52, 211, 153;
     --electric: #1fb6ff; /* 8.2:1 on the dark panel; near-black on it 8.8:1 */
+    --electric-rgb: 31, 182, 255;
+    --card-bg: #0b0d12;
+    --card-glow-rgb: var(--electric-rgb);
     --on-electric: #070709;
     --selection-pill: #4f5bff; /* lighten: white text on it 4.9:1; above the dots (76,76,78) on every channel */
     --selection-text: #ffffff;

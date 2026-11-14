@@ -11,9 +11,9 @@
     overflow: hidden;
     isolation: isolate;
     background:
-        radial-gradient(circle at var(--card-glow-at), rgba(var(--accent-ink-rgb), 0.1), transparent 23rem),
+        radial-gradient(circle at var(--card-glow-at), rgba(var(--card-glow-rgb), 0.1), transparent 23rem),
         linear-gradient(180deg, rgba(var(--ink-rgb), 0.025), rgba(var(--ink-rgb), 0.006)),
-        rgba(var(--sunken-rgb), 0.9);
+        var(--card-bg);
     border: 1px solid rgba(var(--accent-ink-rgb), 0.15);
     box-shadow:
         0 22px 60px rgba(var(--shadow-rgb), calc(0.38 * var(--shadow-k))),
@@ -31,9 +31,9 @@
     transform: translateY(-3px);
     border-color: rgba(var(--accent-ink-rgb), 0.35);
     background:
-        radial-gradient(circle at var(--card-glow-at), rgba(var(--accent-ink-rgb), 0.14), transparent 25rem),
+        radial-gradient(circle at var(--card-glow-at), rgba(var(--card-glow-rgb), 0.14), transparent 25rem),
         linear-gradient(180deg, rgba(var(--ink-rgb), 0.035), rgba(var(--ink-rgb), 0.008)),
-        rgba(var(--sunken-rgb), 0.92);
+        var(--card-bg);
     box-shadow:
         0 26px 70px rgba(var(--shadow-rgb), calc(0.5 * var(--shadow-k))),
         0 0 0 1px rgba(var(--accent-ink-rgb), 0.08),
