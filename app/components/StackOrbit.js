@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { useInView, useProgress } from '../lib/motion';
 
 /* Orbit hero: tools, live projects and status chips float on two arcs around the
  * stats. Laid out on a fixed 1200x490 stage that is scaled down to fit (never below
@@ -13,16 +14,17 @@ const CENTER = { x: 600, y: 620 };
 const RADIUS = { outer: 492, inner: 404 };
 const MIN_SCALE = 0.6;
 const COUNT_MS = 1600;
+// the stats fade in (stack-orbit.css) and count up on the same schedule
+const COUNT_START = 900;
+const COUNT_STAGGER = 120;
 
 const ITEMS = [
-  // outer ring, left to right
   { kind: 'status', ring: 'outer', angle: 132, label: 'Shipped to production' },
   { kind: 'logo', ring: 'outer', angle: 112.6, logo: 'nextjs.svg', alt: 'Next.js' },
   { kind: 'pill', ring: 'outer', angle: 90, label: 'POC Waste Optimizer' },
   { kind: 'pill', ring: 'outer', angle: 67.6, label: 'Excel Cleaner' },
   { kind: 'logo', ring: 'outer', angle: 50.9, logo: 'python.svg', alt: 'Python' },
   { kind: 'pill', ring: 'outer', angle: 35.2, label: 'ShamGym' },
-  // inner ring, left to right
   { kind: 'logo', ring: 'inner', angle: 137.2, logo: 'react.svg', alt: 'React' },
   { kind: 'pill', ring: 'inner', angle: 116.6, label: 'CI/CD', logo: 'githubactions.svg' },
   { kind: 'monogram', ring: 'inner', angle: 90, label: 'AS' },
@@ -96,10 +98,8 @@ export default function StackOrbit({ stats, headline }) {
   const frameRef = useRef(null);
   // scale of the stage, and how far from the centre (in stage px) is still on screen
   const [fit, setFit] = useState({ scale: 1, half: STAGE_W / 2 });
-  const [visible, setVisible] = useState(false);
-  const [progress, setProgress] = useState(stats.map(() => 0));
+  const visible = useInView(rootRef, { threshold: 0.25, once: true });
 
-  // fit the fixed stage into the frame
   useLayoutEffect(() => {
     const frame = frameRef.current;
     if (!frame) return undefined;
@@ -114,43 +114,20 @@ export default function StackOrbit({ stats, headline }) {
     return () => ro.disconnect();
   }, []);
 
-  // start everything once the section scrolls into view
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return undefined;
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setVisible(true);
-        obs.disconnect();
-      }
-    }, { threshold: 0.25 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  // count the stats up, staggered like their reveal
-  useEffect(() => {
-    if (!visible) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setProgress(stats.map(() => 1));
-      return undefined;
-    }
-    let raf = 0;
-    const start = performance.now();
-    const tick = (now) => {
-      const next = stats.map((_, i) => {
-        const t = Math.min(Math.max((now - start - (900 + i * 120)) / COUNT_MS, 0), 1);
-        return 1 - Math.pow(1 - t, 4);
-      });
-      setProgress(next);
-      if (next.some((p) => p < 1)) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [visible, stats]);
+  // stats count up after the arcs draw, staggered like their reveal
+  const total = COUNT_START + (stats.length - 1) * COUNT_STAGGER + COUNT_MS;
+  const t = useProgress(visible, total);
+  const progress = stats.map((_, i) => {
+    const local = Math.min(Math.max((t * total - (COUNT_START + i * COUNT_STAGGER)) / COUNT_MS, 0), 1);
+    return 1 - Math.pow(1 - local, 4);
+  });
 
   return (
-    <div ref={rootRef} className={`orbit${visible ? ' is-visible' : ''}`}>
+    <div
+      ref={rootRef}
+      className={`orbit${visible ? ' is-visible' : ''}`}
+      style={{ '--stat-start': `${COUNT_START}ms`, '--stat-stagger': `${COUNT_STAGGER}ms` }}
+    >
       <div ref={frameRef} className="orbit-frame" style={{ height: STAGE_H * fit.scale }}>
         <div className="orbit-stage" style={{ width: STAGE_W, height: STAGE_H, transform: `translateX(-50%) scale(${fit.scale})`, '--orbit-scale': String(fit.scale) }}>
           <svg className="orbit-arcs" width={STAGE_W} height={STAGE_H} viewBox={`0 0 ${STAGE_W} ${STAGE_H}`} fill="none" aria-hidden="true">
@@ -182,7 +159,7 @@ export default function StackOrbit({ stats, headline }) {
             {stats.map((s, i) => (
               <div key={s.label} className="orbit-stat" style={{ '--i': String(i) }}>
                 <dt>{s.label}</dt>
-                <dd>{Math.round(s.value * progress[i])}{s.suffix}</dd>
+                <dd>{Math.round(s.value * progress[i])}</dd>
               </div>
             ))}
           </dl>

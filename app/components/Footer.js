@@ -1,4 +1,4 @@
-import { featuredWork, BUILDS, services } from '../data';
+import { featuredWork, BUILDS, services, workId } from '../data';
 import { EMAIL, GITHUB, LINKEDIN } from '../site';
 
 export default function Footer() {
@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="footer-brand-col">
           <a className="brand footer-brand" href="#top">
             <span className="brand-icon" aria-hidden="true">AS</span>
-            <span className="footer-brand-name"><span>Azaz</span> Shaikh</span>
+            <span><span className="brand-accent">Azaz</span> Shaikh</span>
           </a>
           <p className="footer-bio">
             Building production-ready web systems for growing brands. From concept to deployment.
@@ -45,7 +45,7 @@ export default function Footer() {
                     {w.name} <span className="footer-ext" aria-hidden="true">↗</span>
                   </a>
                 ) : (
-                  <a href={`#work-${i + 1}`}>{w.name}</a>
+                  <a href={`#${workId(i)}`}>{w.name}</a>
                 )}
               </li>
             ))}

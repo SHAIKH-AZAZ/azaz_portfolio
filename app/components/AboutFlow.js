@@ -1,29 +1,37 @@
-// Before → three steps → after. SVG draws the lanes; HTML holds nodes and text so both stay crisp.
-const messy = [
-  'M0,18 C60,18 70,60 120,40 S200,10 240,50 S285,70 300,70',
-  'M0,52 C50,30 90,90 140,62 S210,95 250,72 S288,70 300,70',
-  'M0,92 C40,120 100,60 150,100 S220,60 255,80 S290,70 300,70',
-  'M0,124 C70,128 80,90 130,112 S200,130 245,92 S285,70 300,70',
+// Before → steps → after, one column each. SVG draws the lanes; HTML holds nodes and text so both stay crisp.
+const before = { title: 'Manual, scattered work', text: 'Spreadsheets, copy-paste and decisions made by hand.' };
+const steps = [
+  { title: 'Operational efficiency', text: 'Find the bottleneck and automate the manual tasks around it.' },
+  { title: 'Algorithmic precision', text: 'Custom optimization logic for logistics, allocation and cutting.' },
+  { title: 'Scalable architecture', text: 'Robust backends and resilient frontends that grow with the load.' },
 ];
-const clean = [18, 52, 92, 124].map((y) => `M700,70 C780,70 800,${y} 880,${y} H1000`);
+const after = { title: 'Runs on its own', text: 'Fewer errors, and hours saved every week.' };
 
-const columns = [
-  { title: 'Manual, scattered work', text: 'Spreadsheets, copy-paste and decisions made by hand.' },
-  { step: '1', title: 'Operational efficiency', text: 'Find the bottleneck and automate the manual tasks around it.' },
-  { step: '2', title: 'Algorithmic precision', text: 'Custom optimization logic for logistics, allocation and cutting.' },
-  { step: '3', title: 'Scalable architecture', text: 'Robust backends and resilient frontends that grow with the load.' },
-  { title: 'Runs on its own', text: 'Fewer errors, and hours saved every week.' },
+// The graphic lines up with the text columns (--flow-cols drives the grid in about.css). x is in
+// viewBox units of 1000: each step node sits at its column's centre, and the straight core line
+// runs from the first step to the last.
+const COLS = steps.length + 2;
+const colCentre = (col) => ((col + 0.5) * 1000) / COLS;
+const CORE = [colCentre(1), colCentre(steps.length)];
+const nodeLeft = (i) => `${colCentre(i + 1) / 10}%`;
+
+const messy = [
+  `M0,18 C60,18 70,60 120,40 S200,10 240,50 S285,70 ${CORE[0]},70`,
+  `M0,52 C50,30 90,90 140,62 S210,95 250,72 S288,70 ${CORE[0]},70`,
+  `M0,92 C40,120 100,60 150,100 S220,60 255,80 S290,70 ${CORE[0]},70`,
+  `M0,124 C70,128 80,90 130,112 S200,130 245,92 S285,70 ${CORE[0]},70`,
 ];
+const clean = [18, 52, 92, 124].map((y) => `M${CORE[1]},70 C${CORE[1] + 80},70 ${CORE[1] + 100},${y} ${CORE[1] + 180},${y} H1000`);
 
 export default function AboutFlow() {
   return (
-    <div className="about-flow">
+    <div className="about-flow" style={{ '--flow-cols': COLS }}>
       <div className="flow-graphic" aria-hidden="true">
         <svg viewBox="0 0 1000 140" preserveAspectRatio="none">
           {messy.map((d, i) => (
             <path key={i} id={`flow-in-${i}`} d={d} className="flow-line flow-line-in" />
           ))}
-          <path id="flow-core" d="M300,70 H700" className="flow-line flow-line-core" />
+          <path id="flow-core" d={`M${CORE[0]},70 H${CORE[1]}`} className="flow-line flow-line-core" />
           {clean.map((d, i) => (
             <path key={i} id={`flow-out-${i}`} d={d} className="flow-line flow-line-out" />
           ))}
@@ -50,18 +58,26 @@ export default function AboutFlow() {
             </circle>
           ))}
         </svg>
-        {['30%', '50%', '70%'].map((left, i) => (
-          <span key={left} className="flow-node" style={{ left }}>{i + 1}</span>
+        {steps.map((s, i) => (
+          <span key={s.title} className="flow-node" style={{ left: nodeLeft(i) }}>{i + 1}</span>
         ))}
       </div>
 
       <ol className="flow-steps">
-        {columns.map(({ step, title, text }) => (
-          <li key={title} className={step ? 'is-step' : 'is-edge'}>
-            <h3>{step && <span className="flow-step-num">{step}</span>}{title}</h3>
-            <p>{text}</p>
+        <li className="is-edge">
+          <h3>{before.title}</h3>
+          <p>{before.text}</p>
+        </li>
+        {steps.map((s, i) => (
+          <li key={s.title} className="is-step">
+            <h3><span className="flow-step-num">{i + 1}</span>{s.title}</h3>
+            <p>{s.text}</p>
           </li>
         ))}
+        <li className="is-edge">
+          <h3>{after.title}</h3>
+          <p>{after.text}</p>
+        </li>
       </ol>
     </div>
   );

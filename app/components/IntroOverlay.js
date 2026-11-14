@@ -2,9 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { INTRO_KEY, INTRO_CLASS } from './intro';
 
-const NAME = 'Azaz Shaikh';
-const KEY = 'intro-seen';
+// the first word is drawn in the accent colour
+const NAME = ['Azaz', 'Shaikh'];
+const CHARS = NAME.flatMap((word, w) => [
+  ...(w ? [{ c: ' ', accent: false }] : []),
+  ...[...word].map((c) => ({ c, accent: w === 0 })),
+]);
 
 export default function IntroOverlay() {
   const root = useRef(null);
@@ -12,21 +17,20 @@ export default function IntroOverlay() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    let seen = false;
-    try { seen = sessionStorage.getItem(KEY) === '1'; } catch {}
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (seen || reduced) {
+    if (!document.documentElement.classList.contains(INTRO_CLASS)) {
       setDone(true);
       return;
     }
 
     const el = root.current;
+    // JS owns the overlay now; the CSS 6 s failsafe (intro-overlay.css) is only for when it never runs
+    el.style.animation = 'none';
     const q = gsap.utils.selector(el);
     const count = { v: 0 };
     document.documentElement.style.overflow = 'hidden';
 
     const finish = () => {
-      try { sessionStorage.setItem(KEY, '1'); } catch {}
+      try { sessionStorage.setItem(INTRO_KEY, '1'); } catch {}
       document.documentElement.style.overflow = '';
       setDone(true);
     };
@@ -64,10 +68,10 @@ export default function IntroOverlay() {
   return (
     <div ref={root} className="intro" role="presentation" onClick={() => tlRef.current?.progress(1)}>
       <div className="intro-center">
-        <h2 className="intro-name" aria-label={NAME}>
-          {[...NAME].map((c, i) => (
+        <h2 className="intro-name" aria-label={NAME.join(' ')}>
+          {CHARS.map(({ c, accent }, i) => (
             <span key={i} className="intro-char-wrap" aria-hidden="true">
-              <span className="intro-char">{c === ' ' ? ' ' : c}</span>
+              <span className={accent ? 'intro-char intro-char-accent' : 'intro-char'}>{c}</span>
             </span>
           ))}
         </h2>

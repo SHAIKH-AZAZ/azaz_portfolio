@@ -1,18 +1,19 @@
 /* Hub diagram: the tools a client already runs, each wired into the system in the
  * middle. Drawn on a 564x410 viewBox; icons are placed in % of it so they track the
  * lines at any width. Beams and the icon pop-in are CSS (the pop-in waits for the
- * card's `is-visible` from the page reveal). Adapted from 21st.dev's integration card. */
+ * card's `is-visible` from Motion.js). Adapted from 21st.dev's integration card. */
+import { LOGOS } from '../data';
+
 const W = 564;
 const H = 410;
 
-// center is 282, 205
 const TOOLS = [
-  { logo: 'python.svg', alt: 'Python', x: 110, y: 90, path: 'M 270 205 V 105 Q 270 90 255 90 H 110' },
-  { logo: 'mongodb.svg', alt: 'MongoDB', x: 360, y: 70, path: 'M 294 205 V 85 Q 294 70 309 70 H 360' },
-  { logo: 'langchain.svg', alt: 'LangChain', x: 160, y: 205, path: 'M 250 205 H 160' },
-  { logo: 'nodejs.svg', alt: 'Node.js', x: 480, y: 205, path: 'M 314 205 H 480' },
-  { logo: 'docker.svg', alt: 'Docker', x: 282, y: 360, path: 'M 282 205 V 360' },
-  { logo: 'aws.svg', alt: 'AWS', x: 460, y: 340, path: 'M 314 215 V 325 Q 314 340 329 340 H 460' },
+  { alt: 'Python', x: 110, y: 90, path: 'M 270 205 V 105 Q 270 90 255 90 H 110' },
+  { alt: 'MongoDB', x: 360, y: 70, path: 'M 294 205 V 85 Q 294 70 309 70 H 360' },
+  { alt: 'LangChain', x: 160, y: 205, path: 'M 250 205 H 160' },
+  { alt: 'Node.js', x: 480, y: 205, path: 'M 314 205 H 480' },
+  { alt: 'Docker', x: 282, y: 360, path: 'M 282 205 V 360' },
+  { alt: 'AWS', x: 460, y: 340, path: 'M 314 215 V 325 Q 314 340 329 340 H 460' },
 ];
 
 export default function IntegrationCard() {
@@ -36,7 +37,7 @@ export default function IntegrationCard() {
               style={{ left: `${((t.x / W) * 100).toFixed(2)}%`, top: `${((t.y / H) * 100).toFixed(2)}%`, '--i': String(i) }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/logos/${t.logo}`} alt={t.alt} width="24" height="24" />
+              <img src={`/logos/${LOGOS[t.alt]}`} alt={t.alt} width="24" height="24" />
             </span>
           ))}
         </div>

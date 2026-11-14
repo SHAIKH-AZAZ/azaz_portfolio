@@ -29,15 +29,18 @@ export const skills = [
   },
 ];
 
+// also linked from the Experience section
+export const pocWaste = {
+  name: 'POC Waste Optimizer',
+  kind: 'Industrial optimization',
+  url: 'https://poc-waste-proper.vercel.app/',
+  image: '/work/poc-waste.webp',
+  text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
+  stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
+};
+
 export const featuredWork = [
-  {
-    name: 'POC Waste Optimizer',
-    kind: 'Industrial optimization',
-    url: 'https://poc-waste-proper.vercel.app/',
-    image: '/work/poc-waste.webp',
-    text: 'Industrial optimization tool built on custom bar-cutting algorithms to minimize material waste and streamline project management.',
-    stack: ['Next.js', 'Optimization algorithms', 'PostgreSQL'],
-  },
+  pocWaste,
   {
     name: 'Excel Cleaner Tool',
     kind: 'Data processing',
@@ -70,12 +73,31 @@ export const featuredWork = [
     stack: ['Python', 'Checkout', 'Tracking'],
   },
 ];
+// logo file for a tool name, from the skills list (shared by the other-builds chips and the integration card)
+export const LOGOS = Object.fromEntries(skills.flatMap((g) => g.tools));
+
+export const heroTitle = ['I turn manual', 'operations into', 'software that', 'runs itself.'];
+
+export const heroMetrics = [
+  { value: '1+', label: 'Year of full-stack engineering experience' },
+  { value: '15+', label: 'Business operations optimized through code' },
+  { value: '98%', label: 'Performance & efficiency increase on core systems' },
+];
+
+export const marquee = [
+  'Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph',
+  'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering',
+];
+
 export const services = [
   { name: 'Enterprise Applications', text: 'Internal tools, dashboards, and CRM extensions built to unify operations and data management.' },
   { name: 'Algorithm Development', text: 'Custom logic engineering for complex challenges, routing, scheduling, and resource optimization.' },
   { name: 'E-Commerce & Logistics', text: 'End-to-end checkout paths, shipping engines, and partner management portal integrations.' },
   { name: 'SaaS Architectures', text: 'Scalable software foundations with robust authentication, role-based access, and fast response times.' },
 ];
+
+// id of a featured project's sheet in the Work section (linked from its index and the footer)
+export const workId = (i) => `work-${i + 1}`;
 
 export const liveCount = featuredWork.filter((w) => w.url).length;
 

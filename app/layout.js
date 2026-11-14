@@ -1,27 +1,29 @@
 import "./globals.css";
 import { fontVariables } from "./fonts";
-import { BASE_URL, EMAIL, GITHUB, LINKEDIN } from "./site";
+import { BASE_URL, EMAIL, GITHUB, LINKEDIN, PERSON_ID, WEBSITE_ID } from "./site";
 import JsonLd from "./components/JsonLd";
+import { ThemeScript, THEME_COLOR } from "./components/theme";
 import SelectionHighlight from "./components/SelectionHighlight";
 
-// ── Viewport (separate from metadata per Next.js 14+ requirement) ──────────
+// Next.js requires viewport as its own export, not inside metadata
 export const viewport = {
-  themeColor: "#070709",
+  themeColor: THEME_COLOR.dark,
   colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
 
-// ── Metadata ─────────────────────────────────────────────────────────────────
+const TITLE = "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist";
+
 export const metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+    default: TITLE,
     template: "%s | Azaz Shaikh",
   },
   description:
-    "Azaz Shaikh is a full-stack software engineer based in India who builds scalable web systems, automation workflows, and data-driven platforms for growing businesses. Available for freelance & remote roles.",
+    "Azaz Shaikh is a full-stack software engineer specialising in scalable web systems, business automation workflows, logistics algorithms, and data-driven platforms. Available for freelance and remote roles.",
   keywords: [
     "Azaz Shaikh",
     "Mohammad Azaz Shaikh",
@@ -53,13 +55,8 @@ export const metadata = {
   creator: "Azaz Shaikh",
   publisher: "Azaz Shaikh",
 
-  // ── Canonical & alternates ───────────────────────────────────────────────
-  alternates: {
-    canonical: "/",
-    languages: { "en-US": "/" },
-  },
+  alternates: { canonical: "/" },
 
-  // ── Open Graph ───────────────────────────────────────────────────────────
   openGraph: {
     type: "profile",
     firstName: "Azaz",
@@ -69,7 +66,7 @@ export const metadata = {
     locale: "en_US",
     url: BASE_URL,
     siteName: "Azaz Shaikh — Full-Stack Engineer",
-    title: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+    title: TITLE,
     description:
       "I engineer scalable web systems, automation workflows, and custom algorithms that eliminate inefficiencies and drive business growth. View my portfolio.",
     images: [
@@ -77,16 +74,15 @@ export const metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+        alt: TITLE,
         type: "image/png",
       },
     ],
   },
 
-  // ── Twitter / X Card ─────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    title: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
+    title: TITLE,
     description:
       "I engineer scalable web systems, automation workflows, and custom algorithms that eliminate inefficiencies and drive business growth.",
     images: ["/og-image.png"],
@@ -94,7 +90,6 @@ export const metadata = {
     site: "@azazshaikh",
   },
 
-  // ── Robots ───────────────────────────────────────────────────────────────
   robots: {
     index: true,
     follow: true,
@@ -107,27 +102,23 @@ export const metadata = {
     },
   },
 
-  // ── Icons ────────────────────────────────────────────────────────────────
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: "/icon.svg",
   },
 
-  // ── Manifest ─────────────────────────────────────────────────────────────
   manifest: "/manifest.json",
 
-  // ── Format detection ─────────────────────────────────────────────────────
   formatDetection: {
     telephone: false,
     email: false,
     address: false,
   },
 
-  // ── Custom meta tags ─────────────────────────────────────────────────────
   other: {
     "geo.region": "IN",
     "geo.placename": "India",
-    "msapplication-TileColor": "#070709",
+    "msapplication-TileColor": THEME_COLOR.dark,
     "msapplication-config": "none",
     rating: "general",
   },
@@ -136,11 +127,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  // ── Person schema ─────────────────────────────────────────────────────────
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "@id": `${BASE_URL}/#person`,
+    "@id": PERSON_ID,
     name: "Azaz Shaikh",
     alternateName: "Mohammad Azaz Shaikh",
     url: BASE_URL,
@@ -198,29 +188,22 @@ export default function RootLayout({ children }) {
     ],
   };
 
-  // ── WebSite schema ─────────────────────────────────────────────────────
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${BASE_URL}/#website`,
+    "@id": WEBSITE_ID,
     name: "Azaz Shaikh Portfolio",
     url: BASE_URL,
     description:
       "Portfolio of Azaz Shaikh — full-stack engineer building scalable web systems and business automation tools.",
-    author: { "@id": `${BASE_URL}/#person` },
+    author: { "@id": PERSON_ID },
     inLanguage: "en-US",
   };
 
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
-        {/* Theme before first paint: saved choice, else dark. #ffffff = light --bg (tokens.css) */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('theme');if(t!=='light')t='dark';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m&&t==='light')m.content='#ffffff'}catch(e){}",
-          }}
-        />
+        <ThemeScript />
         <JsonLd data={personSchema} />
         <JsonLd data={websiteSchema} />
       </head>

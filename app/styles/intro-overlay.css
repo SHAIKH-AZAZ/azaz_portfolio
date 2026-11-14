@@ -1,8 +1,7 @@
-/* ── Intro overlay ── */
 .intro {
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: var(--z-intro);
     display: none;
     place-items: center;
     background: var(--bg);
@@ -10,8 +9,8 @@
     cursor: pointer;
 }
 
-/* Hidden unless the pre-paint script in page.js opts in (first visit, JS on).
-   Failsafe: if the JS bundle never takes over, get out of the way after 6s. */
+/* Hidden unless the pre-paint script in components/intro.js opts in (first visit, JS on).
+   Failsafe: if the JS bundle never takes over, get out of the way after 6s (IntroOverlay.js cancels it). */
 html.intro-play .intro {
     display: grid;
     animation: intro-failsafe 0s 6s forwards;
@@ -48,7 +47,7 @@ html.intro-play .intro {
     display: inline-block;
 }
 
-.intro-char-wrap:nth-child(-n + 4) .intro-char {
+.intro-char-accent {
     color: var(--accent-ink);
 }
 
@@ -95,12 +94,6 @@ html.intro-play .intro {
 
 @media (max-width: 600px) {
     .intro-hint {
-        display: none;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .intro {
         display: none;
     }
 }

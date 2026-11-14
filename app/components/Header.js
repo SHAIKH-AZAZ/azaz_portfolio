@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ThemeToggle from './ThemeToggle';
 import { EMAIL, GITHUB, LINKEDIN } from '../site';
 
@@ -14,12 +14,21 @@ const LINKS = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const headerRef = useRef(null);
   const close = () => setOpen(false);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 18);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-    // drawer only exists below 820px; close it if the viewport grows past that
+    // drawer only exists at max-width 820px (header.css); close it if the viewport grows past that
     const wide = window.matchMedia('(min-width: 821px)');
     const onWide = (e) => { if (e.matches) setOpen(false); };
     document.addEventListener('keydown', onKey);
@@ -34,9 +43,9 @@ export default function Header() {
 
   return (
     <>
-      <header className="site-header">
+      <header ref={headerRef} className="site-header">
         <div className="site-header-inner">
-          <a className="brand" href="#top" onClick={close}><span>Azaz</span> Shaikh</a>
+          <a className="brand" href="#top" onClick={close}><span className="brand-accent">Azaz</span> Shaikh</a>
           <nav className="nav" aria-label="Primary">
             {LINKS.map(([href, label]) => <a key={href} href={href}>{label}</a>)}
           </nav>

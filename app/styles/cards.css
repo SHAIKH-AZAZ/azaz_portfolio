@@ -1,27 +1,20 @@
-/* ── Shared card look (about + skills): dotted texture and corner ticks ── */
+/* Shared card look (about, skills, experience): accent glow, dotted texture and corner ticks.
+   --card-glow-at moves the glow; skills.css shows the ticks only on hover. */
 .about-card,
-.skill-panel {
-    --project-accent: var(--accent-ink);
-    --project-accent-soft: rgba(var(--accent-ink-rgb), 0.12);
-    --project-accent-rgb: var(--accent-ink-rgb);
+.skill-panel,
+.experience-card {
+    --card-glow-at: 52% 2%;
+    --tick: linear-gradient(rgba(var(--accent-ink-rgb), 0.9), rgba(var(--accent-ink-rgb), 0.9));
     padding: 1.8rem;
     border-radius: 0;
     position: relative;
     overflow: hidden;
     isolation: isolate;
     background:
-        radial-gradient(
-            circle at 52% 2%,
-            rgba(var(--project-accent-rgb), 0.1),
-            transparent 23rem
-        ),
-        linear-gradient(
-            180deg,
-            rgba(var(--ink-rgb), 0.025),
-            rgba(var(--ink-rgb), 0.006)
-        ),
+        radial-gradient(circle at var(--card-glow-at), rgba(var(--accent-ink-rgb), 0.1), transparent 23rem),
+        linear-gradient(180deg, rgba(var(--ink-rgb), 0.025), rgba(var(--ink-rgb), 0.006)),
         rgba(var(--sunken-rgb), 0.9);
-    border: 1px solid rgba(var(--project-accent-rgb), 0.15);
+    border: 1px solid rgba(var(--accent-ink-rgb), 0.15);
     box-shadow:
         0 22px 60px rgba(var(--shadow-rgb), calc(0.38 * var(--shadow-k))),
         inset 0 1px 0 rgba(var(--ink-rgb), 0.04);
@@ -33,39 +26,28 @@
 }
 
 .about-card:hover,
-.skill-panel:hover {
+.skill-panel:hover,
+.experience-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(var(--project-accent-rgb), 0.35);
+    border-color: rgba(var(--accent-ink-rgb), 0.35);
     background:
-        radial-gradient(
-            circle at 52% 2%,
-            rgba(var(--project-accent-rgb), 0.14),
-            transparent 25rem
-        ),
-        linear-gradient(
-            180deg,
-            rgba(var(--ink-rgb), 0.035),
-            rgba(var(--ink-rgb), 0.008)
-        ),
+        radial-gradient(circle at var(--card-glow-at), rgba(var(--accent-ink-rgb), 0.14), transparent 25rem),
+        linear-gradient(180deg, rgba(var(--ink-rgb), 0.035), rgba(var(--ink-rgb), 0.008)),
         rgba(var(--sunken-rgb), 0.92);
     box-shadow:
         0 26px 70px rgba(var(--shadow-rgb), calc(0.5 * var(--shadow-k))),
-        0 0 0 1px rgba(var(--project-accent-rgb), 0.08),
+        0 0 0 1px rgba(var(--accent-ink-rgb), 0.08),
         inset 0 1px 0 rgba(var(--ink-rgb), 0.06);
 }
 
 .about-card::before,
-.skill-panel::before {
+.skill-panel::before,
+.experience-card::before {
     content: "";
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(
-                circle,
-                rgba(var(--ink-rgb), 0.1) 0 1px,
-                transparent 1.5px
-            )
-            0 0 / 10px 10px,
+        radial-gradient(circle, rgba(var(--ink-rgb), 0.1) 0 1px, transparent 1.5px) 0 0 / 10px 10px,
         linear-gradient(135deg, rgba(var(--ink-rgb), 0.06), transparent 32%);
     z-index: 0;
     pointer-events: none;
@@ -74,60 +56,30 @@
 }
 
 .about-card:hover::before,
-.skill-panel:hover::before {
+.skill-panel:hover::before,
+.experience-card:hover::before {
     opacity: 0.22;
 }
 
+/* corner ticks: a horizontal and a vertical 14px stroke at each corner */
 .about-card::after,
-.skill-panel::after {
+.skill-panel::after,
+.experience-card::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            0 0 / 14px 1px,
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            0 0 / 1px 14px,
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            100% 0 / 14px 1px,
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            100% 0 / 1px 14px,
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            0 100% / 14px 1px,
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            0 100% / 1px 14px,
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            100% 100% / 14px 1px,
-        linear-gradient(
-                rgba(var(--project-accent-rgb), 0.9),
-                rgba(var(--project-accent-rgb), 0.9)
-            )
-            100% 100% / 1px 14px;
+        var(--tick) 0 0 / 14px 1px,
+        var(--tick) 0 0 / 1px 14px,
+        var(--tick) 100% 0 / 14px 1px,
+        var(--tick) 100% 0 / 1px 14px,
+        var(--tick) 0 100% / 14px 1px,
+        var(--tick) 0 100% / 1px 14px,
+        var(--tick) 100% 100% / 14px 1px,
+        var(--tick) 100% 100% / 1px 14px;
     background-repeat: no-repeat;
     pointer-events: none;
     z-index: 2;
-    opacity: 1;
     transition: opacity 260ms ease;
 }
 

@@ -1,18 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useInView, useProgress } from '../lib/motion';
 
-/* ── Timing ──────────────────────────────────────────────────────────
- * The left card loops through the 4 steps of an example run. The running
- * step's bar fill is a CSS animation; JS only flips the step index.
- */
+// The left card loops through the steps of an example run. The running step's bar fill is a
+// CSS animation; JS only flips the step index.
 const STEP_MS = 1100;
 const HOLD_MS = 2400;
 const COUNT_MS = 1200;
 
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
-/* ── The 4 steps behind most manual back-office work ── */
 const STEPS = [
   { title: 'Collect the data', text: 'From sheets, email, forms and APIs' },
   { title: 'Clean and check it', text: 'Remove duplicates, fix formats, flag gaps' },
@@ -20,16 +18,14 @@ const STEPS = [
   { title: 'Deliver the result', text: 'Dashboard, report or alert' },
 ];
 
-/* ── Typical before → after on shipped workflows ── */
 const METRICS = [
-  { label: 'Time spent on manual data work', before: 40, after: 3, unit: 'h a week' },
+  { label: 'Time spent on manual data work', before: 40, after: 3, unit: ' h a week' },
   { label: 'Errors that slip through', before: 9, after: 1, unit: '% of records' },
-  { label: 'Wait for a report', before: 45, after: 2, unit: 'min' },
+  { label: 'Wait for a report', before: 45, after: 2, unit: ' min' },
 ];
 
 const STATE_TEXT = { 'is-done': 'Done', 'is-active': 'Running', 'is-idle': 'Waiting' };
 
-const withUnit = (value, unit) => (unit.startsWith('%') ? `${value}${unit}` : `${value} ${unit}`);
 
 function CheckIcon() {
   return (
@@ -41,25 +37,18 @@ function CheckIcon() {
 
 export default function BusinessImpact() {
   const [reduced, setReduced] = useState(false);
-  const [visible, setVisible] = useState(false);
   const [step, setStep] = useState(0);
-  const [count, setCount] = useState(0);
-
   const shellRef = useRef(null);
-  const rafRef = useRef(0);
-  const countedRef = useRef(false);
+  // two-way, so the step loop pauses offscreen
+  const visible = useInView(shellRef, { threshold: 0.2 });
+  // one-shot: the "after" bars shrink from the "before" length and the numbers count down
+  const count = easeOut(useProgress(visible, COUNT_MS));
 
-  /* Reduced motion + two-way visibility, so the loop pauses offscreen. */
   useEffect(() => {
     setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    const el = shellRef.current;
-    if (!el) return undefined;
-    const obs = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.2 });
-    obs.observe(el);
-    return () => obs.disconnect();
   }, []);
 
-  /* Step loop. step === STEPS.length means "finished", held before restarting. */
+  // step === STEPS.length means "finished", held before restarting
   useEffect(() => {
     if (reduced) {
       setStep(STEPS.length);
@@ -80,31 +69,10 @@ export default function BusinessImpact() {
     return () => clearTimeout(timer);
   }, [reduced, visible]);
 
-  /* One-shot: the "after" bars shrink from the "before" length and the numbers count down. */
-  useEffect(() => {
-    if (reduced) {
-      setCount(1);
-      return undefined;
-    }
-    if (!visible || countedRef.current) return undefined;
-    countedRef.current = true;
-
-    let start = null;
-    const tick = (now) => {
-      if (start === null) start = now;
-      const progress = Math.min((now - start) / COUNT_MS, 1);
-      setCount(easeOut(progress));
-      if (progress < 1) rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [reduced, visible]);
-
   const finished = step >= STEPS.length;
 
   return (
     <div ref={shellRef} className="bi-grid" style={{ '--bi-step': `${STEP_MS}ms` }}>
-      {/* ── LEFT: what gets automated ── */}
       <article className="bi-card">
         <header className="bi-head">
           <p className="bi-kicker">What gets automated</p>
@@ -148,7 +116,6 @@ export default function BusinessImpact() {
         </div>
       </article>
 
-      {/* ── RIGHT: what changes for you ── */}
       <article className="bi-card">
         <header className="bi-head">
           <p className="bi-kicker">What changes for you</p>
@@ -174,12 +141,12 @@ export default function BusinessImpact() {
                 <div className="bi-bar-row">
                   <span className="bi-bar-name">Before</span>
                   <span className="bi-bar bi-bar-before" style={{ width: '100%' }} aria-hidden="true" />
-                  <span className="bi-bar-value">{withUnit(m.before, m.unit)}</span>
+                  <span className="bi-bar-value">{`${m.before}${m.unit}`}</span>
                 </div>
                 <div className="bi-bar-row">
                   <span className="bi-bar-name">After</span>
                   <span className="bi-bar bi-bar-after" style={{ width: `${afterWidth}%` }} aria-hidden="true" />
-                  <span className="bi-bar-value">{withUnit(after, m.unit)}</span>
+                  <span className="bi-bar-value">{`${after}${m.unit}`}</span>
                 </div>
               </li>
             );

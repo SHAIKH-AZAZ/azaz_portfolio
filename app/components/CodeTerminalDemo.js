@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { scrambleChar } from '../lib/motion';
 
 const TYPE_START_DELAY = 120;
 const TYPE_CHAR_SPEED = 12;
@@ -12,59 +13,38 @@ const getLineLength = (line) => line.reduce((sum, token) => sum + token.t.length
 const getCodeLength = (lines) => lines.reduce((sum, line) => sum + getLineLength(line), 0);
 const getOutputLength = (lines) => lines.reduce((sum, line) => sum + line.t.length, 0);
 
-function getScrambleChar(index, tick) {
-  return SCRAMBLE_CHARS[(index * 17 + tick * 7) % SCRAMBLE_CHARS.length];
+// The typed part of `text`, which starts at char offset `start` of the panel. While typing,
+// the last few typed chars show as stand-in glyphs.
+function typed(text, start, visible, total, tick) {
+  return [...text.slice(0, Math.max(0, visible - start))]
+    .map((c, i) => {
+      const at = start + i;
+      const trailing = visible < total && at >= visible - SCRAMBLE_TRAIL;
+      return c === ' ' || !trailing ? c : scrambleChar(SCRAMBLE_CHARS, at, tick);
+    })
+    .join('');
 }
 
-function shouldScrambleChar(index, visibleChars, totalChars) {
-  return visibleChars < totalChars && index >= visibleChars - SCRAMBLE_TRAIL && index < visibleChars;
-}
-
-function renderTokenLine(line, visibleChars, lineStart, globalVisibleChars, totalChars, scrambleTick) {
-  let remaining = visibleChars;
-  let tokenStart = 0;
-
+function renderTokenLine(line, lineStart, visible, total, tick) {
+  let at = lineStart;
   return line.map((token, ti) => {
-    const tokenText = token.t.slice(0, Math.max(0, Math.min(token.t.length, remaining)));
-    remaining -= token.t.length;
-    const renderedText = tokenText
-      .split('')
-      .map((char, charIdx) => {
-        const absoluteIndex = lineStart + tokenStart + charIdx;
-        if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
-        return getScrambleChar(absoluteIndex, scrambleTick);
-      })
-      .join('');
-
-    tokenStart += token.t.length;
-
+    const start = at;
+    at += token.t.length;
     return (
       <span key={`${ti}-${token.t}`} className={`ctd-token ctd-token-${token.c}`}>
-        {renderedText}
+        {typed(token.t, start, visible, total, tick)}
       </span>
     );
   });
 }
 
-function renderOutputText(text, visibleChars, lineStart, globalVisibleChars, totalChars, scrambleTick) {
-  return text
-    .slice(0, visibleChars)
-    .split('')
-    .map((char, charIdx) => {
-      const absoluteIndex = lineStart + charIdx;
-      if (char === ' ' || !shouldScrambleChar(absoluteIndex, globalVisibleChars, totalChars)) return char;
-      return getScrambleChar(absoluteIndex, scrambleTick);
-    })
-    .join('');
-}
-
-/* ── Tab Content ─────────────────────────────────────────────────── */
 // Each line = array of tokens: { t: text, c: token class }
 // Empty array = blank line
 const TABS = [
   {
     id: 'profile',
     label: 'Profile',
+    icon: PythonIcon,
     lines: [
       [{ t: '# Portfolio profile', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'developer', c: 'variable' }, { t: ' = ', c: 'operator' }, { t: '{', c: 'normal' }],
@@ -78,6 +58,7 @@ const TABS = [
   {
     id: 'projects',
     label: 'Projects',
+    icon: NodeIcon,
     lines: [
       [{ t: '# Selected production builds', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'ship', c: 'function' }, { t: ' = ', c: 'operator' }, { t: 'async ', c: 'keyword' }, { t: '(build) => ', c: 'operator' }, { t: 'deploy', c: 'accent' }, { t: '(build);', c: 'normal' }],
@@ -92,7 +73,8 @@ const TABS = [
   },
   {
     id: 'stack',
-    label: '{ } Stack',
+    label: 'Stack',
+    icon: BracesIcon,
     lines: [
       [{ t: '# Full-stack toolkit & AI tech', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'stack', c: 'variable' }, { t: ' = {', c: 'normal' }],
@@ -106,6 +88,7 @@ const TABS = [
   {
     id: 'contact',
     label: 'Contact',
+    icon: CLIIcon,
     lines: [
       [{ t: '# Initialize project discovery', c: 'comment' }],
       [{ t: 'const ', c: 'keyword' }, { t: 'inquiry', c: 'variable' }, { t: ' = ', c: 'operator' }, { t: 'await ', c: 'keyword' }, { t: 'contactAzaz', c: 'function' }, { t: '({', c: 'normal' }],
@@ -130,7 +113,6 @@ const OUTPUT_LINES = [
   { t: '✓ End-to-end data pipelines & LangGraph AI agents', c: 'li' },
 ];
 
-/* ── Tab Icon SVGs ───────────────────────────────────────────────── */
 function PythonIcon() {
   return (
     <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
@@ -157,9 +139,14 @@ function CLIIcon() {
   );
 }
 
-const TAB_ICONS = [PythonIcon, NodeIcon, null, CLIIcon];
+function BracesIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M8 4H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1M16 4h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1" />
+    </svg>
+  );
+}
 
-/* ── Component ───────────────────────────────────────────────────── */
 export default function CodeTerminalDemo() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [animKey, setAnimKey] = useState(0);
@@ -167,12 +154,8 @@ export default function CodeTerminalDemo() {
   const [outputVisibleChars, setOutputVisibleChars] = useState(0);
   const [scrambleTick, setScrambleTick] = useState(0);
 
+  // re-clicking the active tab replays it
   const handleTabClick = (idx) => {
-    if (idx === activeIdx) {
-      setAnimKey((k) => k + 1);
-      return;
-    }
-
     setActiveIdx(idx);
     setAnimKey((k) => k + 1);
   };
@@ -247,31 +230,27 @@ export default function CodeTerminalDemo() {
 
   return (
     <div className="ctd-shell">
-      {/* Window chrome + Tab bar */}
       <div className="ctd-chrome">
         <div className="ctd-dots" aria-hidden="true">
           <span className="ctd-dot ctd-dot-red" />
           <span className="ctd-dot ctd-dot-yellow" />
           <span className="ctd-dot ctd-dot-green" />
         </div>
-        <div className="ctd-tabs" role="tablist" aria-label="Language selector">
-          {TABS.map((tab, idx) => {
-            const Icon = TAB_ICONS[idx];
-            return (
+        <div className="ctd-tabs" role="tablist" aria-label="Portfolio console">
+          {TABS.map(({ id, label, icon: Icon }, idx) => (
               <button
-                key={tab.id}
+                key={id}
                 role="tab"
-                id={`ctd-tab-${tab.id}`}
+                id={`ctd-tab-${id}`}
                 aria-selected={idx === activeIdx}
                 aria-controls="ctd-tabpanel"
                 className={`ctd-tab ${idx === activeIdx ? 'is-active' : ''}`}
                 onClick={() => handleTabClick(idx)}
               >
-                {Icon && <Icon />}
-                {tab.label}
+                <Icon />
+                {label}
               </button>
-            );
-          })}
+          ))}
         </div>
         <div className="ctd-status-pill">
           <span className="ctd-status-glow" />
@@ -279,21 +258,18 @@ export default function CodeTerminalDemo() {
         </div>
       </div>
 
-      {/* Two-panel layout */}
-      <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel">
-        {/* LEFT — Code panel */}
+      <div className="ctd-panels" id="ctd-tabpanel" role="tabpanel" aria-labelledby={`ctd-tab-${activeTab.id}`}>
         <div className="ctd-code-panel">
           {activeTab.lines.map((line, lineIdx) => {
               const lineStart = lineStarts[lineIdx];
               const lineLength = getLineLength(line);
-              const visibleInLine = Math.max(0, Math.min(lineLength, codeVisibleChars - lineStart));
               const showCaret = lineLength > 0 && codeVisibleChars >= lineStart && codeVisibleChars < lineStart + lineLength;
 
               return (
                 <div key={`${animKey}-${lineIdx}`} className="ctd-line">
                   <span className="ctd-linenum">{lineIdx + 1}</span>
                   <span className="ctd-code">
-                    {line.length === 0 ? <span>&nbsp;</span> : renderTokenLine(line, visibleInLine, lineStart, codeVisibleChars, codeCharCount, scrambleTick)}
+                    {line.length === 0 ? <span>&nbsp;</span> : renderTokenLine(line, lineStart, codeVisibleChars, codeCharCount, scrambleTick)}
                     {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
                   </span>
                 </div>
@@ -301,7 +277,6 @@ export default function CodeTerminalDemo() {
             })}
         </div>
 
-        {/* RIGHT — Markdown output panel */}
         <div className="ctd-output-panel">
           <div className="ctd-output-chrome">
             <span className="ctd-output-badge">● TERMINAL OUTPUT</span>
@@ -310,12 +285,11 @@ export default function CodeTerminalDemo() {
             {OUTPUT_LINES.map((line, idx) => {
                 const lineStart = outputStarts[idx];
                 const lineLength = line.t.length;
-                const visibleInLine = Math.max(0, Math.min(lineLength, outputVisibleChars - lineStart));
                 const showCaret = outputVisibleChars > 0 && lineLength > 0 && outputVisibleChars >= lineStart && outputVisibleChars < lineStart + lineLength;
 
                 return (
                   <div key={`${animKey}-out-${idx}`} className={`ctd-output-line ctd-out-${line.c}`}>
-                    {line.t ? renderOutputText(line.t, visibleInLine, lineStart, outputVisibleChars, outputCharCount, scrambleTick) : <span>&nbsp;</span>}
+                    {line.t ? typed(line.t, lineStart, outputVisibleChars, outputCharCount, scrambleTick) : <span>&nbsp;</span>}
                     {showCaret && <span className="ctd-typing-caret" aria-hidden="true" />}
                   </div>
                 );

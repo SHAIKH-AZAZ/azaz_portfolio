@@ -1,4 +1,6 @@
-import InteractiveCanvas from './components/InteractiveCanvas';
+import Motion from './components/Motion';
+import DotField from './components/DotField';
+import ScrollProgress from './components/ScrollProgress';
 import HeroScraperAnimation from './components/HeroScraperAnimation';
 import TypewriterText from './components/TypewriterText';
 import IntegrationCard from './components/IntegrationCard';
@@ -10,22 +12,15 @@ import Footer from './components/Footer';
 import StackOrbit from './components/StackOrbit';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
+import { IntroScript } from './components/intro';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
 import JsonLd from './components/JsonLd';
-import { skills, services, featuredWork, BUILDS, liveCount } from './data';
-import { BASE_URL, EMAIL, LINKEDIN } from './site';
-
-// Page-level metadata (supplements layout.js root metadata)
-export const metadata = {
-  title: "Azaz Shaikh — Full-Stack Engineer & Business Automation Specialist",
-  description:
-    "Azaz Shaikh is a full-stack software engineer specialising in scalable web systems, business automation workflows, logistics algorithms, and data-driven platforms. Available for freelance and remote roles.",
-  alternates: { canonical: "/" },
-};
+import { skills, services, featuredWork, BUILDS, liveCount, heroTitle, heroMetrics, marquee, pocWaste } from './data';
+import { BASE_URL, EMAIL, LINKEDIN, PERSON_ID, WEBSITE_ID } from './site';
 
 // Structured data, generated from the same arrays the page renders so the two can't drift.
-const person = { "@id": `${BASE_URL}/#person` };
+const person = { "@id": PERSON_ID };
 const projects = [...featuredWork, ...BUILDS];
 
 const projectsSchema = {
@@ -57,7 +52,7 @@ const profilePageSchema = {
   url: BASE_URL,
   name: "Azaz Shaikh — Full-Stack Engineer Portfolio",
   inLanguage: "en-US",
-  isPartOf: { "@id": `${BASE_URL}/#website` },
+  isPartOf: { "@id": WEBSITE_ID },
   mainEntity: person,
 };
 
@@ -80,35 +75,27 @@ export default function Home() {
     <>
       <JsonLd data={profilePageSchema} />
       <JsonLd data={projectsSchema} />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: "try{sessionStorage.getItem('intro-seen')!=='1'&&document.documentElement.classList.add('intro-play')}catch(e){}",
-        }}
-      />
+      <IntroScript />
       <IntroOverlay />
-      <InteractiveCanvas />
-      <div className="noise" aria-hidden="true" />
-
-      <div className="scroll-progress-container" aria-hidden="true">
-        <div className="scroll-progress-track" />
-        <div className="scroll-progress-thumb" />
-      </div>
+      <Motion />
+      <DotField />
+      <ScrollProgress />
 
       <Header />
 
       <main id="top">
-        {/* ── Hero ── */}
-        <section className="section hero">
+        <section className="section hero" style={{ '--hero-lines': heroTitle.length }}>
           <div className="hero-copy reveal">
             <p className="hero-status">
               <span className="hero-status-dot" aria-hidden="true" />
               Open to freelance and remote roles
             </p>
             <h1>
-              <span className="title-line"><span className="title-word">I turn manual</span></span>
-              <span className="title-line"><span className="title-word">operations into</span></span>
-              <span className="title-line"><span className="title-word">software that</span></span>
-              <span className="title-line"><span className="title-word">runs itself.</span></span>
+              {heroTitle.map((line, i) => (
+                <span className="title-line" key={line} style={{ '--line-i': i }}>
+                  <span className="title-word">{line}</span>
+                </span>
+              ))}
             </h1>
             <p className="lead">
               I&apos;m Azaz Shaikh, a full-stack engineer. I build web apps and automation tools that
@@ -119,18 +106,12 @@ export default function Home() {
               <a className="button button-secondary" href="#contact">Start a project</a>
             </div>
             <div className="hero-metrics">
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="1+" />
-                <span className="metric-label">Year of full-stack engineering experience</span>
-              </article>
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="15+" delay={120} />
-                <span className="metric-label">Business operations optimized through code</span>
-              </article>
-              <article className="metric-card reveal">
-                <ScrambleText className="metric-value" text="98%" delay={240} />
-                <span className="metric-label">Performance &amp; efficiency increase on core systems</span>
-              </article>
+              {heroMetrics.map((m, i) => (
+                <article className="metric-card reveal" key={m.label}>
+                  <ScrambleText className="metric-value" text={m.value} delay={i * 120} />
+                  <span className="metric-label">{m.label}</span>
+                </article>
+              ))}
             </div>
           </div>
 
@@ -139,17 +120,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Marquee ── */}
         <section className="marquee-shell" aria-label="Core skills">
           <div className="marquee-track">
-            {['Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering',
-              'Workflow Automation', 'Scalable Architecture', 'Logistics Algorithms', 'Business Solutions', 'LangChain & LangGraph', 'AI Agents', 'Python Automation', 'Database Optimization', 'System Integration', 'Full-Stack Engineering'].map((s, i) => (
-                <span key={i}>{s}</span>
-              ))}
+            {/* the list twice, so the CSS loop has no gap; the copy is hidden from screen readers */}
+            {[...marquee, ...marquee].map((s, i) => (
+              <span key={i} aria-hidden={i >= marquee.length || undefined}>{s}</span>
+            ))}
           </div>
         </section>
 
-        {/* ── Stack orbit: tools and live work around the numbers ── */}
         <section className="section orbit-section" aria-label="Stack and results">
           <StackOrbit
             stats={[
@@ -161,7 +140,6 @@ export default function Home() {
           />
         </section>
 
-        {/* ── About ── */}
         <section className="section" id="about">
           <div className="section-heading section-heading-stable reveal">
             <p className="eyebrow">About</p>
@@ -206,28 +184,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Experience ── */}
         <section className="section" id="experience">
           <div className="section-heading reveal">
             <p className="eyebrow">Experience</p>
             <h2>My professional journey and hands-on industry experience.</h2>
           </div>
           <div className="experience-list">
-            <article className="experience-card glass reveal">
+            <article className="experience-card reveal">
               <div className="exp-header">
                 <h3>Full Stack IT Engineer</h3>
                 <span className="exp-company">Buniyadbyte</span>
               </div>
               <p>
                 Developed and shipped{' '}
-                <a className="exp-link" href="https://poc-waste-proper.vercel.app/" target="_blank" rel="noreferrer">
+                <a className="exp-link" href={pocWaste.url} target="_blank" rel="noreferrer">
                   POC Waste ↗
                 </a>
                 , a high-performance Bar Cutting Optimization web application. Engineered custom cutting stock
                 algorithms to minimize raw material waste and built a complete project management interface.
               </p>
             </article>
-            <article className="experience-card glass reveal">
+            <article className="experience-card reveal">
               <div className="exp-header">
                 <h3>QA Manual and Automations Engineer Intern</h3>
                 <span className="exp-company">Maxgen Web Technologies</span>
@@ -242,7 +219,6 @@ export default function Home() {
 
         <Work />
 
-        {/* ── Why Choose Me: automation run + measured outcomes ── */}
         <section className="section bi-section" id="features">
           <div className="section-heading reveal">
             <p className="eyebrow">Why Choose Me</p>
@@ -253,7 +229,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── How It Works / Workflow Diagram ── */}
         <section className="section" id="how-it-works">
           <div className="section-heading reveal">
             <p className="eyebrow">How It Works</p>
@@ -264,7 +239,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Code Terminal Demo ── */}
         <section className="section" id="integration">
           <div className="section-heading reveal">
             <p className="eyebrow">Portfolio Console</p>
@@ -274,8 +248,6 @@ export default function Home() {
             <CodeTerminalDemo />
           </div>
         </section>
-
-        {/* ── Services ── */}
 
         <section className="section" id="services">
           <div className="section-heading section-heading-stable section-heading-services-stable reveal">
@@ -288,7 +260,7 @@ export default function Home() {
           <div className="service-grid">
             <IntegrationCard />
             {services.map((sv, i) => (
-              <article className="service-card glass reveal" key={sv.name}>
+              <article className="service-card reveal" key={sv.name}>
                 <Notch n={String(i + 1).padStart(2, '0')} />
                 <h3>{sv.name}</h3>
                 <p>{sv.text}</p>
@@ -297,7 +269,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Contact ── */}
         <section className="section" id="contact">
           <div className="contact-panel reveal">
             <p className="eyebrow">Contact</p>

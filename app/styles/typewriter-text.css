@@ -1,9 +1,4 @@
-/* Typewriter animation in hero H1 */
-.typewriter-container {
-    display: inline;
-    position: relative;
-}
-
+/* Caret after a TypewriterText phrase in a heading */
 .typewriter-text::after {
     content: "";
     display: inline-block;
@@ -12,17 +7,6 @@
     background: var(--accent-ink);
     margin-left: 6px;
     border-radius: 2px;
-    animation: typewriterCursorBlink 0.8s infinite;
-    box-shadow: none;
+    animation: var(--caret-blink);
     vertical-align: -0.08em;
-}
-
-@keyframes typewriterCursorBlink {
-    0%,
-    100% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
 }

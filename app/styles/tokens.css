@@ -7,8 +7,18 @@
    these tokens; the canvases read them at runtime.
    --electric is the code/selection blue: string values in the code panels and the text-selection highlight. */
 :root {
+    /* stacking order, bottom to top; page content uses 0-2 */
+    --z-progress: 30;
+    --z-selection: 35;
+    --z-mobile-nav: 39;
+    --z-header: 40;
+    --z-intro: 100;
+    /* the site's one easing: fast start, long soft landing */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    /* every blinking text caret (keyframes in ui.css) */
+    --caret-blink: cursorBlink 0.8s infinite;
     color-scheme: light;
-    --bg: #ffffff;
+    --bg: #ffffff; /* copied in THEME_COLOR (components/theme.js) */
     --bg-soft: #f2f6fa;
     --sunken-rgb: 242, 246, 250;
     --panel: rgba(248, 250, 252, 0.9);
@@ -31,14 +41,14 @@
     --ok-rgb: 15, 123, 83;
     --electric: #0062e6; /* 5.2:1 on the light panel; white on it 5.4:1 */
     --on-electric: #ffffff;
-    --selection-pill: #9fd2ff; /* multiplied: slate text on it 8.9:1 */
+    --selection-pill: #95bcc8; /* darken: slate text on it 6.1:1; below the dots (191,194,200) on every channel */
+    --selection-text: var(--text);
     /* light tile behind brand-coloured logos; same in both themes so the logos stay legible */
     --logo-tile: #f6f8fa;
-    --dot-alpha: 0.3; /* background dot field (InteractiveCanvas) */
+    --dot-alpha: 0.3; /* background dot field (DotField.js); raising it can make dots show through --selection-pill */
     --shadow-rgb: 42, 53, 71;
     --shadow-k: 0.18;
     --shadow: 0 4px 30px rgba(var(--shadow-rgb), calc(0.45 * var(--shadow-k)));
-    --shadow-hover: 0 12px 50px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
     --radius-xl: 24px;
     --radius-lg: 16px;
     --radius-md: 12px;
@@ -48,7 +58,7 @@
 
 :root[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #070709;
+    --bg: #070709; /* copied in THEME_COLOR (components/theme.js) */
     --bg-soft: #0e0f12;
     --sunken-rgb: 20, 21, 24;
     --panel: rgba(20, 21, 24, 0.78);
@@ -71,8 +81,9 @@
     --ok-rgb: 52, 211, 153;
     --electric: #1fb6ff; /* 8.2:1 on the dark panel; near-black on it 8.8:1 */
     --on-electric: #070709;
-    --selection-pill: #0057ff; /* screened: white text on it 5.5:1 */
-    --dot-alpha: 0.28;
+    --selection-pill: #4f5bff; /* lighten: white text on it 4.9:1; above the dots (76,76,78) on every channel */
+    --selection-text: #ffffff;
+    --dot-alpha: 0.28; /* see --selection-pill before raising */
     --shadow-rgb: 0, 0, 0;
     --shadow-k: 1;
 }

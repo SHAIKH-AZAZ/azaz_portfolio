@@ -20,7 +20,8 @@ const STEPS = [
 
 export default function DeliveryPipeline() {
   return (
-    <ol className="dp">
+    // the beam keyframes in delivery-pipeline.css assume this count (25% each); keep them in step
+    <ol className="dp" style={{ '--dp-count': STEPS.length + 1 }}>
       {STEPS.map((step, i) => (
         <li className="dp-step" key={step.title} style={{ '--i': i }}>
           <span className="dp-node" aria-hidden="true">{i + 1}</span>

@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import TypewriterText from './TypewriterText';
+import { BASE_URL } from '../site';
 
 const MODES = {
   PROFILE: {
-    id: 'PROFILE',
-    url: 'https://azazshaikh.info/profile',
+    url: `${BASE_URL}/profile`,
     label: 'Profile',
     json: `[
   {
@@ -15,12 +16,10 @@ const MODES = {
     "location": "Remote / India",
     "portfolio": "azazshaikh.info"
   }
-]`,
-    visualLayout: 'profile'
+]`
   },
   STACK: {
-    id: 'STACK',
-    url: 'https://azazshaikh.info/stack',
+    url: `${BASE_URL}/stack`,
     label: 'Stack',
     json: `[
   {
@@ -29,12 +28,10 @@ const MODES = {
     "database": ["MongoDB", "SQL"],
     "automation": ["AI agents", "data pipelines", "workflows"]
   }
-]`,
-    visualLayout: 'stack'
+]`
   },
   PROJECTS: {
-    id: 'PROJECTS',
-    url: 'https://azazshaikh.info/work',
+    url: `${BASE_URL}/work`,
     label: 'Work',
     json: `[
   {
@@ -43,12 +40,10 @@ const MODES = {
     "impact": "reduced manual planning and material waste",
     "alsoBuilt": ["Excel Cleaner", "FastShipment", "AI RAG systems"]
   }
-]`,
-    visualLayout: 'projects'
+]`
   },
   CONTACT: {
-    id: 'CONTACT',
-    url: 'https://azazshaikh.info/contact',
+    url: `${BASE_URL}/contact`,
     label: 'Hire',
     json: `[
   {
@@ -57,12 +52,13 @@ const MODES = {
     "response": "project discovery call",
     "cta": "Let's build a reliable software system"
   }
-]`,
-    visualLayout: 'contact'
+]`
   }
 };
 
+const MODE_KEYS = Object.keys(MODES);
 const STATUS_WORDS = ['Thinking', 'Designing', 'Programming', 'Deploying'];
+const SCAN_MS = 1400;
 
 function renderScrapeOutput(text) {
   const tokenPattern = /("(?:\\.|[^"\\])*"(?=\s*:))|("(?:\\.|[^"\\])*")|(\b\d+(?:\.\d+)?\b)|([{}\[\],:])/g;
@@ -103,26 +99,25 @@ export default function HeroScraperAnimation() {
   const [isScraping, setIsScraping] = useState(false);
   const [typedUrl, setTypedUrl] = useState('');
   const [typedJson, setTypedJson] = useState('');
-  const [typedStatus, setTypedStatus] = useState('');
+  // bumped by the run button to replay the current mode
+  const [runs, setRuns] = useState(0);
   const timerRef = useRef(null);
   const listRef = useRef(null);
   const tabRefs = useRef({});
+  const shellRef = useRef(null);
 
   const currentMode = MODES[activeMode];
 
-  // Handle coordinated interactive sequence (URL Typing -> Scanning -> JSON Typing)
   useEffect(() => {
     let active = true;
     let urlInterval = null;
     let jsonInterval = null;
     let scanTimeout = null;
 
-    // Reset all interactive states
     setTypedUrl('');
     setTypedJson('');
     setIsScraping(false);
 
-    // 1. Type the URL
     const targetUrl = currentMode.url;
     let urlIdx = 0;
     
@@ -134,10 +129,8 @@ export default function HeroScraperAnimation() {
       } else {
         clearInterval(urlInterval);
         
-        // 2. Once URL is fully typed, start scanning sweep
         setIsScraping(true);
         
-        // 3. Scan for 1.4s, then type the JSON
         scanTimeout = setTimeout(() => {
           if (!active) return;
           setIsScraping(false);
@@ -153,11 +146,11 @@ export default function HeroScraperAnimation() {
             } else {
               clearInterval(jsonInterval);
             }
-          }, 12); // fast JSON typing speed
+          }, 12);
           
-        }, 1400);
+        }, SCAN_MS);
       }
-    }, 25); // fast typing speed for the URL
+    }, 25);
 
     return () => {
       active = false;
@@ -165,16 +158,14 @@ export default function HeroScraperAnimation() {
       if (jsonInterval) clearInterval(jsonInterval);
       if (scanTimeout) clearTimeout(scanTimeout);
     };
-  }, [activeMode, currentMode]);
+  }, [activeMode, currentMode, runs]);
 
-  // Autoplay loop (runs through modes when user is idle)
   useEffect(() => {
     const startAutoplay = () => {
       timerRef.current = setInterval(() => {
         setActiveMode((prev) => {
-          const keys = Object.keys(MODES);
-          const nextIdx = (keys.indexOf(prev) + 1) % keys.length;
-          return keys[nextIdx];
+          const nextIdx = (MODE_KEYS.indexOf(prev) + 1) % MODE_KEYS.length;
+          return MODE_KEYS[nextIdx];
         });
       }, 7500);
     };
@@ -186,51 +177,31 @@ export default function HeroScraperAnimation() {
     };
   }, []);
 
+  // the easing back to flat is a CSS transition (hero-scraper-animation.css)
   useEffect(() => {
-    let active = true;
-    let wordIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
-    let timeoutId = null;
-
-    const tick = () => {
-      if (!active) return;
-
-      const word = STATUS_WORDS[wordIndex];
-      setTypedStatus(word.slice(0, charIndex));
-
-      if (!deleting && charIndex < word.length) {
-        charIndex++;
-        timeoutId = setTimeout(tick, 85);
-        return;
-      }
-
-      if (!deleting && charIndex === word.length) {
-        deleting = true;
-        timeoutId = setTimeout(tick, 900);
-        return;
-      }
-
-      if (deleting && charIndex > 0) {
-        charIndex--;
-        timeoutId = setTimeout(tick, 45);
-        return;
-      }
-
-      deleting = false;
-      wordIndex = (wordIndex + 1) % STATUS_WORDS.length;
-      timeoutId = setTimeout(tick, 220);
+    const shell = shellRef.current;
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || reduced) return undefined;
+    const move = (e) => {
+      const r = shell.getBoundingClientRect();
+      shell.style.setProperty('--tilt-x', `${((0.5 - (e.clientY - r.top) / r.height) * 10).toFixed(2)}deg`);
+      shell.style.setProperty('--tilt-y', `${(((e.clientX - r.left) / r.width - 0.5) * 12).toFixed(2)}deg`);
+      shell.classList.add('is-tilting');
     };
-
-    tick();
-
+    const leave = () => {
+      shell.style.removeProperty('--tilt-x');
+      shell.style.removeProperty('--tilt-y');
+      shell.classList.remove('is-tilting');
+    };
+    shell.addEventListener('pointermove', move);
+    shell.addEventListener('pointerleave', leave);
     return () => {
-      active = false;
-      if (timeoutId) clearTimeout(timeoutId);
+      shell.removeEventListener('pointermove', move);
+      shell.removeEventListener('pointerleave', leave);
     };
   }, []);
 
-  // Sliding pill: place the indicator under the active tab (and keep it there on resize).
   useLayoutEffect(() => {
     const list = listRef.current;
     if (!list) return undefined;
@@ -253,21 +224,19 @@ export default function HeroScraperAnimation() {
     };
   }, [activeMode]);
 
-  const modeKeys = Object.keys(MODES);
 
-  // arrow keys / Home / End move between tabs, like a native tablist
   const handleTabKeyDown = (event) => {
-    const i = modeKeys.indexOf(activeMode);
+    const i = MODE_KEYS.indexOf(activeMode);
     const next = {
-      ArrowRight: (i + 1) % modeKeys.length,
-      ArrowLeft: (i - 1 + modeKeys.length) % modeKeys.length,
+      ArrowRight: (i + 1) % MODE_KEYS.length,
+      ArrowLeft: (i - 1 + MODE_KEYS.length) % MODE_KEYS.length,
       Home: 0,
-      End: modeKeys.length - 1,
+      End: MODE_KEYS.length - 1,
     }[event.key];
     if (next === undefined) return;
     event.preventDefault();
-    handleTabClick(modeKeys[next]);
-    tabRefs.current[modeKeys[next]]?.focus();
+    handleTabClick(MODE_KEYS[next]);
+    tabRefs.current[MODE_KEYS[next]]?.focus();
   };
 
   const handleTabClick = (modeId) => {
@@ -276,8 +245,7 @@ export default function HeroScraperAnimation() {
   };
 
   return (
-    <div className="scraper-animation-shell" data-tilt>
-      {/* Chrome Shell */}
+    <div ref={shellRef} className="scraper-animation-shell">
       <div className="window-chrome">
         <span /><span /><span />
         <div className="tab-pill">azaz.json</div>
@@ -285,7 +253,6 @@ export default function HeroScraperAnimation() {
 
       <div className="scraper-stage-content">
         
-        {/* Top bar: URL Search Box & Control tabs */}
         <div className="scraper-bar-container">
           <div className="scraper-url-input">
             <svg className="url-lock-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -306,18 +273,18 @@ export default function HeroScraperAnimation() {
               onKeyDown={handleTabKeyDown}
             >
               <span className="tab-indicator" aria-hidden="true" />
-              {Object.values(MODES).map((mode) => (
+              {Object.entries(MODES).map(([id, mode]) => (
                 <button
-                  key={mode.id}
-                  ref={(el) => { tabRefs.current[mode.id] = el; }}
-                  id={`hero-tab-${mode.id}`}
+                  key={id}
+                  ref={(el) => { tabRefs.current[id] = el; }}
+                  id={`hero-tab-${id}`}
                   type="button"
                   role="tab"
-                  aria-selected={activeMode === mode.id}
+                  aria-selected={activeMode === id}
                   aria-controls="hero-tabpanel"
-                  tabIndex={activeMode === mode.id ? 0 : -1}
-                  className={`tab-btn ${activeMode === mode.id ? 'is-active' : ''}`}
-                  onClick={() => handleTabClick(mode.id)}
+                  tabIndex={activeMode === id ? 0 : -1}
+                  className={`tab-btn ${activeMode === id ? 'is-active' : ''}`}
+                  onClick={() => handleTabClick(id)}
                 >
                   {mode.label}
                 </button>
@@ -327,8 +294,7 @@ export default function HeroScraperAnimation() {
             <button 
               className={`action-run-btn ${isScraping ? 'is-running' : ''}`}
               onClick={() => {
-                setIsScraping(true);
-                setTimeout(() => setIsScraping(false), 1500);
+                setRuns((n) => n + 1);
               }}
               aria-label="Run automated process"
             >
@@ -353,10 +319,7 @@ export default function HeroScraperAnimation() {
             <span className="status-grid" aria-hidden="true">
               <span /><span /><span /><span />
             </span>
-            <span className="status-typewriter">
-              {typedStatus}
-              <span className="status-typewriter-caret" />
-            </span>
+            <TypewriterText phrases={STATUS_WORDS} hold={900} className="status-typewriter" />
           </div>
         </div>
 

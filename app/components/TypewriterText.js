@@ -1,61 +1,46 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-/**
- * TypewriterText — phase-based state machine
- * Phase cycle: 'pause' → 'erasing' → 'typing' → 'pause' → ...
- */
-export default function TypewriterText({ phrases }) {
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  // Start with first phrase already visible so SSR matches client
-  const [displayedText, setDisplayedText] = useState(phrases?.[0] ?? '');
-  // 'pause' | 'erasing' | 'typing'
-  const [phase, setPhase] = useState('pause');
+const TYPE_MS = 70;
+const ERASE_MS = 40;
+
+// Cycles through phrases: hold, erase, type the next. Starts on the first phrase fully typed,
+// so the server HTML is real text; under reduced motion it stays there.
+export default function TypewriterText({ phrases, hold = 2500, className = 'typewriter-text' }) {
+  const [text, setText] = useState(phrases[0]);
 
   useEffect(() => {
-    if (!phrases || phrases.length === 0) return;
-    // Reduced motion: keep the first phrase fully typed instead of cycling
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    let word = 0;
+    let chars = phrases[0].length;
+    let erasing = true;
+    let timer;
 
-    const currentPhrase = phrases[phraseIdx];
-    let timeout;
-
-    if (phase === 'pause') {
-      // Hold the fully-typed phrase for 2.5 seconds, then start erasing
-      timeout = setTimeout(() => setPhase('erasing'), 2500);
-
-    } else if (phase === 'erasing') {
-      if (displayedText.length === 0) {
-        // Fully erased — advance to the next phrase and begin typing
-        const nextIdx = (phraseIdx + 1) % phrases.length;
-        setPhraseIdx(nextIdx);
-        setPhase('typing');
-      } else {
-        // Erase one character every 40 ms
-        timeout = setTimeout(() => {
-          setDisplayedText((prev) => prev.slice(0, -1));
-        }, 40);
+    const tick = () => {
+      if (erasing && chars > 0) {
+        chars -= 1;
+        setText(phrases[word].slice(0, chars));
+        timer = setTimeout(tick, ERASE_MS);
+        return;
       }
-
-    } else if (phase === 'typing') {
-      if (displayedText.length >= currentPhrase.length) {
-        // Fully typed — go back to pause
-        setPhase('pause');
-      } else {
-        // Type one character every 70 ms
-        timeout = setTimeout(() => {
-          setDisplayedText(currentPhrase.slice(0, displayedText.length + 1));
-        }, 70);
+      if (erasing) {
+        erasing = false;
+        word = (word + 1) % phrases.length;
       }
-    }
+      if (chars < phrases[word].length) {
+        chars += 1;
+        setText(phrases[word].slice(0, chars));
+        timer = setTimeout(tick, TYPE_MS);
+        return;
+      }
+      erasing = true;
+      timer = setTimeout(tick, hold);
+    };
 
-    return () => clearTimeout(timeout);
-  }, [displayedText, phase, phraseIdx, phrases]);
+    timer = setTimeout(tick, hold);
+    return () => clearTimeout(timer);
+  }, [phrases, hold]);
 
-  return (
-    <span className="typewriter-container">
-      <span className="highlight-gradient typewriter-text">{displayedText}</span>
-    </span>
-  );
+  return <span className={className}>{text}</span>;
 }

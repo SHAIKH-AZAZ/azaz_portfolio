@@ -1,12 +1,13 @@
-/* ── Delivery pipeline: numbered steps joined by arrows, ending in the live system ── */
 .dp {
     --dp-node: 2.6rem;
     --dp-gap: 2rem;
-    --dp-cycle: 4.8s; /* 3 beams x 1.2s, then a 1.2s rest on the live node */
+    /* --dp-count (steps + the live node) is set by DeliveryPipeline.js; each column gets 1.2s:
+       the beams run one after another, then the cycle rests on the live node */
+    --dp-cycle: calc(var(--dp-count) * 1.2s);
     position: relative;
     isolation: isolate;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--dp-count), minmax(0, 1fr));
     gap: var(--dp-gap);
     margin: 2.5rem 0 0;
     padding: 3rem 3.25rem;
@@ -62,7 +63,7 @@
     font-weight: 700;
     /* each node pulses as the beam reaches it (--i = its position) */
     animation: dpNodePulse var(--dp-cycle) ease-out infinite;
-    animation-delay: calc(var(--i) * var(--dp-cycle) / 4);
+    animation-delay: calc(var(--i) * var(--dp-cycle) / var(--dp-count));
 }
 
 .dp-live .dp-node {
@@ -120,9 +121,11 @@
     filter: drop-shadow(0 0 4px rgba(var(--accent-ink-rgb), 0.8));
     transform: translateX(-100%);
     animation: dpBeam var(--dp-cycle) cubic-bezier(0.45, 0, 0.25, 1) infinite;
-    animation-delay: calc(var(--i) * var(--dp-cycle) / 4);
+    animation-delay: calc(var(--i) * var(--dp-cycle) / var(--dp-count));
 }
 
+/* a beam runs for one column's share of the cycle: 25% = 1 / --dp-count (4). Keyframe stops
+   can't read variables, so update these if DeliveryPipeline.js gains or loses a step. */
 @keyframes dpBeam {
     0% {
         transform: translateX(-100%);

@@ -1,4 +1,3 @@
-/* ── Hero Scraper Animation Dashboard ── */
 .scraper-animation-shell {
     position: relative;
     z-index: 2;
@@ -15,6 +14,14 @@
     will-change: transform;
     overflow: hidden;
     margin: 0 auto;
+    /* tilt vars are set by HeroScraperAnimation; returning to flat overshoots slightly */
+    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition: transform 550ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scraper-animation-shell.is-tilting {
+    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-4px);
+    transition: transform 450ms var(--ease-out);
 }
 
 .window-chrome {
@@ -30,7 +37,6 @@
     background: rgba(var(--ink-rgb), 0.15);
 }
 
-/* Chrome tab bar */
 .scraper-animation-shell .window-chrome {
     position: relative;
     z-index: 2;
@@ -50,7 +56,6 @@
     white-space: nowrap;
 }
 
-/* Scraper Stage Content */
 .scraper-stage-content {
     position: relative;
     z-index: 2;
@@ -59,7 +64,6 @@
     gap: 1rem;
 }
 
-/* URL Input Bar & Control Buttons */
 .scraper-bar-container {
     display: flex;
     flex-direction: column;
@@ -166,13 +170,6 @@
     outline-offset: 1px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .tabs-wrapper[data-ready] .tab-indicator {
-        transition: none;
-    }
-}
-
-/* Scrape Action Run Circle Button */
 .action-run-btn {
     display: flex;
     align-items: center;
@@ -267,11 +264,6 @@
     color: rgba(var(--ink-rgb), 0.35);
 }
 
-.scrape-output-code .json-caret {
-    background: var(--accent-ink);
-    box-shadow: none;
-}
-
 .scrape-output-sweep {
     position: absolute;
     inset: 0 auto 0 -35%;
@@ -335,14 +327,15 @@
     min-width: 5.9rem;
 }
 
-.status-typewriter-caret {
+.status-typewriter::after {
+    content: "";
     display: inline-block;
     width: 2px;
     height: 0.86rem;
     margin-left: 3px;
     border-radius: 2px;
     background: var(--accent-ink);
-    animation: cursorBlink 0.8s infinite;
+    animation: var(--caret-blink);
 }
 
 .status-grid {
@@ -383,7 +376,6 @@
     }
 }
 
-/* caret typing indicator */
 .json-caret {
     display: inline-block;
     width: 6px;
@@ -391,10 +383,9 @@
     background: var(--accent-ink);
     margin-left: 2px;
     vertical-align: middle;
-    animation: cursorBlink 0.8s infinite;
+    animation: var(--caret-blink);
 }
 
-/* URL bar caret indicator */
 .url-caret {
     display: inline-block;
     width: 2px;
@@ -402,11 +393,6 @@
     background: var(--accent-ink);
     margin-left: 2px;
     vertical-align: middle;
-    animation: cursorBlink 0.8s infinite;
+    animation: var(--caret-blink);
 }
 
-@media (max-width: 768px) {
-    .scraper-animation-shell {
-        width: 100%;
-    }
-}
