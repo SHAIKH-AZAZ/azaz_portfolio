@@ -77,6 +77,9 @@ export const featuredWork = [
 export const LOGOS = Object.fromEntries(skills.flatMap((g) => g.tools));
 
 // accent lines are drawn in the accent colour and indented
+// every tool in the skills list, in turn on the stack section's moving tile board
+export const stackTools = skills.flatMap((g) => g.tools).map(([name, logo]) => ({ name, logo }));
+
 export const heroTitle = [
   { text: 'I turn manual' },
   { text: 'operations into' },

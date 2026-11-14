@@ -9,14 +9,14 @@ import ScrambleText from './components/ScrambleText';
 import DeliveryPipeline from './components/DeliveryPipeline';
 import Work from './components/Work';
 import Footer from './components/Footer';
-import StackOrbit from './components/StackOrbit';
+import StackGrid from './components/StackGrid';
 import BusinessImpact from './components/BusinessImpact';
 import IntroOverlay from './components/IntroOverlay';
 import { IntroScript } from './components/intro';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
 import JsonLd from './components/JsonLd';
-import { skills, services, featuredWork, BUILDS, liveCount, heroTitle, heroMetrics, marquee, pocWaste } from './data';
+import { skills, services, featuredWork, BUILDS, liveCount, heroTitle, heroMetrics, marquee, pocWaste, stackTools } from './data';
 import { BASE_URL, EMAIL, LINKEDIN, PERSON_ID, WEBSITE_ID } from './site';
 
 // Structured data, generated from the same arrays the page renders so the two can't drift.
@@ -130,14 +130,15 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section orbit-section" aria-label="Stack and results">
-          <StackOrbit
+        <section className="section stack-section" aria-label="Stack and results">
+          <StackGrid
             stats={[
               { value: featuredWork.length + BUILDS.length, label: 'Projects built' },
               { value: skills.reduce((n, g) => n + g.tools.length, 0), label: 'Tools in the stack' },
               { value: liveCount, label: 'Apps live' },
             ]}
             headline={<>The stack behind every<br /> system I ship</>}
+            tools={stackTools}
           />
         </section>
 
