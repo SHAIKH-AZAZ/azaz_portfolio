@@ -1,7 +1,7 @@
 .site-header {
     position: fixed;
     inset: 0 0 auto;
-    z-index: 40;
+    z-index: var(--z-header);
     padding: 1rem 0;
 }
 
@@ -36,14 +36,11 @@
     font-weight: 700;
     letter-spacing: 0.02em;
     color: var(--text);
-}
-
-.brand span {
-    color: var(--accent-ink);
-}
-
-.brand {
     transition: opacity 200ms ease;
+}
+
+.brand-accent {
+    color: var(--accent-ink);
 }
 
 .brand:hover {
@@ -136,11 +133,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nav a::after,
-    .header-cta {
-        transition: none;
-    }
-
     .header-cta:hover {
         transform: none;
     }
@@ -192,11 +184,11 @@
     outline-offset: 2px;
 }
 
-/* sits under the header (z 40) so the X stays clickable */
+/* sits under the header so the X stays clickable */
 .mobile-nav {
     position: fixed;
     inset: 0;
-    z-index: 39;
+    z-index: var(--z-mobile-nav);
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -213,10 +205,6 @@
 .mobile-nav.is-open {
     opacity: 1;
     visibility: visible;
-}
-
-body:has(.mobile-nav.is-open) .scroll-progress-container {
-    display: none;
 }
 
 .mobile-nav-links {
@@ -252,13 +240,6 @@ body:has(.mobile-nav.is-open) .scroll-progress-container {
 
 .mobile-nav-footer a:hover {
     color: var(--text);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .mobile-menu-btn span,
-    .mobile-nav {
-        transition: none;
-    }
 }
 
 /* JS twin: the (min-width: 821px) query in Header.js closes the drawer */

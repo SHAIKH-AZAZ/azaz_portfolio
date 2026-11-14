@@ -16,7 +16,7 @@
     line-height: 1.04;
     letter-spacing: -0.045em;
     color: var(--text);
-    min-height: calc(1.04em * 4);
+    min-height: 4lh;
 }
 
 .contact-panel p {
@@ -31,7 +31,7 @@
     }
 
     .contact-panel h2 {
-        min-height: calc(1.04em * 5);
+        min-height: 5lh;
     }
 }
 

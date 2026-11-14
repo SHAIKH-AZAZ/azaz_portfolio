@@ -169,20 +169,6 @@
     line-height: 1.7;
 }
 
-/* full-width row (tablet): visual beside the text so the diagram stays card-sized */
-@media (min-width: 641px) and (max-width: 999px) {
-    .int-card {
-        display: grid;
-        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-        align-items: center;
-    }
-
-    .int-visual {
-        border-bottom: 0;
-        border-right: 1px solid var(--line);
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     .int-beam {
         display: none;

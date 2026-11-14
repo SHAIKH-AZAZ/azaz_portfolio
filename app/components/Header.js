@@ -45,7 +45,7 @@ export default function Header() {
     <>
       <header ref={headerRef} className="site-header">
         <div className="site-header-inner">
-          <a className="brand" href="#top" onClick={close}><span>Azaz</span> Shaikh</a>
+          <a className="brand" href="#top" onClick={close}><span className="brand-accent">Azaz</span> Shaikh</a>
           <nav className="nav" aria-label="Primary">
             {LINKS.map(([href, label]) => <a key={href} href={href}>{label}</a>)}
           </nav>

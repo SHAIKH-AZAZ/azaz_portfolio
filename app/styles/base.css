@@ -12,12 +12,12 @@
 }
 
 /* Blended over the page so the text stays visible: screen keeps light text light on the dark
-   theme, multiply keeps dark text dark on the light theme. Under the header (z 40). */
+   theme, multiply keeps dark text dark on the light theme. */
 .sel-layer {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 35;
+    z-index: var(--z-selection);
     pointer-events: none;
     mix-blend-mode: multiply;
 }
@@ -86,7 +86,7 @@ textarea {
     left: 1.5rem;
     width: 2px;
     bottom: 15vh;
-    z-index: 50;
+    z-index: var(--z-progress);
     pointer-events: none;
 }
 
@@ -117,14 +117,6 @@ textarea {
     will-change: transform;
 }
 
-.glass {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(16px);
-    will-change: transform, border-color;
-}
-
 main {
     position: relative;
     z-index: 2;
@@ -145,7 +137,7 @@ main {
     transform: translateY(2rem);
     transition:
         opacity 700ms ease,
-        transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform 700ms var(--ease-out);
     transition-delay: calc(var(--reveal-i, 0) * 80ms);
 }
 
@@ -166,17 +158,13 @@ main {
     }
 }
 
+/* reduced motion: every transition and animation finishes at once */
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
     *,
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
     }
 }

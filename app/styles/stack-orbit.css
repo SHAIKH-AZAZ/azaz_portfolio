@@ -63,7 +63,7 @@
 }
 
 .orbit.is-visible .orbit-item {
-    animation: orbitPop 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: orbitPop 0.5s var(--ease-out) forwards;
     animation-delay: calc(0.5s + var(--i) * 0.07s);
 }
 
@@ -291,7 +291,7 @@
 .orbit.is-visible .orbit-stat,
 .orbit.is-visible .orbit-headline,
 .orbit.is-visible .orbit-tag {
-    animation: orbitReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: orbitReveal 0.6s var(--ease-out) forwards;
 }
 
 .orbit.is-visible .orbit-stat {

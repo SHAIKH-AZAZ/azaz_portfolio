@@ -7,6 +7,14 @@
    these tokens; the canvases read them at runtime.
    --electric is the code/selection blue: string values in the code panels and the text-selection highlight. */
 :root {
+    /* stacking order, bottom to top; page content uses 0-2 */
+    --z-progress: 30;
+    --z-selection: 35;
+    --z-mobile-nav: 39;
+    --z-header: 40;
+    --z-intro: 100;
+    /* the site's one easing: fast start, long soft landing */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     color-scheme: light;
     --bg: #ffffff;
     --bg-soft: #f2f6fa;
@@ -38,7 +46,6 @@
     --shadow-rgb: 42, 53, 71;
     --shadow-k: 0.18;
     --shadow: 0 4px 30px rgba(var(--shadow-rgb), calc(0.45 * var(--shadow-k)));
-    --shadow-hover: 0 12px 50px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
     --radius-xl: 24px;
     --radius-lg: 16px;
     --radius-md: 12px;

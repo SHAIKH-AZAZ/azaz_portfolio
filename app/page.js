@@ -16,7 +16,7 @@ import { IntroScript } from './components/intro';
 import AboutFlow from './components/AboutFlow';
 import Header from './components/Header';
 import JsonLd from './components/JsonLd';
-import { skills, services, featuredWork, BUILDS, liveCount, heroMetrics, marquee, pocWaste } from './data';
+import { skills, services, featuredWork, BUILDS, liveCount, heroTitle, heroMetrics, marquee, pocWaste } from './data';
 import { BASE_URL, EMAIL, LINKEDIN, PERSON_ID, WEBSITE_ID } from './site';
 
 // Structured data, generated from the same arrays the page renders so the two can't drift.
@@ -84,17 +84,18 @@ export default function Home() {
       <Header />
 
       <main id="top">
-        <section className="section hero">
+        <section className="section hero" style={{ '--hero-lines': heroTitle.length }}>
           <div className="hero-copy reveal">
             <p className="hero-status">
               <span className="hero-status-dot" aria-hidden="true" />
               Open to freelance and remote roles
             </p>
             <h1>
-              <span className="title-line"><span className="title-word">I turn manual</span></span>
-              <span className="title-line"><span className="title-word">operations into</span></span>
-              <span className="title-line"><span className="title-word">software that</span></span>
-              <span className="title-line"><span className="title-word">runs itself.</span></span>
+              {heroTitle.map((line, i) => (
+                <span className="title-line" key={line} style={{ '--line-i': i }}>
+                  <span className="title-word">{line}</span>
+                </span>
+              ))}
             </h1>
             <p className="lead">
               I&apos;m Azaz Shaikh, a full-stack engineer. I build web apps and automation tools that
@@ -189,7 +190,7 @@ export default function Home() {
             <h2>My professional journey and hands-on industry experience.</h2>
           </div>
           <div className="experience-list">
-            <article className="experience-card glass reveal">
+            <article className="experience-card reveal">
               <div className="exp-header">
                 <h3>Full Stack IT Engineer</h3>
                 <span className="exp-company">Buniyadbyte</span>
@@ -203,7 +204,7 @@ export default function Home() {
                 algorithms to minimize raw material waste and built a complete project management interface.
               </p>
             </article>
-            <article className="experience-card glass reveal">
+            <article className="experience-card reveal">
               <div className="exp-header">
                 <h3>QA Manual and Automations Engineer Intern</h3>
                 <span className="exp-company">Maxgen Web Technologies</span>
@@ -259,7 +260,7 @@ export default function Home() {
           <div className="service-grid">
             <IntegrationCard />
             {services.map((sv, i) => (
-              <article className="service-card glass reveal" key={sv.name}>
+              <article className="service-card reveal" key={sv.name}>
                 <Notch n={String(i + 1).padStart(2, '0')} />
                 <h3>{sv.name}</h3>
                 <p>{sv.text}</p>

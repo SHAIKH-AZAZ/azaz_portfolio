@@ -88,9 +88,9 @@
     place-items: center;
 }
 
-/* the card follows the title words in */
+/* title lines come in 100 ms apart (--line-i, set in page.js); the card follows the last one */
 .has-motion .hero-stage.reveal {
-    transition-delay: 600ms;
+    transition-delay: calc(var(--hero-lines) * 100ms + 200ms);
 }
 
 .has-motion .hero-copy h1 .title-word {
@@ -101,7 +101,7 @@
     transition:
         opacity 480ms ease,
         filter 700ms ease,
-        transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform 800ms var(--ease-out);
     will-change: opacity, filter, transform;
 }
 
@@ -111,17 +111,8 @@
     transform: translateY(0) skewY(0);
 }
 
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(1) .title-word {
-    transition-delay: 100ms;
-}
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(2) .title-word {
-    transition-delay: 200ms;
-}
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(3) .title-word {
-    transition-delay: 300ms;
-}
-.has-motion .hero-copy.is-visible h1 .title-line:nth-child(4) .title-word {
-    transition-delay: 400ms;
+.has-motion .hero-copy.is-visible h1 .title-word {
+    transition-delay: calc(var(--line-i) * 100ms + 100ms);
 }
 
 @media (max-width: 1100px) {

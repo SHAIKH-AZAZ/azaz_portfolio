@@ -36,12 +36,6 @@
     transform: rotate(-20deg) scale(1.1);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .theme-toggle svg {
-        transition: none;
-    }
-}
-
 .theme-icon-sun,
 [data-theme="dark"] .theme-icon-moon {
     display: none;

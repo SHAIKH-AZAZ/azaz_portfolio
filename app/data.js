@@ -73,6 +73,8 @@ export const featuredWork = [
     stack: ['Python', 'Checkout', 'Tracking'],
   },
 ];
+export const heroTitle = ['I turn manual', 'operations into', 'software that', 'runs itself.'];
+
 export const heroMetrics = [
   { value: '1+', label: 'Year of full-stack engineering experience' },
   { value: '15+', label: 'Business operations optimized through code' },

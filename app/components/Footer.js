@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="footer-brand-col">
           <a className="brand footer-brand" href="#top">
             <span className="brand-icon" aria-hidden="true">AS</span>
-            <span className="footer-brand-name"><span>Azaz</span> Shaikh</span>
+            <span><span className="brand-accent">Azaz</span> Shaikh</span>
           </a>
           <p className="footer-bio">
             Building production-ready web systems for growing brands. From concept to deployment.
