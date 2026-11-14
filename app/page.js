@@ -91,15 +91,16 @@ export default function Home() {
               Open to freelance and remote roles
             </p>
             <h1>
-              {heroTitle.map((line, i) => (
-                <span className="title-line" key={line} style={{ '--line-i': i }}>
-                  <span className="title-word">{line}</span>
+              {heroTitle.map(({ text, accent }, i) => (
+                <span className={accent ? 'title-line is-accent' : 'title-line'} key={text} style={{ '--line-i': i }}>
+                  <span className="title-word">{text}</span>
                 </span>
               ))}
             </h1>
             <p className="lead">
-              I&apos;m Azaz Shaikh, a full-stack engineer. I build web apps and automation tools that
-              replace spreadsheets and copy-paste, from steel cutting plans to live shipment tracking.
+              I&apos;m Azaz Shaikh, a <mark className="lead-mark">full-stack engineer</mark>. I build web apps
+              and automation tools that <mark className="lead-mark">replace spreadsheets and copy-paste</mark>,
+              from steel cutting plans to <mark className="lead-mark">live shipment tracking</mark>.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#work">View projects</a>

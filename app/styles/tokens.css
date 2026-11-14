@@ -39,6 +39,9 @@
     --accent-ink: #2b4acb;
     --accent-ink-strong: #1f3fbf;
     --accent-ink-rgb: 43, 74, 203;
+    /* coloured emphasis in text: the hero's accent lines and the lead's key-phrase chips */
+    --highlight: var(--accent-ink);
+    --highlight-rgb: var(--accent-ink-rgb);
     --ink-rgb: 42, 53, 71;
     --sheet: #ffffff;
     --ok: #0f7b53;
@@ -88,6 +91,8 @@
     --ok-rgb: 52, 211, 153;
     --electric: #1fb6ff; /* 8.2:1 on the dark panel; near-black on it 8.8:1 */
     --electric-rgb: 31, 182, 255;
+    --highlight: var(--electric);
+    --highlight-rgb: var(--electric-rgb);
     --card-bg: #0b0d12;
     --card-glow-rgb: var(--electric-rgb);
     --on-electric: #070709;

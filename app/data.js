@@ -76,7 +76,13 @@ export const featuredWork = [
 // logo file for a tool name, from the skills list (shared by the other-builds chips and the integration card)
 export const LOGOS = Object.fromEntries(skills.flatMap((g) => g.tools));
 
-export const heroTitle = ['I turn manual', 'operations into', 'software that', 'runs itself.'];
+// accent lines are drawn in the accent colour and indented
+export const heroTitle = [
+  { text: 'I turn manual' },
+  { text: 'operations into' },
+  { text: 'software that', accent: true },
+  { text: 'runs itself.', accent: true },
+];
 
 export const heroMetrics = [
   { value: '1+', label: 'Year of full-stack engineering experience' },
