@@ -265,9 +265,8 @@
     height: 1.1em;
     margin-left: 2px;
     background: var(--accent-ink);
-    box-shadow: none;
     vertical-align: -0.15em;
-    animation: cursorBlink 0.8s infinite;
+    animation: var(--caret-blink);
 }
 
 .ctd-output-panel {

@@ -5,7 +5,7 @@ import 'lenis/dist/lenis.css';
 
 // Page-wide motion. Any element with `.reveal` fades up the first time it scrolls in (the
 // transition is CSS in base.css; this only adds `.is-visible`). `body.has-motion` gates those
-// styles, so without JS nothing is hidden. Elements revealed together stagger by 80 ms.
+// styles, so without JS nothing is hidden. Elements revealed together stagger.
 export default function Motion() {
   useEffect(() => {
     const body = document.body;

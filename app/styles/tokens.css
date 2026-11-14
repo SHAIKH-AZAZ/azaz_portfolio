@@ -15,8 +15,10 @@
     --z-intro: 100;
     /* the site's one easing: fast start, long soft landing */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    /* every blinking text caret (keyframes in ui.css) */
+    --caret-blink: cursorBlink 0.8s infinite;
     color-scheme: light;
-    --bg: #ffffff;
+    --bg: #ffffff; /* copied in THEME_COLOR (components/theme.js) */
     --bg-soft: #f2f6fa;
     --sunken-rgb: 242, 246, 250;
     --panel: rgba(248, 250, 252, 0.9);
@@ -55,7 +57,7 @@
 
 :root[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #070709;
+    --bg: #070709; /* copied in THEME_COLOR (components/theme.js) */
     --bg-soft: #0e0f12;
     --sunken-rgb: 20, 21, 24;
     --panel: rgba(20, 21, 24, 0.78);

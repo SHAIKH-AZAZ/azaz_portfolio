@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import TypewriterText from './TypewriterText';
+import { BASE_URL } from '../site';
 
 const MODES = {
   PROFILE: {
-    url: 'https://azazshaikh.info/profile',
+    url: `${BASE_URL}/profile`,
     label: 'Profile',
     json: `[
   {
@@ -18,7 +19,7 @@ const MODES = {
 ]`
   },
   STACK: {
-    url: 'https://azazshaikh.info/stack',
+    url: `${BASE_URL}/stack`,
     label: 'Stack',
     json: `[
   {
@@ -30,7 +31,7 @@ const MODES = {
 ]`
   },
   PROJECTS: {
-    url: 'https://azazshaikh.info/work',
+    url: `${BASE_URL}/work`,
     label: 'Work',
     json: `[
   {
@@ -42,7 +43,7 @@ const MODES = {
 ]`
   },
   CONTACT: {
-    url: 'https://azazshaikh.info/contact',
+    url: `${BASE_URL}/contact`,
     label: 'Hire',
     json: `[
   {
@@ -55,6 +56,7 @@ const MODES = {
   }
 };
 
+const MODE_KEYS = Object.keys(MODES);
 const STATUS_WORDS = ['Thinking', 'Designing', 'Programming', 'Deploying'];
 const SCAN_MS = 1400;
 
@@ -162,9 +164,8 @@ export default function HeroScraperAnimation() {
     const startAutoplay = () => {
       timerRef.current = setInterval(() => {
         setActiveMode((prev) => {
-          const keys = Object.keys(MODES);
-          const nextIdx = (keys.indexOf(prev) + 1) % keys.length;
-          return keys[nextIdx];
+          const nextIdx = (MODE_KEYS.indexOf(prev) + 1) % MODE_KEYS.length;
+          return MODE_KEYS[nextIdx];
         });
       }, 7500);
     };
@@ -223,20 +224,19 @@ export default function HeroScraperAnimation() {
     };
   }, [activeMode]);
 
-  const modeKeys = Object.keys(MODES);
 
   const handleTabKeyDown = (event) => {
-    const i = modeKeys.indexOf(activeMode);
+    const i = MODE_KEYS.indexOf(activeMode);
     const next = {
-      ArrowRight: (i + 1) % modeKeys.length,
-      ArrowLeft: (i - 1 + modeKeys.length) % modeKeys.length,
+      ArrowRight: (i + 1) % MODE_KEYS.length,
+      ArrowLeft: (i - 1 + MODE_KEYS.length) % MODE_KEYS.length,
       Home: 0,
-      End: modeKeys.length - 1,
+      End: MODE_KEYS.length - 1,
     }[event.key];
     if (next === undefined) return;
     event.preventDefault();
-    handleTabClick(modeKeys[next]);
-    tabRefs.current[modeKeys[next]]?.focus();
+    handleTabClick(MODE_KEYS[next]);
+    tabRefs.current[MODE_KEYS[next]]?.focus();
   };
 
   const handleTabClick = (modeId) => {

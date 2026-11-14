@@ -7,6 +7,6 @@
     background: var(--accent-ink);
     margin-left: 6px;
     border-radius: 2px;
-    animation: cursorBlink 0.8s infinite;
+    animation: var(--caret-blink);
     vertical-align: -0.08em;
 }

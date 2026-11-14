@@ -10,7 +10,7 @@
 }
 
 /* Hidden unless the pre-paint script in components/intro.js opts in (first visit, JS on).
-   Failsafe: if the JS bundle never takes over, get out of the way after 6s. */
+   Failsafe: if the JS bundle never takes over, get out of the way after 6s (IntroOverlay.js cancels it). */
 html.intro-play .intro {
     display: grid;
     animation: intro-failsafe 0s 6s forwards;

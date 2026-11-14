@@ -18,6 +18,8 @@ export default function IntroOverlay() {
     }
 
     const el = root.current;
+    // JS owns the overlay now; the CSS 6 s failsafe (intro-overlay.css) is only for when it never runs
+    el.style.animation = 'none';
     const q = gsap.utils.selector(el);
     const count = { v: 0 };
     document.documentElement.style.overflow = 'hidden';

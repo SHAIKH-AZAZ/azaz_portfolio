@@ -73,6 +73,9 @@ export const featuredWork = [
     stack: ['Python', 'Checkout', 'Tracking'],
   },
 ];
+// logo file for a tool name, from the skills list (shared by the other-builds chips and the integration card)
+export const LOGOS = Object.fromEntries(skills.flatMap((g) => g.tools));
+
 export const heroTitle = ['I turn manual', 'operations into', 'software that', 'runs itself.'];
 
 export const heroMetrics = [
