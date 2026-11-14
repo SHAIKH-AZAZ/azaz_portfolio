@@ -20,7 +20,7 @@ export default function DotField() {
     // colours are CSS tokens, so they follow the theme
     const readPalette = () => {
       const css = getComputedStyle(document.documentElement);
-      dotColor = `rgb(${css.getPropertyValue('--ink-rgb').trim()})`;
+      dotColor = `rgb(${css.getPropertyValue('--dot-rgb').trim()})`;
       hotRgb = css.getPropertyValue('--accent-ink-rgb').trim();
       base = parseFloat(css.getPropertyValue('--dot-alpha')) || 0.2;
     };
