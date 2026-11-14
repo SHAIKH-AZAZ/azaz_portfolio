@@ -28,9 +28,6 @@
 @media (max-width: 820px) {
     .contact-panel h2 {
         max-width: 100%;
-    }
-
-    .contact-panel h2 {
         min-height: 5lh;
     }
 }

@@ -109,9 +109,6 @@
     opacity: 1;
     filter: blur(0);
     transform: translateY(0) skewY(0);
-}
-
-.has-motion .hero-copy.is-visible h1 .title-word {
     transition-delay: calc(var(--line-i) * 100ms + 100ms);
 }
 
@@ -166,10 +163,6 @@
 }
 
 @media (max-width: 640px) {
-    .hero {
-        padding-top: 4.5rem;
-    }
-
     .hero-stage {
         min-height: 28rem;
     }

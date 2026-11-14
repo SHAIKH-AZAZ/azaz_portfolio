@@ -93,6 +93,9 @@ export const services = [
   { name: 'SaaS Architectures', text: 'Scalable software foundations with robust authentication, role-based access, and fast response times.' },
 ];
 
+// id of a featured project's sheet in the Work section (linked from its index and the footer)
+export const workId = (i) => `work-${i + 1}`;
+
 export const liveCount = featuredWork.filter((w) => w.url).length;
 
 // Smaller builds without a live link or screenshot (rendered by OtherBuilds).

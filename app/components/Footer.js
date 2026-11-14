@@ -1,4 +1,4 @@
-import { featuredWork, BUILDS, services } from '../data';
+import { featuredWork, BUILDS, services, workId } from '../data';
 import { EMAIL, GITHUB, LINKEDIN } from '../site';
 
 export default function Footer() {
@@ -45,7 +45,7 @@ export default function Footer() {
                     {w.name} <span className="footer-ext" aria-hidden="true">↗</span>
                   </a>
                 ) : (
-                  <a href={`#work-${i + 1}`}>{w.name}</a>
+                  <a href={`#${workId(i)}`}>{w.name}</a>
                 )}
               </li>
             ))}

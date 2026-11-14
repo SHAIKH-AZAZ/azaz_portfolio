@@ -1,5 +1,5 @@
 import OtherBuilds from './OtherBuilds';
-import { featuredWork, BUILDS, liveCount } from '../data';
+import { featuredWork, BUILDS, liveCount, workId } from '../data';
 
 export default function Work() {
   return (
@@ -15,7 +15,7 @@ export default function Work() {
         <nav className="work-index reveal" aria-label="Featured projects">
           <p>Index</p>
           {featuredWork.map((w, i) => (
-            <a href={`#work-${i + 1}`} key={w.name}>
+            <a href={`#${workId(i)}`} key={w.name}>
               <span className="work-num">{String(i + 1).padStart(2, '0')}</span>
               <span className="work-index-name">{w.name}</span>
               <span className={w.url ? 'work-status' : 'work-status is-private'}>{w.url ? 'Live' : 'Private'}</span>
@@ -28,7 +28,7 @@ export default function Work() {
           const n = String(i + 1).padStart(2, '0');
           const host = w.url && new URL(w.url).host;
           return (
-            <article className="work-item reveal" id={`work-${i + 1}`} key={w.name}>
+            <article className="work-item reveal" id={workId(i)} key={w.name}>
               <p className="work-sheet">
                 <span>Sheet {n} / {String(featuredWork.length).padStart(2, '0')} — {w.kind}</span>
                 <span className={w.url ? 'work-status' : 'work-status is-private'}>{w.url ? 'Live' : 'Private build'}</span>

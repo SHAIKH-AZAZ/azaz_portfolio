@@ -53,15 +53,10 @@
     gap: 0.25rem;
 }
 
-.nav a,
-.header-cta {
+.nav a {
     color: var(--muted);
     font-size: 0.9rem;
     font-weight: 500;
-    transition: color 200ms ease;
-}
-
-.nav a {
     position: relative;
     padding: 0.45rem 0.8rem;
     border-radius: 8px;
@@ -101,6 +96,7 @@
 }
 
 .header-cta {
+    font-size: 0.9rem;
     padding: 0.6rem 1.1rem;
     border-radius: 10px;
     color: var(--on-accent);

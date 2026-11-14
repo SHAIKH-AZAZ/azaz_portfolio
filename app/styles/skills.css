@@ -110,9 +110,7 @@
         grid-template-columns: 1fr;
         gap: 0.5rem;
     }
-}
 
-@media (max-width: 640px) {
     .skill-panel {
         padding: 1.25rem;
     }

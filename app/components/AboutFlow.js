@@ -1,6 +1,20 @@
-// Before → three steps → after. SVG draws the lanes; HTML holds nodes and text so both stay crisp.
-// the straight core line in viewBox x units (of 1000); the messy lanes end and the clean ones start here
-const CORE = [300, 700];
+// Before → steps → after, one column each. SVG draws the lanes; HTML holds nodes and text so both stay crisp.
+const before = { title: 'Manual, scattered work', text: 'Spreadsheets, copy-paste and decisions made by hand.' };
+const steps = [
+  { title: 'Operational efficiency', text: 'Find the bottleneck and automate the manual tasks around it.' },
+  { title: 'Algorithmic precision', text: 'Custom optimization logic for logistics, allocation and cutting.' },
+  { title: 'Scalable architecture', text: 'Robust backends and resilient frontends that grow with the load.' },
+];
+const after = { title: 'Runs on its own', text: 'Fewer errors, and hours saved every week.' };
+
+// The graphic lines up with the text columns (--flow-cols drives the grid in about.css). x is in
+// viewBox units of 1000: each step node sits at its column's centre, and the straight core line
+// runs from the first step to the last.
+const COLS = steps.length + 2;
+const colCentre = (col) => ((col + 0.5) * 1000) / COLS;
+const CORE = [colCentre(1), colCentre(steps.length)];
+const nodeLeft = (i) => `${colCentre(i + 1) / 10}%`;
+
 const messy = [
   `M0,18 C60,18 70,60 120,40 S200,10 240,50 S285,70 ${CORE[0]},70`,
   `M0,52 C50,30 90,90 140,62 S210,95 250,72 S288,70 ${CORE[0]},70`,
@@ -9,19 +23,9 @@ const messy = [
 ];
 const clean = [18, 52, 92, 124].map((y) => `M${CORE[1]},70 C${CORE[1] + 80},70 ${CORE[1] + 100},${y} ${CORE[1] + 180},${y} H1000`);
 
-const before = { title: 'Manual, scattered work', text: 'Spreadsheets, copy-paste and decisions made by hand.' };
-const steps = [
-  { title: 'Operational efficiency', text: 'Find the bottleneck and automate the manual tasks around it.' },
-  { title: 'Algorithmic precision', text: 'Custom optimization logic for logistics, allocation and cutting.' },
-  { title: 'Scalable architecture', text: 'Robust backends and resilient frontends that grow with the load.' },
-];
-const after = { title: 'Runs on its own', text: 'Fewer errors, and hours saved every week.' };
-// step i sits at an even spacing along the core line, as a % of the width
-const nodeLeft = (i) => `${(CORE[0] + (i * (CORE[1] - CORE[0])) / (steps.length - 1)) / 10}%`;
-
 export default function AboutFlow() {
   return (
-    <div className="about-flow">
+    <div className="about-flow" style={{ '--flow-cols': COLS }}>
       <div className="flow-graphic" aria-hidden="true">
         <svg viewBox="0 0 1000 140" preserveAspectRatio="none">
           {messy.map((d, i) => (
