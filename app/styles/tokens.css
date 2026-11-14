@@ -1,6 +1,6 @@
 /* Two themes, one rule: neutrals carry the page, one accent carries the emphasis.
    Paper (light): a periwinkle scale (coolors.co/palette/edf2fb-e2eafc-d7e3fc-ccdbfd-c1d3fe-b6ccfe-abc4ff)
-   steps the surfaces from page (#EDF2FB) to sunken (#D7E3FC), with white panels on top, slate ink, one deep-blue accent.
+   steps the surfaces on a white page, from soft bands (#E2EAFC) to sunken (#D7E3FC); slate ink, one deep-blue accent.
    Ink (dark, the default): near-achromatic black stepped by lightness (bg → panel → sheet), white as the accent, so emphasis
    comes from lightness, not hue. In Ink, green (--ok) is the only colour and means one thing: live / done.
    --accent fills (buttons, dots); --accent-ink draws (text, lines, bars). Every color on the site derives from
@@ -18,7 +18,7 @@
     /* every blinking text caret (keyframes in ui.css) */
     --caret-blink: cursorBlink 0.8s infinite;
     color-scheme: light;
-    --bg: #edf2fb; /* copied in THEME_COLOR (components/theme.js) */
+    --bg: #ffffff; /* copied in THEME_COLOR (components/theme.js) */
     --bg-soft: #e2eafc;
     --sunken-rgb: 215, 227, 252; /* #D7E3FC */
     /* the dotted cards (cards.css): base fill and the colour of the glow at their top */
