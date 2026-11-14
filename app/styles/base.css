@@ -9,21 +9,24 @@
 
 .sel-rounded ::selection {
     background: transparent;
+    color: var(--selection-text);
 }
 
-/* Blended over the page so the text stays visible: screen keeps light text light on the dark
-   theme, multiply keeps dark text dark on the light theme. */
+/* The pills sit over the text and blend so the text stays visible. Selected text is recoloured
+   (above) to the far end from the pill, and the blend keeps whichever is further: lighten on the
+   dark theme, darken on the light one. The pill colour is past the background dots on every
+   channel, so the dots vanish inside a selection instead of showing through. */
 .sel-layer {
     position: absolute;
     top: 0;
     left: 0;
     z-index: var(--z-selection);
     pointer-events: none;
-    mix-blend-mode: multiply;
+    mix-blend-mode: darken;
 }
 
 :root[data-theme="dark"] .sel-layer {
-    mix-blend-mode: screen;
+    mix-blend-mode: lighten;
 }
 
 .sel-layer span {
