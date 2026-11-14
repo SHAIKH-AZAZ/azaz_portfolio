@@ -110,15 +110,19 @@
 
 /* A window (--window-cols wide, 5 rows) onto an endless checkerboard of tiles that drifts left to right. The track holds
    two identical copies of one period (--period columns, set by StackGrid.js) and slides by exactly
-   one period, so the loop has no seam. The mask is solid in the middle and fully transparent at
-   every edge (closest-side), so tiles fade in on the left and out on the right instead of being cut. */
+   one period, so the loop has no seam. Two linear masks, one per axis, intersect into a rectangle
+   that is solid in the middle and soft at every edge, so tiles fade in on the left and out on the right. */
 .stack-window {
     position: relative;
     width: calc(var(--window-cols) * var(--cell));
     height: calc(5 * var(--cell));
     overflow: hidden;
-    -webkit-mask-image: radial-gradient(closest-side, #000 60%, transparent);
-    mask-image: radial-gradient(closest-side, #000 60%, transparent);
+    --fade: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent),
+        linear-gradient(transparent, #000 18%, #000 82%, transparent);
+    -webkit-mask-image: var(--fade);
+    -webkit-mask-composite: source-in;
+    mask-image: var(--fade);
+    mask-composite: intersect;
 }
 
 .stack-track {
@@ -152,11 +156,22 @@
     background: rgba(var(--ink-rgb), 0.03);
 }
 
-/* logos keep their brand colours on the shared light tile, like the skills list */
+/* light theme: logos keep their brand colours on the shared light tile, like the skills list */
 .stack-tile.has-logo {
     background: var(--logo-tile);
     border-color: var(--line-strong);
     box-shadow: 0 1px 2px rgba(var(--shadow-rgb), calc(0.3 * var(--shadow-k)));
+}
+
+/* dark theme: glass tiles instead of white ones (which glared); mostly-black logos ('dark' in
+   data.js) are inverted, and the hue turned back so their colour accents stay close to the brand */
+:root[data-theme="dark"] .stack-tile.has-logo {
+    background: rgba(var(--ink-rgb), 0.07);
+    box-shadow: inset 0 1px 0 rgba(var(--ink-rgb), 0.06);
+}
+
+:root[data-theme="dark"] .stack-tile.is-dark-logo img {
+    filter: invert(1) hue-rotate(180deg);
 }
 
 .stack-tile img {

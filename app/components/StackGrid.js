@@ -80,7 +80,9 @@ export default function StackGrid({ stats, headline, tools }) {
               CELLS.map(({ row, col, slot }) => (
                 <span
                   key={`${copy}-${row}-${col}`}
-                  className={slot === undefined ? 'stack-tile' : 'stack-tile has-logo'}
+                  className={
+                    slot === undefined ? 'stack-tile' : `stack-tile has-logo${tools[slot % tools.length].dark ? ' is-dark-logo' : ''}`
+                  }
                   style={{ '--row': row, '--col': col + copy * PERIOD }}
                 >
                   {slot !== undefined && (

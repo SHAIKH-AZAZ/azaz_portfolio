@@ -1,30 +1,32 @@
 // Page content: edit projects and skills here; the page, sitemap and JSON-LD all read from it.
 // Server-only by convention: client components get what they need as props.
 
+// tools: [name, logo file in /public/logos, 'dark' if the logo is mostly black and needs
+// inverting on dark surfaces]
 export const skills = [
   {
     group: 'Frontend',
-    tools: [['React', 'react.svg'], ['Next.js', 'nextjs.svg'], ['JavaScript', 'javascript.svg'], ['HTML5', 'html5.svg'], ['CSS', 'css3.svg'], ['Tailwind CSS', 'tailwindcss.svg']],
+    tools: [['React', 'react.svg'], ['Next.js', 'nextjs.svg', 'dark'], ['JavaScript', 'javascript.svg'], ['HTML5', 'html5.svg'], ['CSS', 'css3.svg'], ['Tailwind CSS', 'tailwindcss.svg']],
     practices: ['Motion UI'],
   },
   {
     group: 'Backend',
-    tools: [['Node.js', 'nodejs.svg'], ['Express', 'express.svg'], ['Python', 'python.svg'], ['MongoDB', 'mongodb.svg']],
+    tools: [['Node.js', 'nodejs.svg'], ['Express', 'express.svg', 'dark'], ['Python', 'python.svg'], ['MongoDB', 'mongodb.svg']],
     practices: ['REST APIs', 'SQL', 'optimization algorithms'],
   },
   {
     group: 'DevOps & cloud',
-    tools: [['Docker', 'docker.svg'], ['GitHub Actions', 'githubactions.svg'], ['AWS', 'aws.svg'], ['Linux', 'linux.webp'], ['Nginx', 'nginx.svg'], ['Vercel', 'vercel.svg']],
+    tools: [['Docker', 'docker.svg'], ['GitHub Actions', 'githubactions.svg'], ['AWS', 'aws.svg', 'dark'], ['Linux', 'linux.webp', 'dark'], ['Nginx', 'nginx.svg'], ['Vercel', 'vercel.svg', 'dark']],
     practices: ['CI/CD pipelines'],
   },
   {
     group: 'Testing & tools',
-    tools: [['Selenium', 'selenium.svg'], ['Cypress', 'cypress.svg'], ['Postman', 'postman.svg'], ['Git', 'git.svg'], ['GitHub', 'github.svg']],
+    tools: [['Selenium', 'selenium.svg'], ['Cypress', 'cypress.svg', 'dark'], ['Postman', 'postman.svg'], ['Git', 'git.svg'], ['GitHub', 'github.svg', 'dark']],
     practices: ['Manual testing', 'test automation'],
   },
   {
     group: 'AI & Python',
-    tools: [['LangChain', 'langchain.svg'], ['LangGraph', 'langgraph.svg'], ['Pandas', 'pandas.svg']],
+    tools: [['LangChain', 'langchain.svg'], ['LangGraph', 'langgraph.svg'], ['Pandas', 'pandas.svg', 'dark']],
     practices: ['OpenAI API', 'RAG systems', 'AI agents'],
   },
 ];
@@ -78,7 +80,7 @@ export const LOGOS = Object.fromEntries(skills.flatMap((g) => g.tools));
 
 // accent lines are drawn in the accent colour and indented
 // every tool in the skills list, in turn on the stack section's moving tile board
-export const stackTools = skills.flatMap((g) => g.tools).map(([name, logo]) => ({ name, logo }));
+export const stackTools = skills.flatMap((g) => g.tools).map(([name, logo, tone]) => ({ name, logo, dark: tone === 'dark' }));
 
 export const heroTitle = [
   { text: 'I turn manual' },
