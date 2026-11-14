@@ -1,6 +1,6 @@
 /* Two themes, one rule: neutrals carry the page, one accent carries the emphasis.
-   Paper (light): white page, slate ink, one green accent — the same family as the product pages
-   (#00801c fills, 5.0:1 under white text; #006b18 draws, 6.7:1 on white).
+   Paper (light): a periwinkle scale (coolors.co/palette/edf2fb-e2eafc-d7e3fc-ccdbfd-c1d3fe-b6ccfe-abc4ff)
+   steps the surfaces from page (#EDF2FB) to sunken (#D7E3FC), with white panels on top, slate ink, one deep-blue accent.
    Ink (dark, the default): near-achromatic black stepped by lightness (bg → panel → sheet), white as the accent, so emphasis
    comes from lightness, not hue. In Ink, green (--ok) is the only colour and means one thing: live / done.
    --accent fills (buttons, dots); --accent-ink draws (text, lines, bars). Every color on the site derives from
@@ -18,34 +18,41 @@
     /* every blinking text caret (keyframes in ui.css) */
     --caret-blink: cursorBlink 0.8s infinite;
     color-scheme: light;
-    --bg: #ffffff; /* copied in THEME_COLOR (components/theme.js) */
-    --bg-soft: #f2f6fa;
-    --sunken-rgb: 242, 246, 250;
-    --panel: rgba(248, 250, 252, 0.9);
-    --panel-strong: rgba(255, 255, 255, 0.98);
-    --line: rgba(42, 53, 71, 0.12);
-    --line-strong: rgba(42, 53, 71, 0.24);
+    --bg: #edf2fb; /* copied in THEME_COLOR (components/theme.js) */
+    --bg-soft: #e2eafc;
+    --sunken-rgb: 215, 227, 252; /* #D7E3FC */
+    /* the dotted cards (cards.css): base fill and the colour of the glow at their top */
+    --card-bg: rgba(var(--sunken-rgb), 0.9);
+    --card-glow-rgb: var(--accent-ink-rgb);
+    --panel: rgba(255, 255, 255, 0.72);
+    --panel-strong: rgba(255, 255, 255, 0.96);
+    --line: #ccdbfd;
+    --line-strong: #b6ccfe;
     --text: #2a3547;
     --text-soft: #3d4a60;
-    --muted: #5a6a85;
-    --accent: #00801c;
-    --accent-strong: #006b18;
-    --accent-rgb: 0, 128, 28;
+    --muted: #4f5d78; /* 5.1:1 on the sunken #D7E3FC */
+    /* deep blue in the palette's hue: fills take white text at 6.5:1; ink reads 6.3:1 on the page */
+    --accent: #2f4fd6;
+    --accent-strong: #2a46c4;
+    --accent-rgb: 47, 79, 214;
     --on-accent: #ffffff;
-    --accent-ink: #006b18;
-    --accent-ink-strong: #00520f;
-    --accent-ink-rgb: 0, 107, 24;
+    --accent-ink: #2b4acb;
+    --accent-ink-strong: #1f3fbf;
+    --accent-ink-rgb: 43, 74, 203;
     --ink-rgb: 42, 53, 71;
     --sheet: #ffffff;
     --ok: #0f7b53;
     --ok-rgb: 15, 123, 83;
-    --electric: #0062e6; /* 5.2:1 on the light panel; white on it 5.4:1 */
+    --electric: #0057cc; /* 5.0:1 on the sunken #D7E3FC; white on it 6.5:1 */
     --on-electric: #ffffff;
-    --selection-pill: #95bcc8; /* darken: slate text on it 6.1:1; below the dots (191,194,200) on every channel */
+    --selection-pill: #abc4ff; /* darken: slate text on it 7.1:1; same colour as the dots, so they vanish inside it */
     --selection-text: var(--text);
     /* light tile behind brand-coloured logos; same in both themes so the logos stay legible */
     --logo-tile: #f6f8fa;
-    --dot-alpha: 0.3; /* background dot field (DotField.js); raising it can make dots show through --selection-pill */
+    /* background dot field (DotField.js). Each dot must stay at or above --selection-pill on every
+       channel (light) / at or below it (dark), or dots show through a selection */
+    --dot-rgb: 171, 196, 255; /* #ABC4FF */
+    --dot-alpha: 1;
     --shadow-rgb: 42, 53, 71;
     --shadow-k: 0.18;
     --shadow: 0 4px 30px rgba(var(--shadow-rgb), calc(0.45 * var(--shadow-k)));
@@ -80,9 +87,13 @@
     --ok: #34d399;
     --ok-rgb: 52, 211, 153;
     --electric: #1fb6ff; /* 8.2:1 on the dark panel; near-black on it 8.8:1 */
+    --electric-rgb: 31, 182, 255;
+    --card-bg: #0b0d12;
+    --card-glow-rgb: var(--electric-rgb);
     --on-electric: #070709;
     --selection-pill: #4f5bff; /* lighten: white text on it 4.9:1; above the dots (76,76,78) on every channel */
     --selection-text: #ffffff;
+    --dot-rgb: var(--ink-rgb);
     --dot-alpha: 0.28; /* see --selection-pill before raising */
     --shadow-rgb: 0, 0, 0;
     --shadow-k: 1;
