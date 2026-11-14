@@ -50,7 +50,8 @@
 
 .hero-metrics {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
     margin-top: 2.75rem;
     border-top: 1px solid var(--line-strong);
 }
@@ -134,7 +135,7 @@
     }
 
     .hero-metrics {
-        grid-template-columns: 1fr;
+        grid-auto-flow: row;
     }
 
     /* stacked metrics read as rows: number left, label right */

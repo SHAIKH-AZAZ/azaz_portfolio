@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { INTRO_KEY, INTRO_CLASS } from './intro';
 
-const NAME = 'Azaz Shaikh';
+// the first word is drawn in the accent colour
+const NAME = ['Azaz', 'Shaikh'];
+const CHARS = NAME.flatMap((word, w) => [
+  ...(w ? [{ c: ' ', accent: false }] : []),
+  ...[...word].map((c) => ({ c, accent: w === 0 })),
+]);
 
 export default function IntroOverlay() {
   const root = useRef(null);
@@ -63,10 +68,10 @@ export default function IntroOverlay() {
   return (
     <div ref={root} className="intro" role="presentation" onClick={() => tlRef.current?.progress(1)}>
       <div className="intro-center">
-        <h2 className="intro-name" aria-label={NAME}>
-          {[...NAME].map((c, i) => (
+        <h2 className="intro-name" aria-label={NAME.join(' ')}>
+          {CHARS.map(({ c, accent }, i) => (
             <span key={i} className="intro-char-wrap" aria-hidden="true">
-              <span className="intro-char">{c === ' ' ? ' ' : c}</span>
+              <span className={accent ? 'intro-char intro-char-accent' : 'intro-char'}>{c}</span>
             </span>
           ))}
         </h2>

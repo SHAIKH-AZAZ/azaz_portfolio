@@ -264,11 +264,6 @@
     color: rgba(var(--ink-rgb), 0.35);
 }
 
-.scrape-output-code .json-caret {
-    background: var(--accent-ink);
-    box-shadow: none;
-}
-
 .scrape-output-sweep {
     position: absolute;
     inset: 0 auto 0 -35%;

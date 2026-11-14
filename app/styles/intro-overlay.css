@@ -47,7 +47,7 @@ html.intro-play .intro {
     display: inline-block;
 }
 
-.intro-char-wrap:nth-child(-n + 4) .intro-char {
+.intro-char-accent {
     color: var(--accent-ink);
 }
 
