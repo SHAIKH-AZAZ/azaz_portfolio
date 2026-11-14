@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { useInView, useProgress } from '../lib/motion';
 
-// Stack section: headline, count-up stats and jump links beside a 5x5 window of tool tiles that
+// Stack section: headline, count-up stats and jump links beside a fading window of tool tiles that
 // drifts left to right, cycling through every tool (after the "integrations-4" block's look).
 // Entrance is CSS, started by `is-visible`; JS only counts the stats up.
 const COUNT_MS = 1600;
